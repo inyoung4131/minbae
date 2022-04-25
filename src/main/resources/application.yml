@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: 'true'
+        show_sql: 'true'
+    show-sql: 'true'
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.MariaDBDialect
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    password: '1234'
+    username: minbae
+    url: jdbc:mariadb://1.201.141.79:3306/minbae?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul;
+  profiles:
+    include: oauth0p;
+  data:
+    rest:
+      basePath: /api
+server:
+  port: '9090'
