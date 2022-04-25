@@ -1,0 +1,107 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<form>
+    <div>가게명 : <input type="text" name="storeName"></div>
+    <div>카테고리 : <select name="storeCategory" id="s-c">
+        <option value="CHICKEN">치킨</option>
+        <option value="CHINESEFOOD">중국집</option>
+        <option value="DESSERT">디저트/카페</option>
+        <option value="BUNSIK">분식</option>
+        <option value="PIZZA">피자</option>
+        <option value="JAPANESEFOOD">돈까스/회</option>
+    </select> </div>
+    <input type="text" id="sample4_postcode" placeholder="우편번호">
+    <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+    <input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="addrRoad">
+    <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
+    <span id="guide" style="color:#999;display:none"></span>
+    <input type="text" id="sample4_detailAddress" placeholder="상세주소" name="addrDetail">
+    <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+
+        var main = {
+            init: function () {
+                var _this = this;
+                $('#btn-save').on('click', function () {
+                    _this.save();
+                });
+            },
+            save: function () {
+                var data = {
+                    storeName: $('#storeName').val(),
+                    storeCategory: $('#storeCategory').val(),
+                    addrRoad: $('#addrRoad').val(),
+                    addrDetail: $('#addrDetail').val(),
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/v1/store',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data)
+                }).done(function () {
+                    alert('상점이 등록되었습니다.');
+                    window.location.href = '/';
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                });
+            }
+        };
+        main.init();
+    </script>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function sample4_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    var roadAddr = data.roadAddress;
+                    var extraRoadAddr = '';
+
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraRoadAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraRoadAddr !== ''){
+                        extraRoadAddr = ' (' + extraRoadAddr + ')';
+                    }
+
+                    document.getElementById('sample4_postcode').value = data.zonecode;
+                    document.getElementById("sample4_roadAddress").value = roadAddr;
+                    document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+
+                    const result=fetch('')
+
+                    if(roadAddr !== ''){
+                        document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                    } else {
+                        document.getElementById("sample4_extraAddress").value = '';
+                    }
+
+                    var guideTextBox = document.getElementById("guide");
+                    if(data.autoRoadAddress) {
+                        var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                        guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                        guideTextBox.style.display = 'block';
+                    } else if(data.autoJibunAddress) {
+                        var expJibunAddr = data.autoJibunAddress;
+                        guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                        guideTextBox.style.display = 'block';
+                    } else {
+                        guideTextBox.innerHTML = '';
+                        guideTextBox.style.display = 'none';
+                    }
+                }
+            }).open();
+        }
+    </script>
+</form>
+</body>
+</html>
