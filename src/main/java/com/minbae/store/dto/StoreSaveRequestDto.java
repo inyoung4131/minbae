@@ -1,6 +1,6 @@
 package com.minbae.store.dto;
 
-import com.minbae.store.store.StoreEntity;
+import com.minbae.store.Entity.Store;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +12,11 @@ public class StoreSaveRequestDto {
     private String storeCategory;
     private String addrRoad;
     private String addrDetail;
-    private long lat;
-    private long lng;
+    private Double lat;
+    private Double lng;
 
     @Builder
-    public StoreSaveRequestDto(String storeName, String storeCategory, String addrRoad, String addrDetail, long lat, long lng){
+    public StoreSaveRequestDto(String storeName, String storeCategory, String addrRoad, String addrDetail, Double lat, Double lng){
         this.storeName=storeName;
         this.storeCategory=storeCategory;
         this.addrRoad=addrRoad;
@@ -25,8 +25,8 @@ public class StoreSaveRequestDto {
         this.lng=lng;
     }
 
-    public StoreEntity toEntity(){
-        return StoreEntity.builder()
+    public Store toEntity(){
+        return Store.builder()
                 .storeName(storeName)
                 .storeCategory(storeCategory)
                 .addrRoad(addrRoad)
