@@ -42,8 +42,8 @@
                     storeCategory: $('#storeCategory').val(),
                     addrRoad: $('#sample4_roadAddress').val(),
                     addrDetail: $('#sample4_detailAddress').val(),
-                    lat: Number($('#lat').val()),
-                    lng: Number($('#lng').val())
+                    lat: (Number($('#lat').val())).toFixed(5),
+                    lng: (Number($('#lng').val())).toFixed(5)
                 };
                 $.ajax({
                     type: 'POST',

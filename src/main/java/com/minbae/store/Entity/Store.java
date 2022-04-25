@@ -32,10 +32,12 @@ public class Store {
     @NotNull
     private String addrDetail;
 
-    @Column
+    @Column(length=8)
+    @NotNull
     private Double lat;
 
-    @Column
+    @Column(length=8)
+    @NotNull
     private Double lng;
 
     @Builder
