@@ -1,4 +1,4 @@
-package com.minbae.store.store;
+package com.minbae.store.Entity;
 
 import com.sun.istack.NotNull;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class StoreEntity {
+public class Store {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -33,13 +33,13 @@ public class StoreEntity {
     private String addrDetail;
 
     @Column
-    private Long lat;
+    private Double lat;
 
     @Column
-    private Long lng;
+    private Double lng;
 
     @Builder
-    public StoreEntity(String storeName, String storeCategory, String addrRoad, String addrDetail, long lat, long lng){
+    public Store(String storeName, String storeCategory, String addrRoad, String addrDetail, Double lat, Double lng){
         this.storeName=storeName;
         this.storeCategory=storeCategory;
         this.addrRoad=addrRoad;
