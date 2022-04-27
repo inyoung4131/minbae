@@ -22,5 +22,7 @@ public class Menu {
     private int menu_price;
     @Column
     private String menu_img;
+    @Column
+    private String menu_img2;
 
 }
