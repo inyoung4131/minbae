@@ -1,5 +1,6 @@
 package com.minbae.store.Entity;
 
+import com.minbae.comm.Role;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class Store {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    private Long idx;
 
     @Column
     @NotNull
@@ -39,6 +40,9 @@ public class Store {
     @Column(length=8)
     @NotNull
     private Double lng;
+
+    @Column
+    private String owner;
 
     @Builder
     public Store(String storeName, String storeCategory, String addrRoad, String addrDetail, Double lat, Double lng){
