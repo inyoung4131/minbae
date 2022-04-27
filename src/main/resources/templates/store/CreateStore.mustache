@@ -23,6 +23,7 @@
     <button type="button" class="btn btn-primary" id="btn-save">등록</button>
     <input type="hidden" id="lat" name="lat">
     <input type="hidden" id="lng" name="lng">
+    <input type="hidden" id="role" name="role" value="STOREOWNER">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
     <script>
@@ -42,7 +43,8 @@
                     addrRoad: $('#sample4_roadAddress').val(),
                     addrDetail: $('#sample4_detailAddress').val(),
                     lat: (Number($('#lat').val())).toFixed(5),
-                    lng: (Number($('#lng').val())).toFixed(5)
+                    lng: (Number($('#lng').val())).toFixed(5),
+                    role: $('#role').val()
                 };
                 $.ajax({
                     type: 'POST',
@@ -71,7 +73,6 @@
                     // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
                     // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                     var roadAddr = data.roadAddress; // 도로명 주소 변수
-                    var extraRoadAddr = ''; // 참고 항목 변수
 
                     // 우편번호와 주소 정보를 해당 필드에 넣는다.
                     document.getElementById('sample4_postcode').value = data.zonecode;

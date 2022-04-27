@@ -14,7 +14,9 @@ public class StoreRestController {
     private final StoreService storeService;
 
     @PostMapping("/api/v1/store")
-    public long save(@RequestBody() StoreSaveRequestDto storeSaveDto){
+    public long save(@RequestBody() StoreSaveRequestDto storeSaveDto,String role){
+        System.out.println(storeSaveDto.getRole());
+        System.out.println(role);
         return storeService.save(storeSaveDto);
     }
 }

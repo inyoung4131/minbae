@@ -14,7 +14,6 @@ public class StoreService {
 
     @Transactional
     public long save(StoreSaveRequestDto storeSaveDto){
-        System.out.println(storeSaveDto.getLng());
         return storeRepository.save(storeSaveDto.toEntity()).getId();
     }
 }

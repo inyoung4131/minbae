@@ -1,5 +1,6 @@
 package com.minbae.store.dto;
 
+import com.minbae.comm.Role;
 import com.minbae.store.Entity.Store;
 import lombok.Builder;
 import lombok.Getter;

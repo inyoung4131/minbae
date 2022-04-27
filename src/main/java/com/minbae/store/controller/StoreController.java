@@ -10,6 +10,10 @@ public class StoreController {
     public String createStore(){
         return "store/CreateStore";
     }
+    @GetMapping("/createStoreOwner")
+    public String createStoreOwner(){
+        return "store/CreateStoreOwner";
+    }
     @GetMapping("/")
     public String index(){
         return "index";
