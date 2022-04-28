@@ -16,14 +16,22 @@ import java.util.Optional;
 @Service
 public class AdminService {
     private final UserRepository userRepository;
+    private final DeliverRepository deliverRepository;
+    private final OwnerRepository ownerRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
     public String login(String role, User user) {
-        Optional<User> getUser=null;
+        Optional getUser=null;
         String token="";
-            getUser= userRepository.findByUserEmail(user.getUserEmail());
+        if(role.equals("User")) {
+            getUser = userRepository.findByUserEmailAndUserPwd(user.getUserEmail(),user.getUserPwd());
+        }else if(role.equals("Deliver")){
+//            getUser = deliverRepository.
 
+        }else{
+
+        }
 
         if(getUser!=null){
             token=jwtTokenProvider.createToken(user.getUserEmail(),user.getUserIdx());

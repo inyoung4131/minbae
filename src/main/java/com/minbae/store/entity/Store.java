@@ -50,8 +50,9 @@ public class Store {
     @Column(name="store_tel")
     private String storeTel;
 
+    @MapsId
     @OneToOne
-    @JoinColumn(name="storeDetailIdx")
+    @JoinColumn(name="storeIdx")
     private StoreDetail storeDetail;
 
     @Builder
