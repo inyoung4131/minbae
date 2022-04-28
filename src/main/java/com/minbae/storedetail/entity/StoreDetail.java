@@ -14,11 +14,10 @@ public class StoreDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="store_detail_idx")
-    private Long storeDetailIdx;
+    private Long idx;
 
-    @OneToOne
-    @JoinColumn(name="storeIdx")
-    private Store storeIdx;
+    @OneToOne(mappedBy = "storeDetail")
+    private Store store;
 
     @Column(nullable = false,name="store_detail_minimum_price")
     private int storeDetailMinimumPrice;
