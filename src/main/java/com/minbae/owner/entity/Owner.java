@@ -12,14 +12,15 @@ import javax.persistence.*;
 public class Owner {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long owner_idx;
+    @Column(name="owner_idx")
+    private Long ownerIdx;
 
-    @Column(unique = true)
-    private String owner_email;
+    @Column(unique = true,name="owner_email")
+    private String ownerEmail;
 
-    @Column
-    private String owner_pwd;
+    @Column(name="owner_pwd")
+    private String ownerPwd;
 
-    @Column
-    private String owner_nick_name;
+    @Column(name="owner_nick_name")
+    private String ownerNickName;
 }

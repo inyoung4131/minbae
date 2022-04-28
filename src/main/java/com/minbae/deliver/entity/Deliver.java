@@ -1,6 +1,7 @@
 package com.minbae.deliver.entity;
 
 
+import com.minbae.comm.tradehistory.entity.TradeHistory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,29 +15,33 @@ public class Deliver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long deliver_idx;
+    @Column(name="deliver_idx")
+    private long deliverIdx;
 
-    @Column(nullable = false,unique = true)
-    private String deliver_email;
+    @ManyToOne
+    @JoinColumn(name="trade_history_num")
+    private TradeHistory tradeHistoryNum;
 
-    @Column(nullable = false)
-    private String deliver_pwd;
+    @Column(nullable = false,unique = true,name="deliver_email")
+    private String deliverEmail;
 
-    @Column(nullable = false)
-    private String deliver_nickname;
+    @Column(nullable = false,name="deliver_pwd")
+    private String deliverPwd;
 
-    @Column(nullable = false)
-    private int deliver_work_state;
+    @Column(nullable = false,name="deliver_nickname")
+    private String deliverNickname;
 
-    @Column()
-    private int deliver_money;
+    @Column(nullable = false,name="deliver_work_state")
+    private int deliverWorkState;
 
-    @Column()
-    private int deliver_lng;
+    @Column(name="deliver_money")
+    private int deliverMoney;
 
-    @Column()
-    private int deliver_lat;
+    @Column(name="deliver_lng")
+    private int deliverLng;
 
-    private long order_num;
+    @Column(name="deliver_lat")
+    private int deliverLat;
+
 
 }

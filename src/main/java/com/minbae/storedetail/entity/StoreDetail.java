@@ -13,25 +13,26 @@ import java.io.Serializable;
 public class StoreDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long store_detail_idx;
+    @Column(name="store_detail_idx")
+    private Long storeDetailIdx;
 
     @OneToOne
-    @JoinColumn(name="store_idx")
-    private Store store_idx;
+    @JoinColumn(name="storeIdx")
+    private Store storeIdx;
 
-    @Column(nullable = false)
-    private int store_detail_minimum_price;
-    @Column(nullable = false)
-    private int store_detail_deliver_price;
-    @Column
-    private String store_detail_menu_text;
-    @Column
-    private String store_detail_info_text;
-    @Column
-    private String store_detail_review_text;
-    @Column
-    private String store_detail_info_img;
-    @Column
-    private int store_detail_take_out_discount;
+    @Column(nullable = false,name="store_detail_minimum_price")
+    private int storeDetailMinimumPrice;
+    @Column(nullable = false,name="store_detail_deliver_price")
+    private int storeDetailDeliverPrice;
+    @Column(name="store_detail_menu_text")
+    private String storeDetailMenuText;
+    @Column(name="store_detail_info_text")
+    private String storeDetailInfoText;
+    @Column(name="store_detail_review_text")
+    private String storeDetailReviewText;
+    @Column(name="store_detail_info_img")
+    private String storeDetailInfoImg;
+    @Column(name="store_detail_take_out_discount")
+    private int storeDetailTakeOutDiscount;
 
 }

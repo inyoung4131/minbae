@@ -13,26 +13,27 @@ import java.time.LocalDateTime;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long review_idx;
+    @Column(name="review_idx")
+    private Long reviewIdx;
 
     @ManyToOne
     @JoinColumn(name="store_idx",nullable = false)
-    private Store store_idx;
+    private Store storeIdx;
 
-    @Column
-    private String review_img1;
-    @Column
-    private String review_img2;
-    @Column
-    private String review_img3;
+    @Column(name="review_img1")
+    private String reviewImg1;
+    @Column(name="review_img2")
+    private String reviewImg2;
+    @Column(name="review_img3")
+    private String reviewImg3;
 
-    @Column(nullable = false)
-    private String review_comment;
-    @Column(nullable = false)
-    private int review_star;
-    @Column
-    private String review_reply;
-    @Column(nullable = false)
-    private LocalDateTime review_write_date;
+    @Column(nullable = false,name="review_comment")
+    private String reviewComment;
+    @Column(nullable = false,name="review_star")
+    private int reviewStar;
+    @Column(name="review_reply")
+    private String reviewReply;
+    @Column(nullable = false,name="review_write_date")
+    private LocalDateTime reviewWriteDate;
 
 }

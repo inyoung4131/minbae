@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OwnerRequestDTO {
 
-    private String owner_email;
-    private String owner_pwd;
+    private String ownerEmail;
+    private String ownerPwd;
 
     @Builder
-    public void OwnerRequestDTO(String owner_email, String owner_pwd){
-        this.owner_email = owner_email;
-        this.owner_pwd = owner_pwd;
+    public void OwnerRequestDTO(String ownerEmail, String ownerPwd){
+        this.ownerEmail = ownerEmail;
+        this.ownerPwd = ownerPwd;
     }
 }

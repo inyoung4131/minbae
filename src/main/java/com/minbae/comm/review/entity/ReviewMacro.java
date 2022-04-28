@@ -13,13 +13,14 @@ import javax.persistence.*;
 public class ReviewMacro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long review_macro_idx;
+    @Column(name="review_macro_idx")
+    private Long reviewMacroIdx;
 
     @ManyToOne
     @JoinColumn(name="store_idx")
-    private Store store_idx;
-    @Column
-    private String review_macro_pre_review;
-    @Column(unique = true)
-    private int review_macro_review_num;
+    private Store storeIdx;
+    @Column(name="review_macro_pre_review")
+    private String reviewMacroPreReview;
+    @Column(unique = true,name="review_macro_review_num")
+    private int reviewMacroReviewNum;
 }

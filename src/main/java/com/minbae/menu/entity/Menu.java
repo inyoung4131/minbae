@@ -14,19 +14,20 @@ public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long menu_idx;
+    @Column(name="menu_idx")
+    private Long menuIdx;
 
     @ManyToOne
     @JoinColumn(name="store_idx",nullable = false)
-    private Store store_idx;
+    private Store storeIdx;
 
-    @Column(nullable = false)
-    private String menu_name;
+    @Column(nullable = false,name="menu_name")
+    private String menuName;
 
-    @Column(nullable = false)
-    private int menu_price;
+    @Column(nullable = false,name="menu_price")
+    private int menuPrice;
 
-    @Column
-    private String menu_img;
+    @Column(name="menu_img")
+    private String menuImg;
 
 }

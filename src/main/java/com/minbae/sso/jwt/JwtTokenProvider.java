@@ -30,7 +30,7 @@ public class JwtTokenProvider {
     private final long accessExpireTime = 172800000; //(60 * 60 * 1000L) * 48
     private final long refreshExpireTime = 172800000; // (60 * 60 * 1000L) * 48
 
-    public String createToken(String memberId, int memberIdx) {
+    public String createToken(String memberId, long memberIdx) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + accessExpireTime);
         return Jwts.builder()
@@ -64,7 +64,7 @@ public class JwtTokenProvider {
         }
     }
 
-    private Map<String, Object> createClaims(String memberId, String tokenIss, int memberIdx) {
+    private Map<String, Object> createClaims(String memberId, String tokenIss, long memberIdx) {
         Map<String, Object> claims = new HashMap<>();
 
         claims.put(claimUid, memberId);

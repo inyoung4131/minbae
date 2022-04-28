@@ -16,52 +16,53 @@ public class Store {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long store_idx;
+    @Column(name="store_idx")
+    private Long storeIdx;
 
     @ManyToOne
     @JoinColumn(name="owner_idx")
-    private Owner owner_idx;
+    private Owner ownerIdx;
 
-    @Column
+    @Column(name="store_name")
     @NotNull
-    private String store_name;
+    private String storeName;
 
-    @Column
+    @Column(name="store_category")
     @NotNull
-    private String store_category;
+    private String storeCategory;
 
-    @Column
+    @Column(name="store_basic_addr")
     @NotNull
-    private String store_basic_addr;
+    private String storeBasicAddr;
 
-    @Column
+    @Column(name="store_detail_addr")
     @NotNull
-    private String store_detail_addr;
+    private String storeDetailAddr;
 
-    @Column(length=8)
+    @Column(length=8,name="store_lat")
     @NotNull
-    private Double store_lat;
+    private Double storeLat;
 
-    @Column(length=8)
+    @Column(length=8,name="store_lng")
     @NotNull
-    private Double store_lng;
+    private Double storeLng;
 
-    @Column
-    private String store_tel;
+    @Column(name="store_tel")
+    private String storeTel;
 
-    @OneToOne(mappedBy = "store_idx")
+    @OneToOne(mappedBy = "storeIdx")
     private StoreDetail storeDetail;
 
     @Builder
-    public Store(Owner owner_idx,String store_name, String store_category, String store_basic_addr, String store_detail_addr, Double store_lat, Double store_lng,String store_tel){
-        this.owner_idx=owner_idx;
-        this.store_name=store_name;
-        this.store_category=store_category;
-        this.store_basic_addr=store_basic_addr;
-        this.store_detail_addr=store_detail_addr;
-        this.store_lat=store_lat;
-        this.store_lng=store_lng;
-        this.store_tel=store_tel;
+    public Store(Owner ownerIdx,String storeName, String storeCategory, String storeBasicAddr, String storeDetailAddr, Double storeLat, Double storeLng,String storeTel){
+        this.ownerIdx=ownerIdx;
+        this.storeName=storeName;
+        this.storeCategory=storeCategory;
+        this.storeBasicAddr=storeBasicAddr;
+        this.storeDetailAddr=storeDetailAddr;
+        this.storeLat=storeLat;
+        this.storeLng=storeLng;
+        this.storeTel=storeTel;
     }
 
 }

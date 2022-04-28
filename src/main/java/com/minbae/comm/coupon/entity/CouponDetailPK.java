@@ -3,6 +3,7 @@ package com.minbae.comm.coupon.entity;
 
 import com.minbae.user.entity.User;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,18 +17,18 @@ public class CouponDetailPK implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="coupon_idx",nullable = false)
-    private Coupon coupon_idx;
+    private Coupon couponIdx;
 
     @ManyToOne
     @JoinColumn(name="user_idx",nullable = false)
-    private User user_idx;
+    private User userIdx;
 
     public CouponDetailPK() {
     }
 
-    public CouponDetailPK(Coupon coupon_idx, User user_idx) {
+    public CouponDetailPK(Coupon couponIdx, User userIdx) {
         super();
-        this.user_idx = user_idx;
-        this.coupon_idx = coupon_idx;
+        this.userIdx = userIdx;
+        this.couponIdx = couponIdx;
     }
 }

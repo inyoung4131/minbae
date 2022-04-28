@@ -14,11 +14,11 @@ public class OwnerService {
     private OwnerRepository ownerRepository;
 
     public OwnerResponseDTO loginOwner(OwnerRequestDTO ownerRequestDTO){
-        String owner_email = ownerRequestDTO.getOwner_email();
-        String owner_pwd = ownerRequestDTO.getOwner_pwd();
+        String ownerEmail = ownerRequestDTO.getOwnerEmail();
+        String ownerPwd = ownerRequestDTO.getOwnerPwd();
 
         // 아이디 비밀번호 조회
-        Owner target = ownerRepository.findByEmailAndPwd(owner_email, owner_pwd);
+        Owner target = ownerRepository.findByEmailAndPwd(ownerEmail, ownerPwd);
 
         // entity -> dto
         OwnerResponseDTO ownerResponseDTO = OwnerResponseDTO.toOwnerResponseDTO(target);

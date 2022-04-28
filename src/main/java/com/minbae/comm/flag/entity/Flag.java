@@ -13,15 +13,16 @@ import java.time.LocalDateTime;
 public class Flag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long flag_idx;
+    @Column(name="flag_idx")
+    private Long flagIdx;
 
     @ManyToOne
     @JoinColumn(name="store_idx")
-    private Store store_idx;
-    @Column
-    private int flag_lat;
-    @Column
-    private int flag_lng;
-    @Column
-    private LocalDateTime flag_start_date;
+    private Store storeIdx;
+    @Column(name="flag_lat")
+    private int flagLat;
+    @Column(name="flag_lng")
+    private int flagLng;
+    @Column(name="flag_start_date")
+    private LocalDateTime flagStartDate;
 }

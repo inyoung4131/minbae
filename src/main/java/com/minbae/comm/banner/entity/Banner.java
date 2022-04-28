@@ -11,10 +11,11 @@ import javax.persistence.*;
 public class Banner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long banner_idx;
-    @Column(nullable = false,unique = true)
-    private Long banner_source;
-    @Column(nullable = false,unique = true)
-    private int banner_num;
+    @Column(name="banner_idx")
+    private Long bannerIdx;
+    @Column(nullable = false,unique = true,name="banner_source")
+    private Long bannerSource;
+    @Column(nullable = false,unique = true,name="banner_num")
+    private int bannerNum;
 
 }
