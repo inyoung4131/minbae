@@ -1,4 +1,4 @@
-package com.minbae.comm.order.entity;
+package com.minbae.comm.tradehistory.entity;
 
 import com.minbae.store.entity.Menu;
 import lombok.AllArgsConstructor;

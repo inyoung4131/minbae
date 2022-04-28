@@ -1,6 +1,6 @@
-package com.minbae.comm.order.repository;
+package com.minbae.comm.tradehistory.repository;
 
-import com.minbae.comm.order.entity.TradeHistory;
+import com.minbae.comm.tradehistory.entity.TradeHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TradeHistoryRepository extends JpaRepository<TradeHistory,Long> {

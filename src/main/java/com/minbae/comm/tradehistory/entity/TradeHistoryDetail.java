@@ -1,4 +1,4 @@
-package com.minbae.comm.order.entity;
+package com.minbae.comm.tradehistory.entity;
 
 
 import lombok.Getter;
