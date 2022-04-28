@@ -1,14 +1,13 @@
 package com.minbae.store.entity;
 
-import com.minbae.comm.Role;
 import com.minbae.owner.entity.Owner;
+import com.minbae.storedetail.entity.StoreDetail;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor

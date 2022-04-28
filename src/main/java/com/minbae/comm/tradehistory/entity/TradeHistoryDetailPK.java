@@ -1,6 +1,6 @@
 package com.minbae.comm.tradehistory.entity;
 
-import com.minbae.store.entity.Menu;
+import com.minbae.menu.entity.Menu;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

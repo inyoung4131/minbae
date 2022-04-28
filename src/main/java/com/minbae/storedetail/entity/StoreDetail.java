@@ -1,5 +1,6 @@
-package com.minbae.store.entity;
+package com.minbae.storedetail.entity;
 
+import com.minbae.store.entity.Store;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
