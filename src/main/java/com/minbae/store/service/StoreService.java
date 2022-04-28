@@ -16,4 +16,5 @@ public class StoreService {
     public long save(StoreSaveRequestDto storeSaveDto){
         return storeRepository.save(storeSaveDto.toEntity()).getStore_idx();
     }
+
 }
