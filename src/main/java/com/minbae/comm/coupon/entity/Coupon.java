@@ -12,12 +12,13 @@ import java.time.LocalDateTime;
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long coupon_idx;
-    @Column(nullable = false)
-    private String coupon_name;
-    @Column(nullable = false)
-    private int coupon_discount;
-    @Column(nullable = false)
-    private int coupon_usable_price;
+    @Column(name="coupon_idx")
+    private Long couponIdx;
+    @Column(nullable = false,name="coupon_name")
+    private String couponName;
+    @Column(nullable = false,name="coupon_discount")
+    private int couponDiscount;
+    @Column(nullable = false,name="coupon_usable_price")
+    private int couponUsablePrice;
 
 }

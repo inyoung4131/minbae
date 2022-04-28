@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -14,37 +13,38 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long user_idx;
+    @Column(name="user_idx")
+    private long userIdx;
 
-    @Column(nullable = false)
-    private String user_email;
+    @Column(nullable = false,name="user_email")
+    private String userEmail;
 
-    @Column(nullable = false)
-    private String user_pwd;
+    @Column(nullable = false,name="user_pwd")
+    private String userPwd;
 
-    @Column(nullable = false)
-    private String user_nickname;
+    @Column(nullable = false,name="user_nickname")
+    private String userNickname;
 
-    @Column(nullable = false)
-    private String user_basic_addr;
+    @Column(nullable = false,name="user_basic_addr")
+    private String userBasicAddr;
 
-    @Column(nullable = false)
-    private String user_detail_addr;
+    @Column(nullable = false,name="user_detail_addr")
+    private String userDetailAddr;
 
-    @Column(nullable = false)
-    private String user_tel;
+    @Column(nullable = false,name="user_tel")
+    private String userTel;
 
-    @Column(nullable = false)
-    private String user_social;
+    @Column(nullable = false,name="user_social")
+    private String userSocial;
 
     @Builder
-    public User(String user_email,String user_pwd,String user_nickName,String user_basic_addr,String user_detail_addr,String user_tel,String user_social){
-        this.user_email=user_email;
-        this.user_pwd=user_pwd;
-        this.user_nickname=user_nickName;
-        this.user_basic_addr=user_basic_addr;
-        this.user_detail_addr=user_detail_addr;
-        this.user_tel=user_tel;
-        this.user_social=user_social;
+    public User(String userEmail,String userPwd,String userNickName,String userBasicAddr,String userDetailAddr,String userTel,String userSocial){
+        this.userEmail=userEmail;
+        this.userPwd=userPwd;
+        this.userNickname=userNickName;
+        this.userBasicAddr=userBasicAddr;
+        this.userDetailAddr=userDetailAddr;
+        this.userTel=userTel;
+        this.userSocial=userSocial;
     }
 }

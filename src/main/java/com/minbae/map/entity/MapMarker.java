@@ -1,4 +1,4 @@
-package com.minbae.map.Entity;
+package com.minbae.map.entity;
 
 public class MapMarker {
 }

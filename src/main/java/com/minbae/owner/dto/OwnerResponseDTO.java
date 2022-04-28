@@ -10,25 +10,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OwnerResponseDTO {
-    private Long owner_idx;
-    private String owner_email;
-    private String owner_pwd;
-    private String owner_nick_name;
+    private Long ownerIdx;
+    private String ownerEmail;
+    private String ownerPwd;
+    private String ownerNickName;
 
     @Builder
-    public void OwnerResponseDTO(Long owner_idx, String owner_email, String owner_pwd, String owner_nick_name){
-        this.owner_idx = owner_idx;
-        this.owner_email = owner_email;
-        this.owner_pwd = owner_pwd;
-        this.owner_nick_name = owner_nick_name;
+    public void OwnerResponseDTO(Long ownerIdx, String ownerEmail, String ownerPwd, String ownerNickName){
+        this.ownerIdx = ownerIdx;
+        this.ownerEmail = ownerEmail;
+        this.ownerPwd = ownerPwd;
+        this.ownerNickName = ownerNickName;
     }
 
     public static OwnerResponseDTO toOwnerResponseDTO(Owner owner){
         return new OwnerResponseDTO(
-                owner.getOwner_idx(),
-                owner.getOwner_email(),
-                owner.getOwner_pwd(),
-                owner.getOwner_nick_name()
+                owner.getOwnerIdx(),
+                owner.getOwnerEmail(),
+                owner.getOwnerPwd(),
+                owner.getOwnerNickName()
         );
     }
 

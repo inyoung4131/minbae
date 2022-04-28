@@ -3,51 +3,55 @@ package com.minbae.store.dto;
 import com.minbae.comm.Role;
 import com.minbae.owner.entity.Owner;
 import com.minbae.store.entity.Store;
+import com.minbae.storedetail.entity.StoreDetail;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 public class StoreSaveRequestDto {
 
-    private Owner owner_idx;
-    private String store_name;
-    private String store_category;
-    private String store_basic_addr;
-    private String store_detail_addr;
-    private Double store_lat;
-    private Double store_lng;
-    private String store_tel;
+    private Long storeIdx;
+    private Owner ownerIdx;
+    private String storeName;
+    private String storeCategory;
+    private String storeBasicAddr;
+    private String storeDetailAddr;
+    private Double storeLat;
+    private Double storeLng;
+    private String storeTel;
 
     @Builder
-    public StoreSaveRequestDto(Owner owner_idx, String store_name, String store_category, String store_basic_addr, String store_detail_addr, Double store_lat, Double store_lng, String store_tel){
-        this.owner_idx=owner_idx;
-        this.store_name=store_name;
-        this.store_category=store_category;
-        this.store_basic_addr=store_basic_addr;
-        this.store_detail_addr=store_detail_addr;
-        this.store_lat=store_lat;
-        this.store_lng=store_lng;
-        this.store_tel=store_tel;
+    public StoreSaveRequestDto(Owner ownerIdx,String storeName, String storeCategory, String storeBasicAddr, String storeDetailAddr, Double storeLat, Double storeLng,String storeTel){
+        this.ownerIdx=ownerIdx;
+        this.storeName=storeName;
+        this.storeCategory=storeCategory;
+        this.storeBasicAddr=storeBasicAddr;
+        this.storeDetailAddr=storeDetailAddr;
+        this.storeLat=storeLat;
+        this.storeLng=storeLng;
+        this.storeTel=storeTel;
     }
 
     public Store toEntity(){
         return Store.builder()
-                .owner_idx(owner_idx)
-                .store_name(store_name)
-                .store_category(store_category)
-                .store_basic_addr(store_basic_addr)
-                .store_detail_addr(store_detail_addr)
-                .store_lat(store_lat)
-                .store_lng(store_lng)
-                .store_tel(store_tel)
+                .ownerIdx(ownerIdx)
+                .storeName(storeName)
+                .storeCategory(storeCategory)
+                .storeBasicAddr(storeBasicAddr)
+                .storeDetailAddr(storeDetailAddr)
+                .storeLat(storeLat)
+                .storeLng(storeLng)
+                .storeTel(storeTel)
                 .build();
     }
 }
+
+
+
+
+
