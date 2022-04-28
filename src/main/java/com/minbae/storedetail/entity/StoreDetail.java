@@ -14,7 +14,7 @@ public class StoreDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="store_detail_idx")
-    private Long idx;
+    private Long storeDetailIdx;
 
     @OneToOne(mappedBy = "storeDetail")
     private Store store;

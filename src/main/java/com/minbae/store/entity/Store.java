@@ -51,7 +51,7 @@ public class Store {
     private String storeTel;
 
     @OneToOne
-    @JoinColumn(name="store_detail_idx")
+    @JoinColumn(name="storeDetailIdx")
     private StoreDetail storeDetail;
 
     @Builder
