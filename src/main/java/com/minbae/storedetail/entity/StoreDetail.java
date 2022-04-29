@@ -19,7 +19,7 @@ public class StoreDetail {
 
 
     @OneToOne
-    @JoinColumn(name="storeIdx")
+    @JoinColumn(name="storeIdx", unique = true)
     private Store store;
 
     @Column(nullable = false,name="store_detail_minimum_price")
