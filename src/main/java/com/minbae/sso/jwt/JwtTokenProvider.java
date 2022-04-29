@@ -21,8 +21,8 @@ public class JwtTokenProvider {
         this.request = request;
     }
 
-    private final String secretKey = "sso";
-    private final String tokenIss = "sso.com";
+    private final String secretKey = "yangsonghuh";
+    private final String tokenIss = "minbae.com";
     private final String claimIss = "iss";
     private final String claimUid = "memberId";
     private final String claimMemberIdx = "memberIdx";

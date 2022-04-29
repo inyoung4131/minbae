@@ -51,9 +51,7 @@ public class Store {
     @Column(name="store_tel")
     private String storeTel;
 
-    @MapsId
-    @OneToOne
-    @JoinColumn(name="storeIdx")
+    @OneToOne(mappedBy = "store")
     private StoreDetail storeDetail;
 
     @Builder

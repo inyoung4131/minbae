@@ -11,13 +11,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 public class StoreDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="store_idx")
+    @Column(name="store_detail_idx")
     private Long storeDetailIdx;
 
-    @OneToOne(mappedBy = "storeDetail")
-    private Store storeIdx;
+
+    @OneToOne
+    @JoinColumn(name="storeIdx")
+    private Store store;
 
     @Column(nullable = false,name="store_detail_minimum_price")
     private int storeDetailMinimumPrice;

@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<input type="button" value="테스트로그인" id="testlogin">
+<input type="text" id="email">
+<input type="text" id="pwd">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    var main = {
+        init: function () {
+            var _this = this;
+            $('#testlogin').on('click', function () {
+                _this.save();
+            });
+        },
+        save: function () {
+
+            var data = {
+                email: $('#email').val(),
+                pwd: $('#pwd').val()
+            };
+            var role="User";
+            $.ajax({
+                type: 'GET',
+                url: '/login/'+role,
+                data: data
+            }).done(function () {
+                alert('회원가입 완료');
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
+    };
+    main.init();
+</script>
+
+</body>
+</html>

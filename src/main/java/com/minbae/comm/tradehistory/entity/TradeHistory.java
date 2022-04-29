@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -40,5 +41,10 @@ public class TradeHistory {
 
     @Column(nullable = false,name="order_payment")
     private String orderPayment;
+    @Column(nullable = false,name="order_coupon")
+    private int orderCoupon;
+    @Column(nullable = false,name="order_date")
+    private LocalDateTime orderDate;
+
 
 }
