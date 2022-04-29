@@ -14,37 +14,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@Controller
+
 @RequiredArgsConstructor
+@Controller
 public class StoreController {
 
     private final StoreService storeService;
+    private final StoreDetailService storeDetailService;
 
     // 사장님 광장 메인 페이지 이동
-    @GetMapping("store/main")
+    @GetMapping("/owner/store/main")
     public String goStoreMainPage(){
         return "store/main_store";
     }
 
     // 가게 등록 페이지 이동
-    @GetMapping("/create/store")
+    @GetMapping("/owner/createStore")
     public String goCreateStorePage(){
         return "store/create_store";
     }
 
     // 특정 사장님의 가게 목록 조회
-    @GetMapping("/store/list/{ownerIdx}")
+    @GetMapping("/owner/storeList/{ownerIdx}")
     public String index(@PathVariable Long ownerIdx, Model model){
         List<Store> storeList = storeService.index(ownerIdx);
         model.addAttribute("storeList", storeList);
         return "/store/show_store";
     }
 
-    // 특정 사장님의 가게 정보 수정 페이지로 이동
-    @GetMapping("/store/update/{ownerIdx}")
-    public String updateForm(@PathVariable Long ownerIdx, Model model){
-        //Store store = storeService;
-        //StoreDetail storeDetail = storeDetailService;
-        return "/store/update_store_form";
+    // 특정 사장님의 가게 정보 페이지로 이동
+    @GetMapping("/owner/storeInfo/{storeIdx}")
+    public String updateForm(@PathVariable Long storeIdx, Model model){
+        Store store = storeService.storeInfo(storeIdx);
+        StoreDetail storeDetail = storeDetailService.storeDetailInfo(storeIdx);
+
+        model.addAttribute("storeInfo", store);
+        model.addAttribute("StoreDetailInfo", storeDetail);
+        return "/store/show_store_info";
     }
 }
