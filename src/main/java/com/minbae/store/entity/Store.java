@@ -50,8 +50,7 @@ public class Store {
     @Column(name="store_tel")
     private String storeTel;
 
-    @OneToOne
-    @JoinColumn(name="store")
+    @OneToOne(mappedBy = "store")
     private StoreDetail storeDetail;
 
     @Builder

@@ -17,7 +17,9 @@ public class StoreDetail {
     @Column(name="store_detail_idx")
     private Long storeDetailIdx;
 
-    @OneToOne(mappedBy = "storeDetail")
+
+    @OneToOne
+    @JoinColumn(name="storeIdx")
     private Store store;
 
     @Column(nullable = false,name="store_detail_minimum_price")
