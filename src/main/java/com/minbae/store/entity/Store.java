@@ -20,7 +20,7 @@ public class Store {
     private Long storeIdx;
 
     @ManyToOne
-    @JoinColumn(name="owner_idx")
+    @JoinColumn(name="ownerIdx") // 어느 변수에서 가져올지 명시
     private Owner ownerIdx;
 
     @Column(name="store_name")

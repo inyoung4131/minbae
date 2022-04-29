@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class StoreDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="store_Idx")
+    @Column(name="store_idx")
     private Long storeDetailIdx;
 
     @OneToOne(mappedBy = "storeDetail")

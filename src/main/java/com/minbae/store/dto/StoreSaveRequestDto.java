@@ -1,5 +1,6 @@
 package com.minbae.store.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minbae.comm.Role;
 import com.minbae.owner.entity.Owner;
 import com.minbae.store.entity.Store;
