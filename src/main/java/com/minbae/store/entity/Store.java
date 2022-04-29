@@ -3,6 +3,7 @@ package com.minbae.store.entity;
 import com.minbae.owner.entity.Owner;
 import com.minbae.storedetail.entity.StoreDetail;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
