@@ -7,15 +7,23 @@
 <input type="button" value="테스트로그인" id="testlogin">
 <input type="text" id="email">
 <input type="text" id="pwd">
+<input type="button" value="로그인 체크" id="logincheck">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
     var main = {
         init: function () {
             var _this = this;
+            $('#logincheck').on('click',function (){
+                _this.logincheck();
+            })
             $('#testlogin').on('click', function () {
                 _this.save();
             });
         },
+        logincheck : function(){
+
+        }
+        ,
         save: function () {
 
             var data = {
@@ -29,6 +37,7 @@
                 data: data
             }).done(function () {
                 alert('회원가입 완료');
+                alert(`${SUCCESS}`);
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
