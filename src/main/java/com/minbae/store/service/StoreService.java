@@ -34,11 +34,11 @@ public class StoreService {
     }
 
     // 가게 정보 가져오기
-    public List<Store> stores(Long ownerIdx){
+//    public List<Store> stores(Long ownerIdx){
         // DB에서 조회 - 엔티티리스트 반환
-        List<Store> allByOwnerIdx = storeRepository.findAllByOwnerIdx(ownerIdx);
-        return allByOwnerIdx;
-    }
+//        List<Store> allByOwnerIdx = storeRepository.findAllByOwnerIdx(ownerIdx);
+//        return allByOwnerIdx;
+//    }
 
 
 }
