@@ -16,12 +16,6 @@ public class StoreRestController {
 
     private final StoreService storeService;
 
-    // 특정 사장님의 가게 목록 조회
-    @GetMapping("/api/stores/{id}")
-    public List<Store> index(@PathVariable Long id){
-        return storeService.index(id);
-    }
-
     // 신규 가게 저장 - before
     @PostMapping("/api/v1/store")
     public long save(@RequestBody() StoreSaveRequestDto storeSaveDto,String role){
@@ -36,5 +30,9 @@ public class StoreRestController {
                 ResponseEntity.status(HttpStatus.CREATED).body(createStore)
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+    // 특정 사장님의 가게 정보 수정
+
+
 
 }

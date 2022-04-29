@@ -17,9 +17,9 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
 
-    // 가게 목록 조회
-    public List<Store> index(Long id){
-        return (List<Store>) storeRepository.findAllById(Collections.singleton(id));
+    // 가게 목록 조회 - before
+    public List<Store> index(Long ownerId){
+        return (List<Store>) storeRepository.findStoresByOwnerIdx(ownerId);
     }
 
     @Transactional
@@ -27,9 +27,17 @@ public class StoreService {
         return storeRepository.save(storeSaveDto.toEntity()).getStoreIdx();
     }
 
+    // 신규 가게 추가
     @Transactional
     public Store create(StoreSaveRequestDto storeSaveRequestDto){
         return storeRepository.save(storeSaveRequestDto.toEntity());
+    }
+
+    // 가게 정보 가져오기
+    public List<Store> stores(Long ownerIdx){
+        // DB에서 조회 - 엔티티리스트 반환
+        List<Store> allByOwnerIdx = storeRepository.findAllByOwnerIdx(ownerIdx);
+        return allByOwnerIdx;
     }
 
 
