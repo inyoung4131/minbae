@@ -13,11 +13,10 @@ import java.io.Serializable;
 public class StoreDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="store_detail_idx")
+    @Column(name="store_Idx")
     private Long storeDetailIdx;
 
-    @OneToOne
-    @JoinColumn(name="storeIdx")
+    @OneToOne(mappedBy = "storeDetail")
     private Store storeIdx;
 
     @Column(nullable = false,name="store_detail_minimum_price")

@@ -21,6 +21,6 @@ public class Owner {
     @Column(name="owner_pwd")
     private String ownerPwd;
 
-    @Column(name="owner_nick_name")
+    @Column(name="owner_nickname")
     private String ownerNickName;
 }
