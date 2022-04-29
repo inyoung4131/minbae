@@ -34,11 +34,13 @@ public class StoreService {
         return storeRepository.save(storeSaveRequestDto.toEntity());
     }
 
+
     // 특정 가게 일반 정보 가져오기
     public Store storeInfo(Long storeIdx){
         Store byStoreIdx = storeRepository.findByStoreIdx(storeIdx);
         return byStoreIdx;
     }
+
 
 
 }

@@ -38,10 +38,11 @@
                 email: $('#email').val(),
                 pwd: $('#pwd').val()
             };
-            var role="User";
+            var test=SetsetS;
+
             $.ajax({
                 type: 'GET',
-                url: '/login/'+role,
+                url: '/user/login',
                 data: data
             }).done(function (loginval) {
                 alert('로그인 완료');
