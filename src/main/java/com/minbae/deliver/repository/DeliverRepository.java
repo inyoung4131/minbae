@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface DeliverRepository extends JpaRepository<Deliver,Long> {
 
-    Optional<Deliver> findByDeliverEmailAndDeliverPwd(String email, String pwd);
+    Deliver findByDeliverEmailAndDeliverPwd(String email, String pwd);
 }

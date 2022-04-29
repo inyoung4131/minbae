@@ -1,6 +1,8 @@
 package com.minbae.sso.service;
 
+import com.minbae.deliver.entity.Deliver;
 import com.minbae.deliver.repository.DeliverRepository;
+import com.minbae.owner.entity.Owner;
 import com.minbae.owner.repository.OwnerRepository;
 import com.minbae.sso.jwt.JwtTokenProvider;
 import com.minbae.user.entity.User;
@@ -22,19 +24,27 @@ public class AdminService {
 
     @Transactional
     public String login(String role, String email,String pwd) {
-        User getUser=null;
+        User userInfo=null;
+        Deliver deliverInfo=null;
+        Owner ownerInfo=null;
         String token="";
         if(role.equals("User")) {
-            getUser = userRepository.findByUserEmailAndUserPwd(email,pwd);
-            if(getUser!=null){
-                token=jwtTokenProvider.createToken(email,getUser.getUserIdx());
+            userInfo = userRepository.findByUserEmailAndUserPwd(email,pwd);
+            if(userInfo!=null){
+                token=jwtTokenProvider.createToken(email,userInfo.getUserIdx(),role);
             }
         }
-//        else if(role.equals("Deliver")){
-//            getUser = deliverRepository.findByDeliverEmailAndDeliverPwd(user.getUserEmail(), user.getUserPwd());
-//        }else{
-//            getUser = ownerRepository.findByOwnerEmailAndOwnerPwd(user.getUserEmail(),user.getUserPwd());
-//        }
+        else if(role.equals("Deliver")){
+            deliverInfo = deliverRepository.findByDeliverEmailAndDeliverPwd(deliverInfo.getDeliverEmail(), deliverInfo.getDeliverPwd());
+            if(deliverInfo!=null){
+                token=jwtTokenProvider.createToken(email,deliverInfo.getDeliverIdx(),role);
+            }
+        }else if(role.equals("Owner")){
+            ownerInfo = ownerRepository.findByEmailAndPwd(ownerInfo.getOwnerEmail(),ownerInfo.getOwnerPwd());
+            if(ownerInfo!=null){
+                token=jwtTokenProvider.createToken(email,ownerInfo.getOwnerIdx(),role);
+            }
+        }
 
 
 
