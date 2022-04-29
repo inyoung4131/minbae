@@ -7,7 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -64,10 +63,10 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
     public boolean validateExpTokenForRole(String jwtToken,String role) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            System.out.println("토큰 롤 값"+claims.getBody().get("Role"));
             if(claims.getBody().get("Role").equals(role))return true;
             return false;
         } catch (Exception e) {

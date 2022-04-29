@@ -7,6 +7,5 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class StoreDetailController {
 
-    private final
 
 }
