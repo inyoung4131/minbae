@@ -1,4 +1,4 @@
-package com.minbae.store.repository;
+package com.minbae.storedetail.repository;
 
 import com.minbae.storedetail.entity.StoreDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
