@@ -20,9 +20,6 @@ public class StoreDetail {
     @OneToOne(mappedBy = "storeDetail")
     private Store store;
 
-    @Column(name="store_idx")
-    private Store storeIdx;
-
     @Column(nullable = false,name="store_detail_minimum_price")
     private int storeDetailMinimumPrice;
     @Column(nullable = false,name="store_detail_deliver_price")
