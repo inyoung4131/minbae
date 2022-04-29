@@ -21,21 +21,22 @@ public class AdminService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public String login(String role, User user) {
-        Optional getUser=null;
+    public String login(String role, String email,String pwd) {
+        User getUser=null;
         String token="";
         if(role.equals("User")) {
-            getUser = userRepository.findByUserEmailAndUserPwd(user.getUserEmail(),user.getUserPwd());
-        }else if(role.equals("Deliver")){
-//            getUser = deliverRepository.
-
-        }else{
-
+            getUser = userRepository.findByUserEmailAndUserPwd(email,pwd);
+            if(getUser!=null){
+                token=jwtTokenProvider.createToken(email,getUser.getUserIdx());
+            }
         }
+//        else if(role.equals("Deliver")){
+//            getUser = deliverRepository.findByDeliverEmailAndDeliverPwd(user.getUserEmail(), user.getUserPwd());
+//        }else{
+//            getUser = ownerRepository.findByOwnerEmailAndOwnerPwd(user.getUserEmail(),user.getUserPwd());
+//        }
 
-        if(getUser!=null){
-            token=jwtTokenProvider.createToken(user.getUserEmail(),user.getUserIdx());
-        }
+
 
         return token;
     }
