@@ -23,7 +23,7 @@ public class StoreController {
     private final StoreDetailService storeDetailService;
 
     // 사장님 광장 메인 페이지 이동
-    @GetMapping("/owner/store/main")
+    @GetMapping("/owne/store/main")
     public String goStoreMainPage(){
         return "store/main_store";
     }
@@ -35,7 +35,7 @@ public class StoreController {
     }
 
     // 특정 사장님의 가게 목록 조회
-    @GetMapping("/owner/storeList/{ownerIdx}")
+    @GetMapping("/owne/storeList/{ownerIdx}")
     public String index(@PathVariable Long ownerIdx, Model model){
         List<Store> storeList = storeService.index(ownerIdx);
         model.addAttribute("storeList", storeList);
@@ -43,7 +43,7 @@ public class StoreController {
     }
 
     // 특정 사장님의 가게 정보 페이지로 이동
-    @GetMapping("/owner/storeInfo/{storeIdx}")
+    @GetMapping("/owne/storeInfo/{storeIdx}")
     public String updateForm(@PathVariable Long storeIdx, Model model){
         Store store = storeService.storeInfo(storeIdx);
         StoreDetail storeDetail = storeDetailService.storeDetailInfo(storeIdx);

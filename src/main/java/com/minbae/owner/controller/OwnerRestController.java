@@ -17,9 +17,7 @@ public class OwnerRestController {
     @Autowired
     private OwnerService ownerService;
 
-    // 로그인 폼 이동
-    @GetMapping("/loginForm/owner")
-    public String loginOwnerForm(){return "owner/loginform";}
+
 
     // 로그인 요청 처리
     @PostMapping("/login/owner")

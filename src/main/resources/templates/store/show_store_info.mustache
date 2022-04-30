@@ -1,13 +1,197 @@
 {{>store/common/store_header}}
 
-<div>
-    {{#storeInfo}}
-        {{storeName}}
-    {{/storeInfo}}
-    {{#StoreDetailInfo}}
-        {{storeDetailMinimumPrice}}
-    {{/StoreDetailInfo}}
 
-</div>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div>
+        <h2 class="h2">우리 가게 일반 및 상세 정보 조회 페이지</h2>
+    </div>
+    <div>
+        <h3 class="h3">스토어 정보</h3>
+    </div>
+    <form class="row g-3">
+        {{#storeInfo}}
+            <div class="col-12">
+                <label for="inputStoreName" class="form-label">가게 이름</label>
+                <input type="text" class="form-control" id="inputStoreName" value="{{storeName}}">
+            </div>
+            <div class="col-12">
+                <label for="inputStoreCategory" class="form-label">가게 업종</label>
+                <select id="inputStoreCategory" class="form-select">
+                    <option value="{{storeCategory}}" selected>{{storeCategory}}</option>
+                    <option value="CHICKEN">치킨</option>
+                    <option value="CHINESEFOOD">중국집</option>
+                    <option value="DESSERT">디저트/카페</option>
+                    <option value="BUNSIK">분식</option>
+                    <option value="PIZZA">피자</option>
+                    <option value="JAPANESEFOOD">돈까스/회</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label for="inputStoreTel" class="form-label">가게 전화번호</label>
+                <input type="text" class="form-control" id="inputStoreTel" value="{{storeTel}}">
+            </div>
+            <!--addr start-->
+            <div class="col-2">
+                <input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기">
+                <input type="text" id="sample4_postcode" value="우편번호">
+            </div>
+            <div class="col-5">
+                <label for="inputStoreBasicAddr" class="form-label">가게 도로명 주소</label>
+                <input type="text" class="form-control" id="inputStoreBasicAddr" value="{{storeBasicAddr}}">
+            </div>
+            <div class="col-5">
+                <label for="inputStoreDetailAddr" class="form-label">가게 상세 주소</label>
+                <input type="text" class="form-control" id="inputStoreDetailAddr" value="{{storeDetailAddr}}">
+            </div>
+            <!--addr end-->
+
+            <input type="text" id="ownerIdx" value="{{ownerIdx.ownerIdx}}" readonly>
+            <input type="text" id="storeIdx" value="{{storeIdx}}" readonly>
+            <input type="text" id="sample4_jibunAddress" value="" readonly>
+            <input type="text" id="lat" value="{{storeLat}}" readonly>
+            <input type="text" id="lng" value="{{storeLng}}" readonly>
+
+        {{/storeInfo}}
+        <div class="col-2">
+            <input type="button" value="수정 취소취소">
+            <input type="button" value="가게 정보 수정완료" id="update-btn">
+        </div>
+
+    </form>
+
+    <hr><hr><hr>
+
+    <div>
+        <h3>스토어 디테일 정보</h3>
+    </div>
+    <form class="row g-3">
+        {{#StoreDetailInfo}}
+            <div class="col-12">
+                <label for="inputMinimumPrice" class="form-label">최수주문금액</label>
+                <input type="text" class="form-control" id="inputMinimumPrice" placeholder="{{storeDetailMinimumPrice}}">
+            </div>
+        {{/StoreDetailInfo}}
+    </form>
+
+
+    <div>
+        <h3>가게 삭제 요청</h3>
+        <button class="btn btn-warning" id="storeDelete">삭제 요청</button>
+    </div>
+</main>
+
 
 {{>store/common/store_footer}}
+
+<!--Store info update JS-->
+<script>
+    const updateStoreBtn = document.querySelector('#update-btn');
+    updateStoreBtn.addEventListener('click', function (){
+        window.alert('수정버튼눌림?');
+        // store 객체 생성
+        const store = {
+            storeIdx: document.querySelector("#storeIdx").value,
+            ownerIdx: {
+              ownerIdx: document.querySelector("#ownerIdx").value
+            },
+            storeName: document.querySelector("#inputStoreName").value,
+            storeCategory: document.querySelector("#inputStoreCategory").value,
+            storeBasicAddr: document.querySelector("#inputStoreBasicAddr").value,
+            storeDetailAddr: document.querySelector("#inputStoreDetailAddr").value,
+            storeLat: document.querySelector("#lat").value,
+            storeLng: document.querySelector("#lng").value,
+            storeTel: document.querySelector("#inputStoreTel").value
+        }
+        console.log(JSON.stringify(store));
+
+        // fetch
+        const url = "/api/storeInfo/update/"+store.storeIdx;
+        alert(store.storeIdx);
+        fetch(url, {
+            method: "PATCH",
+            body: JSON.stringify(store),
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        }).then(response => {
+            const msg = (response.ok) ? "수정 성공" : "수정 실패!!";
+            alert(msg);
+            location.reload();
+        });
+    });
+
+</script>
+
+<!--Store Detail info update JS-->
+<script></script>
+
+<!--Store addr search JS-->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample4_postcode').value = data.zonecode; // 우편번호
+                document.getElementById("inputStoreBasicAddr").value = roadAddr; // 도로명 주소
+                document.getElementById("sample4_jibunAddress").value = data.jibunAddress; // 지번 주소
+
+                var jibun = document.getElementById('sample4_jibunAddress').value;
+                $.ajax({
+                    url: 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURIComponent(`${jibun}`),
+                    type: 'GET',
+                    headers: {'Authorization': 'KakaoAK 22e00e7447c5306d5873193d9373f549'}
+                }).done(function (data2) {
+                    document.getElementById('lat').value = data2.documents[0].y;
+                    document.getElementById('lng').value = data2.documents[0].x;
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                });
+
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
+    }
+</script>
+
+<!--Store delete JS-->
+<script>
+    const deleteBtn = document.querySelectorAll('#storeDelete');
+
+        deleteBtn.addEventListener("click", (event) => {
+            alert('정말 삭제 하시겠습니까?');
+            // 삭제 API 호출 및 처리
+            let storeIdx = document.querySelector("#storeIdx").value;
+            const url = "/api/store/delete/"+storeIdx;
+            fetch(url, {
+                method: "DELETE"
+            }).then(response => {
+                if (!response.ok) {
+                    alert("가게 삭제 실패..!");
+                    return;
+                }
+                location.href="";
+            });
+        });
+</script>

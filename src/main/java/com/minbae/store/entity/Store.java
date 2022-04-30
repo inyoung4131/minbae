@@ -3,6 +3,7 @@ package com.minbae.store.entity;
 import com.minbae.owner.entity.Owner;
 import com.minbae.storedetail.entity.StoreDetail;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -63,5 +64,18 @@ public class Store {
         this.storeLat=storeLat;
         this.storeLng=storeLng;
         this.storeTel=storeTel;
+    }
+
+    // 새로만든거
+    public Store(Long storeIdx, Owner ownerIdx, String storeName, String storeCategory, String storeBasicAddr, String storeDetailAddr, Double storeLat, Double storeLng, String storeTel) {
+        this.storeIdx = storeIdx;
+        this.ownerIdx = ownerIdx;
+        this.storeName = storeName;
+        this.storeCategory = storeCategory;
+        this.storeBasicAddr = storeBasicAddr;
+        this.storeDetailAddr = storeDetailAddr;
+        this.storeLat = storeLat;
+        this.storeLng = storeLng;
+        this.storeTel = storeTel;
     }
 }
