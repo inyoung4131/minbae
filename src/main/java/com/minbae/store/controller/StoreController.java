@@ -29,7 +29,7 @@ public class StoreController {
     }
 
     // 가게 등록 페이지 이동
-    @GetMapping("/owner/createStore")
+    @GetMapping("/owne/createStore")
     public String goCreateStorePage(){
         return "store/create_store";
     }

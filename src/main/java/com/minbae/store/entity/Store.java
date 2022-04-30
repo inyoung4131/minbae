@@ -51,7 +51,7 @@ public class Store {
     @Column(name="store_tel")
     private String storeTel;
 
-    @OneToOne(mappedBy = "store")
+    @OneToOne(mappedBy = "store", orphanRemoval = true)
     private StoreDetail storeDetail;
 
     @Builder

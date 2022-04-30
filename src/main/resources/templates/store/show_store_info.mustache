@@ -56,7 +56,6 @@
             <input type="button" value="수정 취소취소">
             <input type="button" value="가게 정보 수정완료" id="update-btn">
         </div>
-
     </form>
 
     <hr><hr><hr>
@@ -67,16 +66,54 @@
     <form class="row g-3">
         {{#StoreDetailInfo}}
             <div class="col-12">
-                <label for="inputMinimumPrice" class="form-label">최수주문금액</label>
-                <input type="text" class="form-control" id="inputMinimumPrice" placeholder="{{storeDetailMinimumPrice}}">
+                <label for="inputStoreDetailDeliverPrice" class="form-label">배달비설정</label>
+                <input type="text" class="form-control" id="inputStoreDetailDeliverPrice" value="{{storeDetailDeliverPrice}}">
             </div>
+            <div class="col-12">
+                <label for="inputStoreDetailMinimumPrice" class="form-label">최소주문금액</label>
+                <input type="text" class="form-control" id="inputStoreDetailMinimumPrice" value="{{storeDetailMinimumPrice}}">
+            </div>
+            <div class="col-12">
+                <label for="inputStoreDetailTakeOutDiscount" class="form-label">포장할인금액</label>
+                <input type="text" class="form-control" id="inputStoreDetailTakeOutDiscount" value="{{storeDetailTakeOutDiscount}}">
+            </div>
+            <div class="col-12">
+                <label for="inputStoreDetailInfoImg" class="form-label">가게대표이미지</label>
+                <input type="text" class="form-control" id="inputStoreDetailInfoImg" value="{{storeDetailInfoImg}}">
+            </div>
+            <div class="col-12">
+                <label for="inputStoreDetailInfoText" class="form-label">가게소개글</label>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="inputStoreDetailInfoText" style="height: 100px">{{storeDetailInfoText}}</textarea>
+                </div>
+            </div>
+            <div class="col-12">
+                <label for="inputStoreDetailMenuText" class="form-label">메뉴소개글</label>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="inputStoreDetailMenuText" style="height: 100px">{{storeDetailMenuText}}</textarea>
+                </div>
+            </div>
+            <div class="col-12">
+                <label for="inputStoreDetailReviewText" class="form-label">리뷰공지글</label>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="inputStoreDetailReviewText" style="height: 100px">{{storeDetailReviewText}}</textarea>
+                </div>
+            </div>
+
+        <input type="hidden" id="inputStoreDetailIdx" value="{{storeDetailIdx}}">
+        <input type="text" id="storeIdxFromDetail" value="{{store.storeIdx}}" readonly>
+
         {{/StoreDetailInfo}}
+        <div class="col-2">
+            <input type="button" value="수정 취소취소">
+            <input type="button" value="가게 상세정보 수정완료" id="update-detail-btn">
+        </div>
     </form>
 
 
     <div>
-        <h3>가게 삭제 요청</h3>
-        <button class="btn btn-warning" id="storeDelete">삭제 요청</button>
+        <h3 class="h3">가게 삭제 요청</h3>
+        <button class="btn btn-danger" id="storeDelete">삭제 요청</button>
     </div>
 </main>
 
@@ -123,7 +160,42 @@
 </script>
 
 <!--Store Detail info update JS-->
-<script></script>
+<script>
+    const updateStoreDetailBtn = document.querySelector('#update-detail-btn');
+    updateStoreDetailBtn.addEventListener('click', function (){
+        window.alert('상세수정버튼눌림?');
+        // store 객체 생성
+        const storeDetail = {
+            storeDetailIdx: document.querySelector("#inputStoreDetailIdx").value,
+            storeIdx: {
+                storeIdx: document.querySelector("#storeIdxFromDetail").value
+            },
+            storeDetailDeliverPrice: document.querySelector("#inputStoreDetailDeliverPrice").value,
+            storeDetailMinimumPrice: document.querySelector("#inputStoreDetailMinimumPrice").value,
+            storeDetailTakeOutDiscount: document.querySelector("#inputStoreDetailTakeOutDiscount").value,
+            storeDetailInfoImg: document.querySelector("#inputStoreDetailInfoImg").value,
+            storeDetailInfoText: document.querySelector("#inputStoreDetailInfoText").value,
+            storeDetailMenuText: document.querySelector("#inputStoreDetailMenuText").value,
+            storeDetailReviewText: document.querySelector("#inputStoreDetailReviewText").value
+        }
+        console.log(JSON.stringify(storeDetail));
+
+        // fetch
+        const url = "/api/storeDetailInfo/update/"+storeDetail.storeDetailIdx;
+        alert(storeDetail.storeDetailIdx);
+        fetch(url, {
+            method: "PATCH",
+            body: JSON.stringify(storeDetail),
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        }).then(response => {
+            const msg = (response.ok) ? "상세수정 성공" : "상세수정 실패!!";
+            alert(msg);
+            location.reload();
+        });
+    });
+</script>
 
 <!--Store addr search JS-->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -177,9 +249,9 @@
 
 <!--Store delete JS-->
 <script>
-    const deleteBtn = document.querySelectorAll('#storeDelete');
+    const deleteBtn = document.querySelector('#storeDelete');
 
-        deleteBtn.addEventListener("click", (event) => {
+        deleteBtn.addEventListener("click", () => {
             alert('정말 삭제 하시겠습니까?');
             // 삭제 API 호출 및 처리
             let storeIdx = document.querySelector("#storeIdx").value;
@@ -191,7 +263,9 @@
                     alert("가게 삭제 실패..!");
                     return;
                 }
-                location.href="";
+                alert('가게 삭제 성공');
+                let ownerIdxValue = document.querySelector("#ownerIdx").value;
+                location.href="/owne/storeList/"+ownerIdxValue;
             });
         });
 </script>

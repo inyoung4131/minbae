@@ -7,6 +7,7 @@ import com.minbae.store.dto.StoreSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class StoreRestController {
     // 신규 가게 저장 - after
     @PostMapping("/api/store/create")
     public ResponseEntity<Store> create(@RequestBody StoreSaveRequestDto storeSaveRequestDto){
-        Store createStore = storeService.create(storeSaveRequestDto);
+        Store createStore = storeService.create2(storeSaveRequestDto);
         return (createStore != null) ?
                 ResponseEntity.status(HttpStatus.CREATED).body(createStore)
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
