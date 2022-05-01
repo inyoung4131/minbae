@@ -18,9 +18,9 @@ public class AdminController {
     private final AdminService adminService;
 
     @ApiOperation(value = "로그인", notes = "로그인 api")
-    @GetMapping("/{role}/login")
+    @GetMapping("/login/{role}")
     public ApiResponse login(@PathVariable String role,String email,String pwd) {
-        return new ApiResponse(ApiStatus.SUCCESS, adminService.login(role,email,pwd));
+        return new ApiResponse(ApiStatus.SUCCESS, adminService.login(role,email,pwd),adminService.getMemberInfo(role,email,pwd));
     }
 
 }

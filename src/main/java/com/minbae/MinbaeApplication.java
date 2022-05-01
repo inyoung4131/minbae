@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@ServletComponentScan
 @EnableJpaAuditing
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class MinbaeApplication {

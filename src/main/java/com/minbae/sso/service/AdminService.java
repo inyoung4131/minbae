@@ -9,7 +9,10 @@ import com.minbae.user.entity.User;
 import com.minbae.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -20,29 +23,53 @@ public class AdminService {
     private final OwnerRepository ownerRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Transactional
     public String login(String role, String email,String pwd) {
         User userInfo=null;
         Deliver deliverInfo=null;
         Owner ownerInfo=null;
         String token="";
-        if(role.equals("User")) {
+        if(role.equals("user")) {
             userInfo = userRepository.findByUserEmailAndUserPwd(email,pwd);
             if(userInfo!=null){
                 token=jwtTokenProvider.createToken(email,userInfo.getUserIdx(),role);
             }
         }
-        else if(role.equals("Deliver")){
+        else if(role.equals("deliver")){
             deliverInfo = deliverRepository.findByDeliverEmailAndDeliverPwd(deliverInfo.getDeliverEmail(), deliverInfo.getDeliverPwd());
             if(deliverInfo!=null){
                 token=jwtTokenProvider.createToken(email,deliverInfo.getDeliverIdx(),role);
             }
-        }else if(role.equals("Owner")){
+        }else if(role.equals("owner")){
             ownerInfo = ownerRepository.findByEmailAndPwd(ownerInfo.getOwnerEmail(),ownerInfo.getOwnerPwd());
             if(ownerInfo!=null){
                 token=jwtTokenProvider.createToken(email,ownerInfo.getOwnerIdx(),role);
             }
         }
         return token;
+    }
+
+    public Map getMemberInfo(String role, String email, String pwd){
+        User userInfo=null;
+        Deliver deliverInfo=null;
+        Owner ownerInfo=null;
+        Map memberInfo=new HashMap();
+        if(role.equals("user")) {
+            userInfo = userRepository.findByUserEmailAndUserPwd(email,pwd);
+            if(userInfo!=null){
+                memberInfo.put("memberInfo",userInfo);
+            }
+        }
+        else if(role.equals("deliver")){
+            deliverInfo = deliverRepository.findByDeliverEmailAndDeliverPwd(deliverInfo.getDeliverEmail(), deliverInfo.getDeliverPwd());
+            if(deliverInfo!=null){
+                memberInfo.put("memberInfo",deliverInfo);
+            }
+        }else if(role.equals("owner")){
+            ownerInfo = ownerRepository.findByEmailAndPwd(ownerInfo.getOwnerEmail(),ownerInfo.getOwnerPwd());
+            if(ownerInfo!=null){
+                memberInfo.put("memberInfo",ownerInfo);
+            }
+        }
+        return memberInfo;
     }
 }
