@@ -9,16 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class OwnerRestController {
 
     @Autowired
     private OwnerService ownerService;
 
-    // 로그인 폼 이동
-    @GetMapping("/loginForm/owner")
-    public String loginOwnerForm(){return "owner/loginform";}
+
 
     // 로그인 요청 처리
     @PostMapping("/login/owner")

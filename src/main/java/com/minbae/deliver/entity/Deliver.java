@@ -18,10 +18,6 @@ public class Deliver {
     @Column(name="deliver_idx")
     private long deliverIdx;
 
-    @ManyToOne
-    @JoinColumn(name="trade_history_num")
-    private TradeHistory tradeHistoryNum;
-
     @Column(nullable = false,unique = true,name="deliver_email")
     private String deliverEmail;
 

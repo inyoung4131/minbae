@@ -22,12 +22,12 @@ public class ExceptionController {
         errorList.forEach( item -> errorMsg.append(item.getField()+" "));
         ExceptionType exceptionType = ExceptionType.InvalidDtoException;
         ErrorResponse errorResponse = new ErrorResponse(exceptionType.getCode(), exceptionType.getMsg() + errorMsg);
-        return new ResponseEntity<>(new ApiResponse<>(ApiStatus.FAIL, errorResponse), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>(ApiStatus.FAIL, errorResponse,null), HttpStatus.OK);
     }
 
     @ExceptionHandler(CommException.class)
     protected ResponseEntity<ApiResponse> handleAuthException(final CommException e){
         ErrorResponse errorResponse = new ErrorResponse(e.exceptionType.getCode(), e.exceptionType.getMsg());
-        return new ResponseEntity<>(new ApiResponse(ApiStatus.FAIL, errorResponse), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(ApiStatus.FAIL, errorResponse,null), HttpStatus.OK);
     }
 }

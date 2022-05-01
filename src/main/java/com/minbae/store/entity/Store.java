@@ -3,6 +3,7 @@ package com.minbae.store.entity;
 import com.minbae.owner.entity.Owner;
 import com.minbae.storedetail.entity.StoreDetail;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class Store {
     private Long storeIdx;
 
     @ManyToOne
-    @JoinColumn(name="owner_idx")
+    @JoinColumn(name="ownerIdx") // 어느 변수에서 가져올지 명시
     private Owner ownerIdx;
 
     @Column(name="store_name")
@@ -50,9 +51,7 @@ public class Store {
     @Column(name="store_tel")
     private String storeTel;
 
-    @MapsId
-    @OneToOne
-    @JoinColumn(name="storeIdx")
+    @OneToOne(mappedBy = "store", orphanRemoval = true)
     private StoreDetail storeDetail;
 
     @Builder
@@ -67,4 +66,16 @@ public class Store {
         this.storeTel=storeTel;
     }
 
+    // 새로만든거
+    public Store(Long storeIdx, Owner ownerIdx, String storeName, String storeCategory, String storeBasicAddr, String storeDetailAddr, Double storeLat, Double storeLng, String storeTel) {
+        this.storeIdx = storeIdx;
+        this.ownerIdx = ownerIdx;
+        this.storeName = storeName;
+        this.storeCategory = storeCategory;
+        this.storeBasicAddr = storeBasicAddr;
+        this.storeDetailAddr = storeDetailAddr;
+        this.storeLat = storeLat;
+        this.storeLng = storeLng;
+        this.storeTel = storeTel;
+    }
 }
