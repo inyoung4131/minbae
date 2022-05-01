@@ -1,16 +1,13 @@
 package com.minbae.store.controller;
 
+import com.minbae.store.dto.StoreSaveRequestDto;
 import com.minbae.store.dto.StoreUpdateRequestDto;
 import com.minbae.store.entity.Store;
 import com.minbae.store.service.StoreService;
-import com.minbae.store.dto.StoreSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,7 +17,7 @@ public class StoreRestController {
 
     // 신규 가게 저장 - before
     @PostMapping("/api/v1/store")
-    public long save(@RequestBody() StoreSaveRequestDto storeSaveDto,String role){
+    public long save(@RequestBody() StoreSaveRequestDto storeSaveDto, String role){
         return storeService.save(storeSaveDto);
     }
 
