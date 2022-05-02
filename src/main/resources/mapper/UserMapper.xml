@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.minbae.user.dao.UserMapper">
+
+    <select id="findStoreByCategory" resultType="hashmap">
+        SELECT
+            count(*) AS orderCnt, s.*, sd.*
+        FROM trade_history th
+                 left join store s on th.store_idx = s.store_idx
+                 left join store_detail sd on s.store_idx = sd.store_idx
+        where s.store_category = #{category}
+        GROUP BY th.store_idx HAVING count(*) >= 0
+        order by orderCnt desc;
+    </select>
+
+    <select id="findStoreByNotInIdxs" resultType="hashmap">
+        select
+            s.*, sd.*
+        from store s
+                 left join store_detail sd on s.store_idx = sd.store_idx
+        where
+            s.store_idx not in
+                <foreach collection="idxs" item="item" open="(" separator="," close=")">
+                 #{item}
+                </foreach>
+          and
+            s.store_category = #{category};
+    </select>
+
+</mapper>

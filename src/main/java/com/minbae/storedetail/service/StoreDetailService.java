@@ -1,8 +1,5 @@
 package com.minbae.storedetail.service;
 
-import com.minbae.store.dto.StoreSaveRequestDto;
-import com.minbae.store.dto.StoreUpdateRequestDto;
-import com.minbae.store.entity.Store;
 import com.minbae.storedetail.dto.StoreDetailSaveRequestDto;
 import com.minbae.storedetail.dto.StoreDetailUpdateRequestDto;
 import com.minbae.storedetail.entity.StoreDetail;
