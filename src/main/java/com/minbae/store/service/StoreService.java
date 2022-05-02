@@ -49,7 +49,6 @@ public class StoreService {
             throw new IllegalArgumentException("예외발생 - create store");
         };
         Long temp = newStore.getStoreIdx();
-        System.out.println("store_idx는 잘 가져와지니?"+temp);
         StoreDetailSaveRequestDto target = new StoreDetailSaveRequestDto();
         target.setStoreIdx(newStore);
         StoreDetail newStoreDetail = storeDetailRepository.save(target.toEntity());
