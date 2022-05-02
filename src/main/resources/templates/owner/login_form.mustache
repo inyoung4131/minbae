@@ -63,17 +63,17 @@
                 email: $('#email').val(),
                 pwd: $('#pwd').val()
             };
-            var test=SetsetS;
+            //var test=SetsetS;
 
             $.ajax({
                 type: 'GET',
-                url: '/owner/login',
+                url: '/login/owner',
                 data: data
             }).done(function (loginval) {
-                alert('로그인 완료');
                 if(loginval.status.valueOf()=="SUCCESS"){
                     window.sessionStorage.setItem("token",loginval.data);
                 }
+                alert('로그인 완료');
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });

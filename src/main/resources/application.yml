@@ -19,5 +19,10 @@ spring:
   data:
     rest:
       basePath: /api
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.minbae.user.domain
 server:
   port: '9090'
