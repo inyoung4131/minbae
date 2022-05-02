@@ -1,0 +1,79 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div>
+
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240"></script>
+    <div id="map" style="width:350px;height:350px;"></div>
+    <input type="button" value="등록" id="createFlag">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        var createFlag = {
+            init: function () {
+                var _this = this;
+                $('#createFlag').on('click', function () {
+                    _this.save();
+                });
+            },
+            save: function () {
+
+                var flagSaveDto = {
+                    storeIdx: {
+                        storeIdx: Number(1)
+            } ,
+                    flagLat: marker.getPosition().getLat().toFixed(5),
+                    flagLng: marker.getPosition().getLng().toFixed(5)
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/owner/create/flag',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(flagSaveDto)
+                }).done(function () {
+                    alert("등록완료");
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                });
+            }
+        };
+        createFlag.init();
+
+        var mapContainer = document.getElementById('map'),
+                mapOption = {
+                    center: new kakao.maps.LatLng(33.45070, 126.57066),
+                    level: 4
+                };
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        var marker = new kakao.maps.Marker({
+            position: map.getCenter()
+        });
+        marker.setMap(map);
+
+        var circle = new kakao.maps.Circle({
+            center : new kakao.maps.LatLng(33.450701, 126.570667),
+            radius: 1000,
+            strokeWeight: 5,
+            strokeColor: '#fdff8f',
+            strokeOpacity: 0.5,
+            fillColor: '#fdff8f',
+            fillOpacity: 0.5
+        });
+
+        circle.setMap(map);
+
+        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+            var latlng = mouseEvent.latLng;
+            circle.setPosition(latlng);
+            marker.setPosition(latlng);
+        });
+
+    </script>
+</div>
+</body>
+</html>
