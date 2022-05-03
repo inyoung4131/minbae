@@ -31,6 +31,7 @@ public class StoreDetail {
     private int storeDetailDeliverPrice;
 
     @Column(name="store_detail_menu_text")
+    @ColumnDefault("")
     private String storeDetailMenuText;
 
     @Column(name="store_detail_info_text")

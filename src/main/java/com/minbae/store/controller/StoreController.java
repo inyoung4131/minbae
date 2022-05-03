@@ -23,7 +23,7 @@ public class StoreController {
     private final StoreDetailService storeDetailService;
 
     // 사장님 광장 메인 페이지 이동
-    @GetMapping("/owne/store/main")
+    @GetMapping("/owner/store/main")
     public String goStoreMainPage(){
         return "store/main_store";
     }

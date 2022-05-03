@@ -18,7 +18,7 @@ public class OwnerService {
         String ownerPwd = ownerRequestDTO.getOwnerPwd();
 
         // 아이디 비밀번호 조회
-        Owner target = ownerRepository.findByEmailAndPwd(ownerEmail, ownerPwd);
+        Owner target = ownerRepository.findByOwnerEmailAndOwnerPwd(ownerEmail, ownerPwd);
 
         // entity -> dto
         OwnerResponseDTO ownerResponseDTO = OwnerResponseDTO.toOwnerResponseDTO(target);

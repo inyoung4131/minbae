@@ -42,7 +42,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createRefreshToken(String memberId,  int memberIdx,String role) {
+    public String createRefreshToken(String memberId,  long memberIdx,String role) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + refreshExpireTime);
 

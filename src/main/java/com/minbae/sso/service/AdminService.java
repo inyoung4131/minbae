@@ -35,12 +35,12 @@ public class AdminService {
             }
         }
         else if(role.equals("deliver")){
-            deliverInfo = deliverRepository.findByDeliverEmailAndDeliverPwd(deliverInfo.getDeliverEmail(), deliverInfo.getDeliverPwd());
+            deliverInfo = deliverRepository.findByDeliverEmailAndDeliverPwd(email,pwd);
             if(deliverInfo!=null){
                 token=jwtTokenProvider.createToken(email,deliverInfo.getDeliverIdx(),role);
             }
         }else if(role.equals("owner")){
-            ownerInfo = ownerRepository.findByEmailAndPwd(ownerInfo.getOwnerEmail(),ownerInfo.getOwnerPwd());
+            ownerInfo = ownerRepository.findByOwnerEmailAndOwnerPwd(email,pwd);
             if(ownerInfo!=null){
                 token=jwtTokenProvider.createToken(email,ownerInfo.getOwnerIdx(),role);
             }
@@ -56,18 +56,18 @@ public class AdminService {
         if(role.equals("user")) {
             userInfo = userRepository.findByUserEmailAndUserPwd(email,pwd);
             if(userInfo!=null){
-                memberInfo.put("memberInfo",userInfo);
+                memberInfo.put("memberData",userInfo);
             }
         }
         else if(role.equals("deliver")){
-            deliverInfo = deliverRepository.findByDeliverEmailAndDeliverPwd(deliverInfo.getDeliverEmail(), deliverInfo.getDeliverPwd());
+            deliverInfo = deliverRepository.findByDeliverEmailAndDeliverPwd(email,pwd);
             if(deliverInfo!=null){
-                memberInfo.put("memberInfo",deliverInfo);
+                memberInfo.put("memberData",deliverInfo);
             }
         }else if(role.equals("owner")){
-            ownerInfo = ownerRepository.findByEmailAndPwd(ownerInfo.getOwnerEmail(),ownerInfo.getOwnerPwd());
+            ownerInfo = ownerRepository.findByOwnerEmailAndOwnerPwd(email,pwd);
             if(ownerInfo!=null){
-                memberInfo.put("memberInfo",ownerInfo);
+                memberInfo.put("memberData",ownerInfo);
             }
         }
         return memberInfo;

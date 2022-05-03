@@ -17,14 +17,4 @@ public class OwnerRestController {
     @Autowired
     private OwnerService ownerService;
 
-
-
-    // 로그인 요청 처리
-    @PostMapping("/login/owner")
-    public ResponseEntity<OwnerResponseDTO> loginOwner(OwnerRequestDTO ownerRequestDTO){
-        // service 호출
-        OwnerResponseDTO target =  ownerService.loginOwner(ownerRequestDTO);
-
-        return ResponseEntity.status(HttpStatus.OK).body(target);
-    }
 }
