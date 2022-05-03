@@ -8,6 +8,6 @@ public class MapController {
 
     @GetMapping("/map")
     public String goMapPage(){
-        return "map";
+        return "map/map";
     }
 }

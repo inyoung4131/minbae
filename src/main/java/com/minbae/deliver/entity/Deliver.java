@@ -34,10 +34,11 @@ public class Deliver {
     private int deliverMoney;
 
     @Column(name="deliver_lng")
-    private double deliverLng;
+
+    private Double deliverLng;
 
     @Column(name="deliver_lat")
-    private double deliverLat;
+    private Double deliverLat;
 
 
 }
