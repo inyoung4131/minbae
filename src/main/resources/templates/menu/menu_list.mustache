@@ -4,9 +4,12 @@
         <h1>가게 명 : {{storeEntity.storeName}}</h1>
         <h2 class="h2">우리 가게 메뉴 리스트</h2>
     </div>
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div>
         <button>가게 목록 보기</button>
         <button>신규메뉴 등록</button>
+    </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
             <table class="table caption-top table-hover">
                 <caption>List of menu</caption>
                 <thead>
@@ -15,6 +18,7 @@
                     <th scope="col">메뉴명</th>
                     <th scope="col">가격</th>
                     <th scope="col">메뉴이미지</th>
+                    <th scope="col">대표|일반</th>
                     <th scope="col">관리</th>
                 </tr>
                 </thead>
@@ -24,9 +28,20 @@
                         <th scope="row">{{menuIdx}}</th>
                         <td>{{menuName}}</td>
                         <td>{{menuPrice}}</td>
-                        <td>{{menuImg}}</td>
+                        <td><img src="/image/{{menuImg}}"></td>
+                        <td class="kingMenuValue">{{menuKingMenu}}</td>
                         <td>
-                            <button class="btn btn-outline-primary" id="menuUpdate">메뉴정보수정</button>
+                            <button class="btn btn-outline-primary" id="menuUpdate">메뉴정보수정-기존</button>
+                            <!-- 모달트리거 -->
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#menu-edit-modal"
+                                    data-bs-menuidx="{{menuIdx}}"
+                                    data-bs-menuname="{{menuName}}"
+                                    data-bs-menuprice="{{menuPrice}}"
+                                    data-bs-menuimg="{{menuImg}}"
+                                    data-bs-menukingmenu="{{menuKingMenu}}">메뉴정보수정-모달</button>
                             <button class="btn btn-outline-danger" id="menuDelete">메뉴삭제</button>
                         </td>
                     </tr>
@@ -35,7 +50,22 @@
             </table>
     </div>
 </main>
+{{>menu/menu_update_modal}}
 {{>store/common/store_footer}}
+
+<!-- menu kingmenu value change-->
+<script>
+    window.onload = ()  => {
+        const kingValues = document.querySelectorAll(".kingMenuValue");
+        for(const kv of kingValues){
+            if(kv.innerHTML == 1){
+                kv.innerHTML = "대표메뉴";
+            }else{
+                kv.innerHTML = "일반메뉴";
+            }
+        };
+    };
+</script>
 
 <!-- menu update-->
 <script>

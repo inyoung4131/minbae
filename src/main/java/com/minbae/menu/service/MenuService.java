@@ -1,9 +1,8 @@
 package com.minbae.menu.service;
 
-import com.minbae.menu.MenuSaveRequestDto;
+import com.minbae.menu.dto.MenuSaveRequestDto;
 import com.minbae.menu.entity.Menu;
 import com.minbae.menu.repository.MenuRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +23,7 @@ public class MenuService {
         return menuRepository.findAllByStoreIdx(storeIdx);
     }
 
+    // 메뉴 생성
     public Menu createMenu(MenuSaveRequestDto requestDto, MultipartFile file) {
         copyInto(requestDto.getStoreIdx().getStoreIdx(),file);
         requestDto.setMenuImage(file.getOriginalFilename());
@@ -31,6 +31,7 @@ public class MenuService {
         return menuRepository.save(savedResult);
     }
 
+    // 파일 복사 및 저장 메소드
     public void copyInto(Long writer, MultipartFile upload) {
         System.out.println("작성자:"+writer);
         System.out.println("올린파일명:"+upload.getOriginalFilename());

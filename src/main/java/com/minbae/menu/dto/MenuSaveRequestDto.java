@@ -1,4 +1,4 @@
-package com.minbae.menu;
+package com.minbae.menu.dto;
 
 import com.minbae.menu.entity.Menu;
 import com.minbae.store.entity.Store;

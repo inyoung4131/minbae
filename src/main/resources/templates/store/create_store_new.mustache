@@ -39,7 +39,8 @@
             </div>
             <!--addr end-->
 
-            <input type="text" id="sample4_jibunAddress" value="" readonly>
+            <input type="text" id="ownerIdx" value="{{ownerIdx}}">
+            <input type="text" id="sample4_jibunAddress" value="" readonly placeholder="지번주소"><span id="guide" style="color:#999;display:none"></span>
             <input type="text" id="lat" value="" readonly>
             <input type="text" id="lng" value="" readonly>
 
@@ -47,91 +48,92 @@
             <input type="button" value="생성 취소취소">
             <input type="button" value="가게 생성 완료" id="create-btn">
         </div>
+
+        <script>
+            const createStoreBtn = document.querySelector('#create-btn');
+            createStoreBtn.addEventListener('click', function (){
+                window.alert('생성버튼눌림?');
+                // store 객체 생성
+                const store = {
+                    ownerIdx: {
+                        ownerIdx: document.querySelector("#ownerIdx").value
+                    },
+                    storeName: document.querySelector("#inputStoreName").value,
+                    storeCategory: document.querySelector("#inputStoreCategory").value,
+                    storeBasicAddr: document.querySelector("#inputStoreBasicAddr").value,
+                    storeDetailAddr: document.querySelector("#inputStoreDetailAddr").value,
+                    storeLat: document.querySelector("#lat").value,
+                    storeLng: document.querySelector("#lng").value,
+                    storeTel: document.querySelector("#inputStoreTel").value
+                }
+                console.log(JSON.stringify(store));
+
+                // fetch
+                const url = "/api/store/create";
+                alert(store.storeIdx);
+                fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(store),
+                    headers: {
+                        "Content-Type" : "application/json"
+                    }
+                }).then(response => {
+                    const msg = (response.ok) ? "생성 성공" : "생성 실패!!";
+                    alert(msg);
+                    location.href="";
+                });
+            });
+        </script>
+        <!--Store addr search JS-->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+            function sample4_execDaumPostcode() {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var roadAddr = data.roadAddress; // 도로명 주소 변수
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('sample4_postcode').value = data.zonecode; // 우편번호
+                        document.getElementById("inputStoreBasicAddr").value = roadAddr; // 도로명 주소
+                        document.getElementById("sample4_jibunAddress").value = data.jibunAddress; // 지번 주소
+
+                        var jibun = document.getElementById('sample4_jibunAddress').value;
+                        $.ajax({
+                            url: 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURIComponent(`${jibun}`),
+                            type: 'GET',
+                            headers: {'Authorization': 'KakaoAK 22e00e7447c5306d5873193d9373f549'}
+                        }).done(function (data2) {
+                            document.getElementById('lat').value = data2.documents[0].y;
+                            document.getElementById('lng').value = data2.documents[0].x;
+                        }).fail(function (error) {
+                            alert(JSON.stringify(error));
+                        });
+
+                        var guideTextBox = document.getElementById("guide");
+                        // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                        if(data.autoRoadAddress) {
+                            var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                            guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                            guideTextBox.style.display = 'block';
+
+                        } else if(data.autoJibunAddress) {
+                            var expJibunAddr = data.autoJibunAddress;
+                            guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                            guideTextBox.style.display = 'block';
+                        } else {
+                            guideTextBox.innerHTML = '';
+                            guideTextBox.style.display = 'none';
+                        }
+                    }
+                }).open();
+            }
+        </script>
     </form>
 </main>
 {{>store/common/store_footer}}
 
-<script>
-    const createStoreBtn = document.querySelector('#create-btn');
-    createStoreBtn.addEventListener('click', function (){
-        window.alert('생성버튼눌림?');
-        // store 객체 생성
-        const store = {
-            owner: {
-                ownerIdx: document.querySelector("#ownerIdx").value
-            },
-            storeName: document.querySelector("#inputStoreName").value,
-            storeCategory: document.querySelector("#inputStoreCategory").value,
-            storeBasicAddr: document.querySelector("#inputStoreBasicAddr").value,
-            storeDetailAddr: document.querySelector("#inputStoreDetailAddr").value,
-            storeLat: document.querySelector("#lat").value,
-            storeLng: document.querySelector("#lng").value,
-            storeTel: document.querySelector("#inputStoreTel").value
-        }
-        console.log(JSON.stringify(store));
-
-        // fetch
-        const url = "/api/store/create";
-        alert(store.storeIdx);
-        fetch(url, {
-            method: "POST",
-            body: JSON.stringify(store),
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        }).then(response => {
-            const msg = (response.ok) ? "생성 성공" : "생성 실패!!";
-            alert(msg);
-            location.href="";
-        });
-    });
-</script>
-<!--Store addr search JS-->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    function sample4_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample4_postcode').value = data.zonecode; // 우편번호
-                document.getElementById("inputStoreBasicAddr").value = roadAddr; // 도로명 주소
-                document.getElementById("sample4_jibunAddress").value = data.jibunAddress; // 지번 주소
-
-                var jibun = document.getElementById('sample4_jibunAddress').value;
-                $.ajax({
-                    url: 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURIComponent(`${jibun}`),
-                    type: 'GET',
-                    headers: {'Authorization': 'KakaoAK 22e00e7447c5306d5873193d9373f549'}
-                }).done(function (data2) {
-                    document.getElementById('lat').value = data2.documents[0].y;
-                    document.getElementById('lng').value = data2.documents[0].x;
-                }).fail(function (error) {
-                    alert(JSON.stringify(error));
-                });
-
-                var guideTextBox = document.getElementById("guide");
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if(data.autoRoadAddress) {
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                    guideTextBox.style.display = 'block';
-
-                } else if(data.autoJibunAddress) {
-                    var expJibunAddr = data.autoJibunAddress;
-                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                    guideTextBox.style.display = 'block';
-                } else {
-                    guideTextBox.innerHTML = '';
-                    guideTextBox.style.display = 'none';
-                }
-            }
-        }).open();
-    }
-</script>
