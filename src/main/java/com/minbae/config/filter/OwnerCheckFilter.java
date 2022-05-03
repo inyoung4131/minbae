@@ -25,7 +25,7 @@ public class OwnerCheckFilter implements Filter {
         if(result) {
             result2 = jwtTokenProvider.validateExpTokenForRole(token, "owner");
         }
-        if(result2){
+        if(!result2){
             httpResponse.sendRedirect("/error403");
             return;
         }

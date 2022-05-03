@@ -1,11 +1,11 @@
 {{>store/common/store_header}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div>
-        <h1>가게 명 : {{storeEntity.storeName}}</h1>
+        <h1>가게 명 : </h1>
         <h2 class="h2">우리 가게 메뉴 등록</h2>
     </div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <form action="/post" method="post" enctype="multipart/form-data">
+        <form id="menuForm" method="post" enctype="multipart/form-data">
             <div class="form-group row">
                 <label for="inputFile" class="col-sm-2 col-form-label"><strong>첨부 파일</strong></label>
                 <div class="col-sm-10">
@@ -15,17 +15,106 @@
                     </div>
                 </div>
             </div>
-            <div class="col-auto">
-                <input class="btn btn-primary" type="submit" role="button" value="메뉴등록하기">
+            <div class="col-12">
+                <label for="inputMenuName" class="form-label">메뉴이름</label>
+                <input type="text" class="form-control" id="inputMenuName" value="">
             </div>
+            <div class="col-12">
+                <label for="inputMenuPrice" class="form-label">메뉴가격</label>
+                <input type="text" class="form-control" id="inputMenuPrice" value="">
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    대표메뉴
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="0">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    일반메뉴
+                </label>
+            </div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="button" role="button" value="메뉴등록하기" id="menuCreateBtn">
+            </div>
+
         </form>
     </div>
 </main>
 {{>store/common/store_footer}}
 
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
-    $(".custom-file-input").on("change", function() {
-        var fileName = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-    });
+    var main = {
+        init: function () {
+            var _this = this;
+
+            $('#menuCreateBtn').on('click', function () {
+                window.alert('menuCreateBtn 눌림');
+                _this.postsSave();
+            });
+        },
+
+        postsSave : function () {
+            let data = {
+                menuName: $('#inputMenuName').val(),
+                menuPrice: $('#inputMenuPrice').val(),
+                menuKingMenu: $('input:radio[name=flexRadioDefault]:checked').val(),
+                storeIdx:{
+                    storeIdx: "5"
+                }
+            };
+            let form = $('#menuForm')[0];
+            let formData = new FormData(form);
+            formData.append('file', $('#customFile'));
+            formData.append('key', new Blob([JSON.stringify(data)], {type: "application/json"}));
+            console.log(data);
+            console.log(form);
+            console.log(formData);
+
+            $.ajax({
+                type: 'POST',
+                url: '/create/menu',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+            }).done(function () {
+                alert('메뉴가 등록되었습니다.');
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
+    }
+    main.init();
 </script>
+
+<!--
+<script>
+    {
+        const menuCreate = document.querySelector("#menuCreateBtn");
+        menuCreate.addEventListener("click", function () {
+            const menu = {
+                menuName: $('#inputMenuName').val(),
+                menuPrice: $('#inputMenuPrice').val(),
+                menuKingMenu: $('input:radio[name=flexRadioDefault]:checked').val()
+            };
+            alert(JSON.stringify(menu));
+
+            const url = "/create/menu";
+            fetch(url, {
+                method: "post",
+                body: JSON.stringify(menu),
+                headers: {
+                    "Content-Type" : "application/json"
+                }
+            }).then(response => {
+                const msg = (response.ok) ? "메뉴 등록 성공" : "메뉴 등록 실패!!";
+                alert(msg);
+            });
+        });
+    }
+
+</script>-->

@@ -37,24 +37,11 @@
     var main = {
         init: function () {
             var _this = this;
-            $('#logincheck').on('click',function (){
-                _this.logincheck();
-            }),
+
             $('#testlogin').on('click', function () {
                 window.alert('testlogin버튼 눌림')
                 _this.save();
             });
-        },
-        logincheck : function(){
-
-            $.ajax({
-                type:"GET",
-                url:"/test/check/User",
-                headers : {'user-token':window.sessionStorage.getItem("token")}
-            }).done(function(data){
-                window.alert(data);
-            });
-
         }
         ,
         save: function () {
@@ -63,7 +50,6 @@
                 email: $('#email').val(),
                 pwd: $('#pwd').val()
             };
-            //var test=SetsetS;
 
             $.ajax({
                 type: 'GET',
@@ -72,8 +58,13 @@
             }).done(function (loginval) {
                 if(loginval.status.valueOf()=="SUCCESS"){
                     window.sessionStorage.setItem("token",loginval.data);
+                    window.sessionStorage.setItem("memberData",loginval.memberData);
                 }
                 alert('로그인 완료');
+                $.ajax({
+                    url: '/owner/store/main',
+                    headers: { 'user-token': sessionStorage.getItem("token") }
+                });
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
