@@ -1,9 +1,40 @@
 <div id="header_addr">
-    <span>사용자 주소</span>
+    <div id="detailAddr"></div>
     <span>알림</span>
     <span>my</span>
+    <div id="map" style="width:350px;height:350px;position:relative;overflow:hidden;"></div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240&libraries=services"></script>
 <script>
+    var mem = window.sessionStorage.getItem("memberData");
 
+    var latlng = 0;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var lat = position.coords.latitude+"000001",
+                    lon = position.coords.longitude+"000001";
+            latlng = new kakao.maps.LatLng(lat, lon);
+            searchDetailAddrFromCoords(latlng, function(result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    var detailAddr = !!result[0].road_address ? result[0].road_address.address_name : '';
+                    var detailAddr2 = result[0].address.address_name;
+                    if(detailAddr!=''){
+                        $(`#detailAddr`).text(12345);
+                    }else if(detailAddr2!=undefined){
+                        $(`#detailAddr`).text(detailAddr2);
+                    }
+                }
+            });
+        });
+
+        var geocoder = new kakao.maps.services.Geocoder();
+
+
+        function searchDetailAddrFromCoords(coords, callback) {
+            geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+        }
+
+    }
 </script>

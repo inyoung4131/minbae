@@ -50,5 +50,4 @@ public class StoreDetail {
     @Column(name="store_detail_take_out_discount")
     private int storeDetailTakeOutDiscount;
 
-
 }
