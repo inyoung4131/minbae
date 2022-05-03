@@ -90,31 +90,3 @@
     }
     main.init();
 </script>
-
-<!--
-<script>
-    {
-        const menuCreate = document.querySelector("#menuCreateBtn");
-        menuCreate.addEventListener("click", function () {
-            const menu = {
-                menuName: $('#inputMenuName').val(),
-                menuPrice: $('#inputMenuPrice').val(),
-                menuKingMenu: $('input:radio[name=flexRadioDefault]:checked').val()
-            };
-            alert(JSON.stringify(menu));
-
-            const url = "/create/menu";
-            fetch(url, {
-                method: "post",
-                body: JSON.stringify(menu),
-                headers: {
-                    "Content-Type" : "application/json"
-                }
-            }).then(response => {
-                const msg = (response.ok) ? "메뉴 등록 성공" : "메뉴 등록 실패!!";
-                alert(msg);
-            });
-        });
-    }
-
-</script>-->
