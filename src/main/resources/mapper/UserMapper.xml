@@ -4,7 +4,7 @@
 
 <mapper namespace="com.minbae.user.dao.UserMapper">
 
-    <select id="findStoreByCategory" resultType="hashmap">
+    <select id="findStoreByCategoryOrder" resultType="hashmap">
         SELECT
             count(*) AS orderCnt, s.*, sd.*
         FROM trade_history th
@@ -17,16 +17,57 @@
 
     <select id="findStoreByNotInIdxs" resultType="hashmap">
         select
-            s.*, sd.*
+        s.*, sd.*
+        from store s
+        left join store_detail sd on s.store_idx = sd.store_idx
+        where
+            <if test="idxs.size() != 0">
+                s.store_idx not in (
+                <foreach collection="idxs" item="item" separator=",">
+                    #{item}
+                </foreach>
+                )
+                and
+            </if>
+
+            s.store_category = #{category};
+    </select>
+
+    <select id="findStoreByCategoryStar" resultType="hashMap">
+        select
+            sum(review_star) starCnt, s.*, sd.*
+        from review
+                 left join store s on s.store_idx = review.store_idx
+                 left join store_detail sd on s.store_idx = sd.store_idx
+        where s.store_category = #{categoryEn}
+        group by s.store_idx
+        order by starCnt desc
+    </select>
+
+    <select id="findStoreById" resultType="hashMap">
+        select
+            s.*, sd.*, truncate(avg(review_star), 1) starSum
         from store s
                  left join store_detail sd on s.store_idx = sd.store_idx
-        where
-            s.store_idx not in
-                <foreach collection="idxs" item="item" open="(" separator="," close=")">
-                 #{item}
-                </foreach>
-          and
-            s.store_category = #{category};
+                 left join review r on s.store_idx = r.store_idx
+        where s.store_idx = #{store_idx}
+        group by s.store_idx
+    </select>
+
+    <select id="findReviewByCount" resultType="hashMap">
+        select
+            count(review_comment) commentCnt, count(review_reply) replyCnt
+        from
+            review
+        where store_idx = #{store_idx}
+    </select>
+
+    <select id="findReviewBykingMenu" resultType="hashMap">
+        select
+            *
+        from menu
+        where store_idx = #{store_idx} and menu_king_menu = 1
+        order by menu_sunbun
     </select>
 
 </mapper>

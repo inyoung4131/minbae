@@ -20,9 +20,9 @@ public class Flag {
     @JoinColumn(name="store_idx")
     private Store storeIdx;
     @Column(name="flag_lat")
-    private int flagLat;
+    private double flagLat;
     @Column(name="flag_lng")
-    private int flagLng;
+    private double flagLng;
     @Column(name="flag_start_date")
     private LocalDateTime flagStartDate;
 }
