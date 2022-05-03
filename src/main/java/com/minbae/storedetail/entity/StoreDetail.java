@@ -36,7 +36,6 @@ public class StoreDetail {
 
     @ColumnDefault("blank")
     @Column(name="store_detail_menu_text")
-    @ColumnDefault("")
     private String storeDetailMenuText;
 
     @Column(name="store_detail_info_text")
@@ -50,6 +49,5 @@ public class StoreDetail {
 
     @Column(name="store_detail_take_out_discount")
     private int storeDetailTakeOutDiscount;
-
 
 }

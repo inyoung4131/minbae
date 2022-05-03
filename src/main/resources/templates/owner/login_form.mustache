@@ -40,34 +40,11 @@
     var main = {
         init: function () {
             var _this = this;
-<<<<<<< HEAD
-            $('#logincheck').on('click', function () {
-                _this.logincheck();
-            }),
-                    $('#testlogin').on('click', function () {
-                        window.alert('testlogin버튼 눌림')
-                        _this.save();
-                    });
-        },
-        logincheck: function () {
-
-            $.ajax({
-                type: "GET",
-                url: "/test/check/User",
-                headers: {'user-token': window.sessionStorage.getItem("token")}
-            }).done(function (data) {
-                window.alert(data);
-            });
-
-=======
-
             $('#testlogin').on('click', function () {
                 window.alert('testlogin버튼 눌림')
                 _this.save();
             });
->>>>>>> 61bb1d3cb27ea89b414221ae722abdcc0d26b63f
-        }
-        ,
+        },
         save: function () {
 
             var data = {
@@ -87,18 +64,15 @@
                         type: "GET",
                         url: "/owner/store/main",
                         headers: {'user-token': window.sessionStorage.getItem("token")}
-                    }).done(function (){
-                        location.href="/owner/store/main";
+                    }).done(function () {
+                        location.href = "/owner/store/main";
                     });
+                    alert('로그인 완료');
                 }
-                alert('로그인 완료');
-                $.ajax({
-                    url: '/owner/store/main',
-                    headers: { 'user-token': sessionStorage.getItem("token") }
-                });
-            }).fail(function (error) {
-                alert(JSON.stringify(error));
-            });
+            })
+                    .fail(function (error) {
+                        alert(JSON.stringify(error));
+                    });
         }
     };
     main.init();
