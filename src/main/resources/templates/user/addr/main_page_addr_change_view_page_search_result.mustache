@@ -1,0 +1,105 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div>뒤로가기,상세 정보 입력</div>
+<div>
+    <div>{{basic}}</div>
+    <input type="hidden" value="{{basic}}" id="basic">
+    <div>도로명 {{road}}</div>
+    <input type="hidden" value="{{road}}" id="road">
+    <div><input type="text" placeholder="상세 주소 입력" id="detail_addr"></div>
+    <div><input type='checkbox'
+                name='category'
+                value='우리집'
+                onclick='checkOnlyOne(this,event)'/> 우리 집
+        <br/>
+        <input type='checkbox'
+               name='category'
+               value='회사'
+               onclick='checkOnlyOne(this,event)'/> 회사
+        <br/>
+        <input type='checkbox'
+               name='category'
+               value='기타'
+               onclick='checkOnlyOne(this,event)'/> 기타
+    </div>
+    <div>별칭을 입력해주세요 <input type="text" id="alias"></div>
+    <div>지도에서 위치 확인</div>
+    <div><input type="button" value="완료" onclick="process_end()"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    let category = '';
+
+    function checkOnlyOne(element, event) {
+        const checkboxes
+                = document.getElementsByName("category");
+        checkboxes.forEach((cb) => {
+            cb.checked = false;
+        })
+        element.checked = true;
+        if (event.target.checked) {
+            category = event.target.value;
+        } else {
+            category = '';
+        }
+    }
+
+    function process_end() {
+        if (window.localStorage.getItem("used_addr") != null && window.localStorage.getItem("used_addr") != undefined) {
+
+            var mem = JSON.parse(window.localStorage.getItem("used_addr"));
+            var arr =
+                    {
+                        "basic": $('#basic').val()
+                        , "road": $('#road').val()
+                        , "detail": $('#detail_addr').val()
+                        , "category": category
+                        , "alias": $('#alias').val()
+                    };
+            mem.push(arr);
+            mem = JSON.stringify(mem);
+            window.localStorage.setItem("used_addr", mem);
+            location.href = "/user/main/addr/main";
+        } else {
+            var mem = [];
+            var arr =
+                    {
+                        "basic": $('#basic').val()
+                        , "road": $('#road').val()
+                        , "detail": $('#detail_addr').val()
+                        , "category": category
+                        , "alias": $('#alias').val()
+                    };
+            mem.push(arr);
+            mem = JSON.stringify(mem);
+            window.localStorage.setItem("used_addr", mem);
+            if (window.sessionStorage.getItem("memberData") != null) {
+                var data={
+                    userIdx: JSON.parse(window.sessionStorage.getItem("memberData"))[0].userIdx,
+                    userBasicAddr: $('#road').val(),
+                    userDetailAddr: $('#detail_addr').val()
+                };
+                $.ajax({
+                    type: 'PUT',
+                    url: '/user/main/addr/change',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data)
+                }).done(function () {
+                    location.href = "/user/main/addr/main";
+                })
+                ;
+            }
+        }
+    }
+</script>
+</body>
+</html>

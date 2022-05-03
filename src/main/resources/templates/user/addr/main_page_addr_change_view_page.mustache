@@ -21,30 +21,36 @@
 </div>
 
 
-
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
 
     $(`#edit_div`).on('click', function () {
-        location.href = "/user/search/addr/edit";
+        location.href = "/user/main/addr/edit";
     });
     $('#searchText').on('click', function () {
-        location.href = "/user/search/addr/search";
+        location.href = "/user/main/addr/search";
     });
 
-    var usedAddr = window.localStorage.getItem("usedAddr");
-    if (usedAddr != null) {
-        var div = document.createElement("div");
-        var div1 = document.createElement('div');
-        var div2 = document.createElement('div');
-        var div3 = document.createElement('div');
-        div1.innerText="이미지 넣을 예정";
-        div2.innerText=usedAddr;
-        div3.innerText="도로명 주소 + 상세주소 넣을 예정";
-        div.append(div1);
-        div.append(div2);
-        div.append(div3);
-        $('#usedAddrDiv').append(div);
+    var usedAddr = window.localStorage.getItem("used_addr");
+    if (usedAddr != null && usedAddr != 0) {
+        usedAddr = JSON.parse(usedAddr);
+        for (var i = 0; i < usedAddr.length + 1; i++) {
+            var div = document.createElement("div");
+            var div1 = document.createElement('div');
+            var div2 = document.createElement('div');
+            var div3 = document.createElement('div');
+            div1.innerText = usedAddr[i].category+"이미지 넣을 예정";
+            if (!usedAddr[i].alias) {
+                div2.innerText = usedAddr[i].basic;
+            } else {
+                div2.innerText = "별칭:"+usedAddr[i].alias;
+            }
+            div3.innerText = usedAddr[i].road;
+            div.append(div1);
+            div.append(div2);
+            div.append(div3);
+            $('#usedAddrDiv').append(div);
+        }
     } else {
 
     }

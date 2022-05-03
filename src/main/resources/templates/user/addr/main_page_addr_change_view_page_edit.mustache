@@ -21,8 +21,8 @@
     </style>
 </head>
 <body>
-<a class="back" id="back" href="/user/search/main/addr">뒤로가기</a>
-<div>우리집 추가</div>
+<a class="back" id="back" href="/user/main/addr/main">뒤로가기</a>
+<div id="add_my_home">우리집 추가</div>
 <div>회사 추가</div>
 <div id="usedAddrDiv">
 </div>
@@ -30,15 +30,19 @@
 <script>
 
     $(`#edit_div`).on('click', function () {
-        location.href = "/user/search/addr/edit";
+        location.href = "/user/main/addr/edit";
     });
     $('#searchText').on('click', function () {
-        location.href = "/user/search/addr/search";
+        location.href = "/user/main/addr/search";
+    });
+    $('#add_my_home').on('click', function () {
+        location.href = "/user/main/addr/search";
     });
 
     var usedAddr = window.localStorage.getItem("usedAddr");
     if (usedAddr != null) {
         var div = document.createElement("div");
+        var form = document.createElement("form");
         var div1 = document.createElement('div');
         var div2 = document.createElement('div');
         var div3 = document.createElement('div');
@@ -46,9 +50,12 @@
         div1.innerText="이미지 넣을 예정";
         div2.innerText=usedAddr;
         div3.innerText="도로명 주소 + 상세주소 넣을 예정";
-        div.append(div1);
-        div.append(div2);
-        div.append(div3);
+        div4.innerHTML=`<input type="button" value="수정" id="deleteButton"><input type="button" value="삭제" id="updateButton">`
+        form.append(div1);
+        form.append(div2);
+        form.append(div3);
+        form.append(div4);
+        div.append(form);
         $('#usedAddrDiv').append(div);
     } else {
 
