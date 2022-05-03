@@ -26,6 +26,7 @@ public class OwnerCheckFilter extends OncePerRequestFilter {
         }
         if (!result2) {
             response.sendRedirect("/error403");
+
             return;
         }
 

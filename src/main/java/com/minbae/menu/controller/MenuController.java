@@ -35,6 +35,6 @@ public class MenuController {
     @GetMapping("/owne/menu/create/{storeIdx}")
     public String menuCreate(@PathVariable Long storeIdx, Model model){
         model.addAttribute("storeIdx",storeIdx);
-        return "/menu/menu_create_for";
+        return "/menu/menu_create_form";
     }
 }

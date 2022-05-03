@@ -21,9 +21,11 @@ public class Flag {
     @JoinColumn(name="store_idx")
     private Store storeIdx;
     @Column(name="flag_lat")
+
     private Double flagLat;
     @Column(name="flag_lng")
     private Double flagLng;
+    
     @Column(name="flag_start_date")
     private LocalDateTime flagStartDate;
 

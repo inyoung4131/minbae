@@ -31,7 +31,7 @@ public class StoreController {
     // 가게 등록 페이지 이동
     @GetMapping("/owne/createStore")
     public String goCreateStorePage(){
-        return "store/create_store";
+        return "store/create_store_new";
     }
 
     // 특정 사장님의 가게 목록 조회

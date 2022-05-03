@@ -40,6 +40,7 @@
     var main = {
         init: function () {
             var _this = this;
+<<<<<<< HEAD
             $('#logincheck').on('click', function () {
                 _this.logincheck();
             }),
@@ -58,6 +59,13 @@
                 window.alert(data);
             });
 
+=======
+
+            $('#testlogin').on('click', function () {
+                window.alert('testlogin버튼 눌림')
+                _this.save();
+            });
+>>>>>>> 61bb1d3cb27ea89b414221ae722abdcc0d26b63f
         }
         ,
         save: function () {
@@ -66,7 +74,6 @@
                 email: $('#email').val(),
                 pwd: $('#pwd').val()
             };
-            //var test=SetsetS;
 
             $.ajax({
                 type: 'GET',
@@ -85,6 +92,10 @@
                     });
                 }
                 alert('로그인 완료');
+                $.ajax({
+                    url: '/owner/store/main',
+                    headers: { 'user-token': sessionStorage.getItem("token") }
+                });
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });

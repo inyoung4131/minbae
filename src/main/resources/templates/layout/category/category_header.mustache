@@ -10,22 +10,22 @@
 <body>
 <div>
     <a href="/"><-</a>
-    {{category}}
+    {{categoryKo}}
 </div>
 
 <div>
-    <a href="#">돈가스|회|일식</a>
-    <a href="#">치킨</a>
-    <a href="#">중국집</a>
-    <a href="#">분식</a>
-    <a href="#">피자</a>
-    <a href="#">카페|디저트</a>
+    <a href="/user/category/click/돈가스|회|일식/JAPANESEFOOD">돈가스|회|일식</a>
+    <a href="/user/category/click/치킨/CHICKEN">치킨</a>
+    <a href="/user/category/click/중국집/CHINESEFOOD">중국집</a>
+    <a href="/user/category/click/분식/BUNSIK">분식</a>
+    <a href="/user/category/click/피자/PIZZA">피자</a>
+    <a href="/user/category/click/카페|디저트/DESSERT">카페|디저트</a>
 </div>
 <hr>
 <div>
-    <a href="#">주문많은수</a>
+    <a href="/user/store/{{categoryKo}}/{{categoryEn}}/order">주문많은순</a>
     <a href="#">기본순</a>
-    <a href="#">별점많은순</a>
+    <a href="/user/store/{{categoryKo}}/{{categoryEn}}/star">별점많은순</a>
 </div>
 </body>
 </html>

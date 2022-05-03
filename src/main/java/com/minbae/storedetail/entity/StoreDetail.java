@@ -5,10 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +34,7 @@ public class StoreDetail {
     @Column(nullable = false,name="store_detail_deliver_price")
     private int storeDetailDeliverPrice;
 
+    @ColumnDefault("blank")
     @Column(name="store_detail_menu_text")
     @ColumnDefault("")
     private String storeDetailMenuText;

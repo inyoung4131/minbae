@@ -2,6 +2,7 @@ package com.minbae.menu.entity;
 
 
 import com.minbae.store.entity.Store;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Menu {
 
@@ -29,5 +31,11 @@ public class Menu {
 
     @Column(name="menu_img")
     private String menuImg;
+
+    @Column(name="menu_king_menu")
+    private int menuKingMenu;
+
+    @Column(name="menu_sunbun")
+    private int menuSunbun;
 
 }
