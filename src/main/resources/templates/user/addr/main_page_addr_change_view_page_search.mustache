@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div>
+    <div>주소설정</div>
+    <div id="edit_div" class="edit">편집(사용된주소 삭제,우리집 추가)</div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(`#edit_div`).on('click',function (){
+            location.href="/user/search/addr/edit";
+        });
+    </script>
+    <div><input type="text" placeholder="지번, 도로명, 건물명으로 검색"></div>
+    <div>현재위치로 설정 ></div>
+</div>
+<div>우리집 추가</div>
+
+<div> <!--사용된 주소 처리-->
+    <div>
+        <div class="">지번주소</div>
+        <div class="">지번주소+상세주소</div>
+    </div>
+</div>
+
+</body>
+</html>

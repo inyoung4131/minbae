@@ -1,0 +1,53 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+
+</head>
+<body>
+<div>
+    <div>주소설정</div>
+    <div id="edit_div" class="edit">편집(사용된주소 삭제,우리집 추가)</div>
+    <div><input type="text" id="searchText" placeholder="지번, 도로명, 건물명으로 검색"></div>
+    <div>현재위치로 설정 ></div>
+</div>
+<div>우리집 추가</div>
+
+<div id="usedAddrDiv">
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+
+    $(`#edit_div`).on('click', function () {
+        location.href = "/user/search/addr/edit";
+    });
+    $('#searchText').on('click', function () {
+        location.href = "/user/search/addr/search";
+    });
+
+    var usedAddr = window.localStorage.getItem("usedAddr");
+    if (usedAddr != null) {
+        var div = document.createElement("div");
+        var div1 = document.createElement('div');
+        var div2 = document.createElement('div');
+        var div3 = document.createElement('div');
+        div1.innerText="이미지 넣을 예정";
+        div2.innerText=usedAddr;
+        div3.innerText="도로명 주소 + 상세주소 넣을 예정";
+        div.append(div1);
+        div.append(div2);
+        div.append(div3);
+        $('#usedAddrDiv').append(div);
+    } else {
+
+    }
+</script>
+</body>
+</html>
