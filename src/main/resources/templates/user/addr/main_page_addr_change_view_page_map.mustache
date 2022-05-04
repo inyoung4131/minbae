@@ -1,0 +1,133 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #head_div {
+            text-align: center;
+            font-size: 23px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        #back {
+            display: inline-block;
+            float: left;
+        }
+
+        #map {
+            margin: auto;
+        }
+
+        #selectedDiv {
+            height: 50px;
+        }
+
+        button {
+
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div id="head_div"><span id="back"> <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" width="30px"> </span>
+    지도에서 위치 확인
+</div>
+<div id="map_parent">
+    <div id="map" style="width:385px;height:385px;"></div>
+</div>
+<div id="selectedDiv"></div>
+<div class="container">
+    <div class="row">
+        <div class="col"><input type="button" id="submit_button" value="이 위치로 주소 설정" class="btn btn-info"></div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240&libraries=services"></script>
+<script>
+    $('#back').on('click', function () {
+        location.href = "/user/main/addr/main";
+    })
+    var basic_addr = '';
+    var road_addr = '';
+    $('#submit_button').on('click', function () {
+        location.href = "/user/main/addr/search/result?basic=" + basic_addr + "&road=" + road_addr;
+    })
+
+    var latlng = 0;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            let lat = position.coords.latitude,
+                    lng = position.coords.longitude;
+
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            var container = document.getElementById('map');
+            var options = {
+                center: new kakao.maps.LatLng(lat, lng),
+                level: 3
+            };
+            var map = new kakao.maps.Map(container, options);
+            var markerPosition = new kakao.maps.LatLng(lat, lng);
+
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+
+            marker.setMap(map);
+            var iwContent = '<div style="padding:3px;"> 지도를 움직여 위치를 선택하세요. </div>',
+                    iwPosition = new kakao.maps.LatLng(lat, lng);
+
+            var infowindow = new kakao.maps.InfoWindow({
+                position: iwPosition,
+                content: iwContent
+            });
+            infowindow.open(map, marker);
+            kakao.maps.event.addListener(map, 'dragstart', function () {
+                infowindow.close();
+            });
+            kakao.maps.event.addListener(map, 'drag', function () {
+                var latlng = map.getCenter();
+                marker.setPosition(latlng);
+            });
+            kakao.maps.event.addListener(map, 'dragend', function () {
+                var latlng2 = new kakao.maps.LatLng(map.getCenter().getLat(), map.getCenter().getLng());
+                searchDetailAddrFromCoords(latlng2, function (result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        basic_addr = result[0].address.address_name;
+                        road_addr = !!result[0].road_address ? result[0].road_address.address_name : '';
+                        var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+                        detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+                        document.getElementById('selectedDiv').innerHTML = detailAddr;
+                    }
+                });
+            });
+            kakao.maps.event.addListener(map, 'tilesloaded', function () {
+                var latlng2 = new kakao.maps.LatLng(map.getCenter().getLat(), map.getCenter().getLng());
+                searchDetailAddrFromCoords(latlng2, function (result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        basic_addr = result[0].address.address_name;
+                        road_addr = !!result[0].road_address ? result[0].road_address.address_name : '';
+                        var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+                        detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+                        document.getElementById('selectedDiv').innerHTML = detailAddr;
+                    }
+                });
+            });
+
+            function searchDetailAddrFromCoords(coords, callback) {
+                geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+            }
+        });
+
+
+    }
+</script>
+
+
+</body>
+</html>

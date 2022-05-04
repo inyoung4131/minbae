@@ -6,16 +6,90 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
+    <style>
+        #head_div {
+            text-align: center;
+        }
 
+        #div1 {
+            text-align: center;
+        }
+
+        h2 {
+            display: inline-block;
+            margin: auto;
+        }
+
+        #edit_div {
+            display: inline-flex;
+            float: right;
+        }
+
+        #map_div {
+            display: inline-flex;
+            float: right;
+        }
+
+        #head_div::after {
+
+            content: '';
+
+            display: block;
+
+            clear: both;
+        }
+
+        .print_addr_div1 {
+
+            display: inline-block;
+            float: left;
+        }
+
+        #search_div_img {
+            display: inline-block;
+            float: left;
+        }
+
+        #search_div_text {
+            font-size: 17px;
+            font-weight: 600;
+            height: 45px;
+        }
+
+        #search_div::after {
+
+            content: '';
+
+            display: block;
+
+            clear: both;
+        }
+        #search_div {
+            margin-bottom: 15px;
+        }
+        #searchText{
+            width: 350px;
+            height: 30px;
+            background-image : url('https://i.esdrop.com/d/f/3IfGDhTdT6/RYx4YRFC33.png');
+            background-size: 25px;
+            background-position:top left;
+            background-repeat:no-repeat;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <div>주소설정</div>
-    <div id="edit_div" class="edit">편집(사용된주소 삭제,우리집 추가)</div>
-    <div><input type="text" id="searchText" placeholder="지번, 도로명, 건물명으로 검색"></div>
-    <div>현재위치로 설정 ></div>
+<div id="head_div">
+    <div id="div1">
+        <h2>   주소설정</h2>
+        <div id="edit_div" class="edit">편집</div>
+    </div>
+    <div><input type="text" id="searchText" placeholder="     지번, 도로명, 건물명으로 검색"></div>
+    <div id="map_div">현재위치로 설정 <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/P5RseXa9Zc.png" width="25px"></div>
 </div>
-<div>우리집 추가</div>
+<div id="search_div">
+    <div id="search_div_img"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/hGUy0zCtd6.png" width="45px"></div>
+    <div id="search_div_text">우리집 추가</div>
+</div>
 
 <div id="usedAddrDiv">
 </div>
@@ -23,32 +97,52 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
-
+    $('#search_div').on('click', function () {
+        location.href = "/user/main/addr/search";
+    });
     $(`#edit_div`).on('click', function () {
         location.href = "/user/main/addr/edit";
     });
     $('#searchText').on('click', function () {
         location.href = "/user/main/addr/search";
     });
-
+    $(`#map_div`).on('click', function () {
+        location.href = "/user/main/addr/map";
+    });
     var usedAddr = window.localStorage.getItem("used_addr");
     if (usedAddr != null && usedAddr != 0) {
         usedAddr = JSON.parse(usedAddr);
         for (var i = 0; i < usedAddr.length + 1; i++) {
             var div = document.createElement("div");
+            div.className = "print_addr_div";
+            var form_addr = document.createElement('form');
             var div1 = document.createElement('div');
+            div1.className = "print_addr_div1";
             var div2 = document.createElement('div');
+            div2.className = "print_addr_div2";
             var div3 = document.createElement('div');
-            div1.innerText = usedAddr[i].category+"이미지 넣을 예정";
+            div3.className = "print_addr_div3";
+            var img_src = 'https://i.esdrop.com/d/f/3IfGDhTdT6/4o3p2lIHAv.png';
+            if (usedAddr[i].category == "우리집") {
+                img_src = 'https://i.esdrop.com/d/f/3IfGDhTdT6/hGUy0zCtd6.png';
+            } else if (usedAddr[i].category == "회사") {
+                img_src = 'https://i.esdrop.com/d/f/3IfGDhTdT6/NrokZW9D3i.png';
+            }
+            var img_cate = document.createElement('img');
+            img_cate.setAttribute("src", img_src);
+            img_cate.setAttribute("width", "45px");
+            div1.append(img_cate);
+
             if (!usedAddr[i].alias) {
                 div2.innerText = usedAddr[i].basic;
             } else {
-                div2.innerText = "별칭:"+usedAddr[i].alias;
+                div2.innerText = "별칭:" + usedAddr[i].alias;
             }
             div3.innerText = usedAddr[i].road;
-            div.append(div1);
-            div.append(div2);
-            div.append(div3);
+            form_addr.append(div1);
+            form_addr.append(div2);
+            form_addr.append(div3);
+            div.append(form_addr);
             $('#usedAddrDiv').append(div);
         }
     } else {

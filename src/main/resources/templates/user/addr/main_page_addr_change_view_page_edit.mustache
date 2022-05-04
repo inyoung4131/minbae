@@ -18,14 +18,83 @@
                 transform: translateX(0%);
             }
         }
+        #head_div{
+            text-align: center;
+            font-weight: 600;
+            font-size:22px;
+        }
+        #back{
+            display: inline-block;
+            float: left;
+        }
+        #head_div::after {
+
+            content: '';
+
+            display: block;
+
+            clear: both;
+        }
+        #search_div_img {
+            display: inline-block;
+            float: left;
+        }
+
+        #search_div_text {
+            font-size: 17px;
+            font-weight: 600;
+            height: 45px;
+        }
+
+        #search_div::after {
+
+            content: '';
+
+            display: block;
+
+            clear: both;
+        }
+        #search_div {
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+        .print_addr_div1 {
+
+            display: inline-block;
+            float: left;
+        }
     </style>
+
 </head>
 <body>
-<a class="back" id="back" href="/user/main/addr/main">뒤로가기</a>
-<div id="add_my_home">우리집 추가</div>
-<div>회사 추가</div>
+<script>
+
+    function deleteAddr(addr_form){
+        let count=addr_form.id;
+        alert(count);
+        usedAddr.splice(count,1);
+        alert(count);
+        usedAddr=JSON.stringify(usedAddr);
+        window.localStorage.setItem("used_addr",usedAddr);
+        location.reload();
+    };
+
+</script>
+
+<div id="head_div"><span id="back"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" width="30px"></span> 편집 </div>
+
+
+<div id="search_div">
+    <div id="search_div_img"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/hGUy0zCtd6.png" width="45px"></div>
+    <div id="search_div_text">우리집 추가</div>
+</div>
+<div id="search_div">
+    <div id="search_div_img"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/NrokZW9D3i.png" width="45px"></div>
+    <div id="search_div_text">회사 추가</div>
+</div>
 <div id="usedAddrDiv">
 </div>
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
 
@@ -35,28 +104,95 @@
     $('#searchText').on('click', function () {
         location.href = "/user/main/addr/search";
     });
-    $('#add_my_home').on('click', function () {
+    $('#search_div_text').on('click', function () {
         location.href = "/user/main/addr/search";
     });
+    $('#back').on('click',function (){
+        location.href = "/user/main/addr/main";
+    })
 
-    var usedAddr = window.localStorage.getItem("usedAddr");
-    if (usedAddr != null) {
-        var div = document.createElement("div");
-        var form = document.createElement("form");
-        var div1 = document.createElement('div');
-        var div2 = document.createElement('div');
-        var div3 = document.createElement('div');
-        var div4 = document.createElement('div');
-        div1.innerText="이미지 넣을 예정";
-        div2.innerText=usedAddr;
-        div3.innerText="도로명 주소 + 상세주소 넣을 예정";
-        div4.innerHTML=`<input type="button" value="수정" id="deleteButton"><input type="button" value="삭제" id="updateButton">`
-        form.append(div1);
-        form.append(div2);
-        form.append(div3);
-        form.append(div4);
-        div.append(form);
-        $('#usedAddrDiv').append(div);
+
+    var usedAddr = window.localStorage.getItem("used_addr");
+    if (usedAddr != null && usedAddr != 0) {
+        usedAddr = JSON.parse(usedAddr);
+        for (var i = 0; i < usedAddr.length + 1; i++) {
+            var div = document.createElement("div");
+            div.className = "print_addr_div";
+            var form_addr = document.createElement('form');
+            form_addr.id=i;
+            var div1 = document.createElement('div');
+            div1.className = "print_addr_div1";
+            var div2 = document.createElement('div');
+            div2.className = "print_addr_div2";
+            var div3 = document.createElement('div');
+            div3.className = "print_addr_div3";
+            var div4 = document.createElement('div');
+            div4.className = "print_addr_div4";
+            var input1 = document.createElement('input');
+            var input2 = document.createElement('input');
+            input1.setAttribute("type", "button");
+            input1.setAttribute("onclick", "updateAddr(this.form)");
+            input1.setAttribute("value", "수정");
+            input2.setAttribute("type", "button");
+            input2.setAttribute("onmousedown", "deleteAddr(this.form)");
+            input2.setAttribute("value", "삭제");
+            div4.append(input1);
+            div4.append(input2);
+
+            var img_src = 'https://i.esdrop.com/d/f/3IfGDhTdT6/4o3p2lIHAv.png';
+            if (usedAddr[i].category == "우리집") {
+                img_src = 'https://i.esdrop.com/d/f/3IfGDhTdT6/hGUy0zCtd6.png';
+            } else if (usedAddr[i].category == "회사") {
+                img_src = 'https://i.esdrop.com/d/f/3IfGDhTdT6/NrokZW9D3i.png';
+            }
+            var img_cate = document.createElement('img');
+            img_cate.setAttribute("src", img_src);
+            img_cate.setAttribute("width", "45px");
+            div1.append(img_cate);
+
+            if (!usedAddr[i].alias) {
+                div2.innerText = usedAddr[i].basic;
+            } else {
+                div2.innerText = "별칭:" + usedAddr[i].alias;
+            }
+            div3.innerText = usedAddr[i].road;
+            form_addr.append(div1);
+            form_addr.append(div2);
+            form_addr.append(div3);
+            form_addr.append(div4);
+            div.append(form_addr);
+            $('#usedAddrDiv').append(div);
+            // var div = document.createElement("div");
+            // var form_addr = document.createElement('form');
+            // form_addr.id=i;
+            // var div1 = document.createElement('div');
+            // var div2 = document.createElement('div');
+            // var div3 = document.createElement('div');
+            // var div4 = document.createElement('div');
+            // var input1 = document.createElement('input');
+            // var input2 = document.createElement('input');
+            // input1.setAttribute("type", "button");
+            // input1.setAttribute("onclick", "updateAddr(this.form)");
+            // input1.setAttribute("value", "수정");
+            // input2.setAttribute("type", "button");
+            // input2.setAttribute("onmousedown", "deleteAddr(this.form)");
+            // input2.setAttribute("value", "삭제");
+            // div4.append(input1);
+            // div4.append(input2);
+            // div1.innerText = usedAddr[i].category+"이미지 넣을 예정";
+            // if (!usedAddr[i].alias) {
+            //     div2.innerText = usedAddr[i].basic;
+            // } else {
+            //     div2.innerText = "별칭:"+usedAddr[i].alias;
+            // }
+            // div3.innerText = usedAddr[i].road;
+            // form_addr.append(div1);
+            // form_addr.append(div2);
+            // form_addr.append(div3);
+            // form_addr.append(div4);
+            // div.append(form_addr);
+            // $('#usedAddrDiv').append(div);
+        }
     } else {
 
     }

@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<div>뒤로가기,상세 정보 입력</div>
+<div><span id="back"> <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" width="45px"> </span>상세 정보 입력</div>
 <div>
     <div>{{basic}}</div>
     <input type="hidden" value="{{basic}}" id="basic">
@@ -36,6 +36,9 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
+    $('#back').on('click',function (){
+        location.href = "/user/main/addr/search";
+    })
     let category = '';
 
     function checkOnlyOne(element, event) {
