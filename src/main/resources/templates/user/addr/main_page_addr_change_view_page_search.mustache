@@ -1,0 +1,46 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body onload="open_search_page()">
+
+
+<div id="back"> <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" width="45px"> 편집 </div>
+<div id="addr_print_div" style="border:1px solid;width:390px;height:420px;margin:5px 0;position:relative"></div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+    $('#back').on('click',function (){
+        location.href = "/user/main/addr/main";
+    });
+
+    var basic_addr = '';
+    var road_addr = '';
+
+    function open_search_page() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                basic_addr = data.jibunAddress;
+                road_addr = data.roadAddress;
+            },
+            onresize : function(size) {
+                element_wrap.style.height = size.height+'px';
+            },
+            onclose: function(state) {
+                if(state === 'COMPLETE_CLOSE'){
+                    location.href="/user/main/addr/search/result?basic="+basic_addr+"&road="+road_addr;
+                }
+                },
+            width : '100%',
+            height : '100%'
+        }).embed(document.getElementById("addr_print_div"));
+
+    }
+</script>
+</body>
+</html>
