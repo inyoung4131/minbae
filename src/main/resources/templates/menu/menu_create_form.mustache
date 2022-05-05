@@ -70,16 +70,13 @@
             let formData = new FormData(form);
             formData.append('file', $('#customFile'));
             formData.append('key', new Blob([JSON.stringify(data)], {type: "application/json"}));
-            console.log(data);
-            console.log(form);
-            console.log(formData);
 
             $.ajax({
                 type: 'POST',
                 url: '/create/menu',
                 data: formData,
                 processData: false,
-                contentType: false,
+                contentType: false
 
             }).done(function () {
                 alert('메뉴가 등록되었습니다.');

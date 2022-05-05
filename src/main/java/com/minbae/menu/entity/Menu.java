@@ -33,9 +33,25 @@ public class Menu {
     private String menuImg;
 
     @Column(name="menu_king_menu")
-    private int menuKingMenu;
+    private Integer menuKingMenu; // 변경됨 ㄱㅊ?
 
     @Column(name="menu_sunbun")
     private int menuSunbun;
 
+    public void addExistImage(Menu existMenu) {
+        if(existMenu.menuImg != null){this.menuImg = existMenu.menuImg;}
+    }
+
+    public void updateNewData(Menu newMenuEntity) {
+        if(newMenuEntity.menuName != null){this.menuName = newMenuEntity.menuName;}
+        if(newMenuEntity.menuPrice != 0){this.menuPrice = newMenuEntity.menuPrice;}
+        if(newMenuEntity.menuImg != null){this.menuImg = newMenuEntity.menuImg;}
+        if(newMenuEntity.menuKingMenu != null){this.menuKingMenu = newMenuEntity.menuKingMenu;}
+        if(newMenuEntity.menuSunbun != 0){this.menuSunbun = newMenuEntity.menuSunbun;}
+
+    }
+
+    public void setMenuImage(String originalFilename) {
+        if(originalFilename != null){this.menuImg = originalFilename;}
+    }
 }

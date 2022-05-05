@@ -24,14 +24,19 @@
                 </thead>
                 <tbody>
                     {{#menuList}}
-                    <tr>
+                    <tr id="menu-{{menuIdx}}">
                         <th scope="row">{{menuIdx}}</th>
                         <td>{{menuName}}</td>
                         <td>{{menuPrice}}</td>
-                        <td><img src="/image/{{menuImg}}"></td>
+                        {{#menuImg}}
+                            <td><img src="/image/{{menuImg}}"></td>
+                        {{/menuImg}}
+                        {{^menuImg}}
+                            <td>이미지 없음</td>
+                        {{/menuImg}}
+
                         <td class="kingMenuValue">{{menuKingMenu}}</td>
                         <td>
-                            <button class="btn btn-outline-primary" id="menuUpdate">메뉴정보수정-기존</button>
                             <!-- 모달트리거 -->
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-sm btn-outline-primary"
@@ -40,9 +45,10 @@
                                     data-bs-menuidx="{{menuIdx}}"
                                     data-bs-menuname="{{menuName}}"
                                     data-bs-menuprice="{{menuPrice}}"
-                                    data-bs-menuimg="{{menuImg}}"
-                                    data-bs-menukingmenu="{{menuKingMenu}}">메뉴정보수정-모달</button>
-                            <button class="btn btn-outline-danger" id="menuDelete">메뉴삭제</button>
+                                    data-bs-menuimg="{{#menuImg}}{{menuImg}}{{/menuImg}}{{^menuImg}}{{/menuImg}}"
+                                    data-bs-menukingmenu="{{menuKingMenu}}"
+                                    data-bs-storeidx="{{storeEntity.storeIdx}}">메뉴정보수정-모달</button>
+                            <button class="btn btn-outline-danger" id="menuDelete" data-menu-idx="{{menuIdx}}">메뉴삭제</button>
                         </td>
                     </tr>
                     {{/menuList}}
@@ -53,7 +59,7 @@
 {{>menu/menu_update_modal}}
 {{>store/common/store_footer}}
 
-<!-- menu kingmenu value change-->
+<!-- menu kingmenu value change : number to string -->
 <script>
     window.onload = ()  => {
         const kingValues = document.querySelectorAll(".kingMenuValue");
@@ -67,10 +73,25 @@
     };
 </script>
 
-<!-- menu update-->
+<!-- delete menu-->
 <script>
-</script>
-
-<!-- menu delete-->
-<script>
+    const btns = document.querySelectorAll('#menuDelete');
+    btns.forEach( btn => {
+        btn.addEventListener("click", (event) => {
+            const menuDeleteBtn = event.target;
+            const menuIdx = menuDeleteBtn.getAttribute("data-menu-idx");
+            // 삭제 API 호출 및 처리
+            const url = `/owne/delete/menu/${menuIdx}`;
+            fetch(url, {
+                method: "DELETE"
+            }).then(response => {
+                if (!response.ok) {
+                    alert("메뉴 삭제 실패..!");
+                    return;
+                }
+                const target = document.querySelector(`#menu-${menuIdx}`);
+                target.remove();
+            });
+        });
+    });
 </script>
