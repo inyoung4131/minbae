@@ -6,10 +6,11 @@
 
     <select id="findStoreByCategoryOrder" resultType="hashmap">
         SELECT
-            count(*) AS orderCnt, s.*, sd.*
+            count(*) AS orderCnt, truncate(avg(review_star), 1) starAvg, s.*, sd.*
         FROM trade_history th
                  left join store s on th.store_idx = s.store_idx
                  left join store_detail sd on s.store_idx = sd.store_idx
+                 left join review r on s.store_idx = r.store_idx
         where s.store_category = #{category}
         GROUP BY th.store_idx HAVING count(*) >= 0
         order by orderCnt desc;
@@ -17,9 +18,10 @@
 
     <select id="findStoreByNotInIdxs" resultType="hashmap">
         select
-        s.*, sd.*
+            s.*, sd.*, truncate(avg(r.review_star), 1) starAvg
         from store s
-        left join store_detail sd on s.store_idx = sd.store_idx
+                left join store_detail sd on s.store_idx = sd.store_idx
+                left join review r on s.store_idx = r.store_idx
         where
             <if test="idxs.size() != 0">
                 s.store_idx not in (
@@ -30,23 +32,25 @@
                 and
             </if>
 
-            s.store_category = #{category};
+            s.store_category = #{category}
+        group by r.store_idx;
     </select>
 
     <select id="findStoreByCategoryStar" resultType="hashMap">
         select
-            sum(review_star) starCnt, s.*, sd.*
+            truncate(avg(r.review_star), 1) starAvg, s.*, sd.*
         from review
                  left join store s on s.store_idx = review.store_idx
                  left join store_detail sd on s.store_idx = sd.store_idx
+                 left join review r on s.store_idx = r.store_idx
         where s.store_category = #{categoryEn}
         group by s.store_idx
-        order by starCnt desc
+        order by starAvg desc
     </select>
 
     <select id="findStoreById" resultType="hashMap">
         select
-            s.*, sd.*, truncate(avg(review_star), 1) starSum
+            s.*, sd.*, truncate(avg(r.review_star), 1) starAvg
         from store s
                  left join store_detail sd on s.store_idx = sd.store_idx
                  left join review r on s.store_idx = r.store_idx
@@ -69,5 +73,36 @@
         where store_idx = #{store_idx} and menu_king_menu = 1
         order by menu_sunbun
     </select>
+
+    <select id="findByMenuList" resultType="hashMap">
+        select
+            *
+        from menu
+        where store_idx = #{store_idx}
+        order by menu_sunbun
+    </select>
+
+    <select id="findStoreByMenuIdx" resultType="hashMap">
+        select
+            *
+        from menu
+                 left join store s on menu.store_idx = s.store_idx
+                 left join store_detail sd on s.store_idx = sd.store_idx
+        where menu_idx = #{menu_idx}
+    </select>
+
+    <insert id="reviewCreate">
+        INSERT INTO
+            review (`review_comment`, `review_img1`, `review_img2`, `review_img3`, `review_star`, `review_write_date`,`store_idx`)
+        VALUES (
+                   #{review_comment},
+                   #{review_img1},
+                   #{review_img2},
+                   #{review_img3},
+                   #{review_star},
+                   sysdate(),
+                   #{store_idx}
+               )
+    </insert>
 
 </mapper>

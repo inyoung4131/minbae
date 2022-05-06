@@ -7,50 +7,105 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script>
+
+        let totalQuantity = 0;
+        let totalPrice = 0;
         function count(type)  {
             // 결과를 표시할 element
-            const resultElement = document.getElementById('result');
+            const resultElement = document.getElementById('quantity');
+            const s_final_price = document.getElementById('final_menu_price');
+            const s_fix_price = document.getElementById('fix_price');
 
             // 현재 화면에 표시된 값
-            let number = resultElement.innerText;
+            totalQuantity = resultElement.innerText;
+            totalPrice = parseInt(s_final_price.innerText);
+            let price = parseInt(s_fix_price.innerText);
 
             // 더하기/빼기
             if(type === 'plus') {
-                number = parseInt(number) + 1;
-                if (number > 10){
+                totalQuantity = parseInt(totalQuantity) + 1;
+                totalPrice = totalPrice + price;
+                if (totalQuantity > 10){
                     return;
                 }
             }else if(type === 'minus')  {
-                number = parseInt(number) - 1;
-                if (number < 1){
+                totalQuantity = parseInt(totalQuantity) - 1;
+                totalPrice = totalPrice - price;
+                if (totalQuantity < 1){
                     return;
                 }
             }
             // 결과 출력
-            resultElement.innerText = number;
-            document.getElementById('bt_order').value = number + '개 담기';
+            resultElement.innerText = totalQuantity;
+            s_final_price.innerText = ""+totalPrice;
+            document.getElementById('bt_order').innerText = totalQuantity + '개 담기';
         }
+
+        //장바구니 담기
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('bt_order').addEventListener('click', () => {
+
+                const store_idx = document.getElementById('store_idx').value;
+                const menu_idx = document.getElementById('menu_idx').value;
+                const store_name = document.getElementById("store_name").value;
+                const menu_name = document.getElementById("menu_name").innerText;
+                const menu_price = document.getElementById("fix_price").innerText;
+                const deliver_price = document.getElementById("deliver_price").value;
+                const menu_img = document.getElementById("menu_img").innerText;
+
+                //세션스토리지에 저장(하기 전에 null 체크 먼저 해서 null이면 밑에 거, 아니면 조회 후 push로 넣기(장바구니 또 넣기)
+                let shoppingList = JSON.parse(sessionStorage.getItem('item'));
+
+                console.log(shoppingList)
+
+                if(shoppingList == null){
+                    sessionStorage.setItem("item", JSON.stringify([
+                        [store_idx, menu_idx, store_name, menu_name, menu_price, deliver_price, totalQuantity, totalPrice, menu_img]
+                    ]));
+                }else {
+
+                    shoppingList.push([1,1,1,1,1,1,1,1,1])
+                    sessionStorage.setItem('item', JSON.stringify(shoppingList));
+
+                }
+
+
+
+
+            })
+        })
+
     </script>
 </head>
 <body>
+    {{#storeMenuIdx}}
     <div>
-        <div>
+        <input type="hidden" id="store_idx" value="{{store_idx}}">
+        <input type="hidden" id="menu_idx" value="{{menu_idx}}">
+        <input type="hidden" id="store_name" value="{{store_name}}">
+        <input type="hidden" id="deliver_price" value="{{store_detail_deliver_price}}">
+
+        <div id="menu_img">{{menu_img}}</div>
+        <div id="menu_name">
             {{menu_name}}
         </div>
         <div>
-            가격 : {{menu_price}}
+            가격 : <span id="fix_price">{{menu_price}}</span>
         </div>
         <hr>
         <div>
             <label>수량</label>
             <input type='button' onclick='count("plus")' value='+'/>
-            <span id='result'>1</span>
+            <span id='quantity'>1</span>
             <input type='button' onclick='count("minus")' value='-'/>
         </div>
         <hr>
         <div>
-            <input id="bt_order" type="button" value="1개 담기">
+            <div>배달 최소 주문 금액 : {{store_detail_minimum_price}}</div>
+            <button id="bt_order" type="button" value="1개 담기">1개 담기</button>
+            <span id="final_menu_price">{{menu_price}}</span>
         </div>
     </div>
+    {{/storeMenuIdx}}
 </body>
 </html>

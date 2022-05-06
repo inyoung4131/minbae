@@ -10,9 +10,17 @@
 <body>
     <div><a href="/user/category/click/{{categoryKo}}/{{selectStore.store_category}}"><-</a></div>
     <div id="top">
+        <div>가게 대표 이미지 : {{selectStore.store_detail_info_img}}</div>
         <ul>
             <li>{{selectStore.store_name}}</li>
-            <li>{{selectStore.starSum}}</li>
+            <li>
+                {{#selectStore.starAvg}}
+                    {{selectStore.starAvg}}
+                {{/selectStore.starAvg}}
+                {{^selectStore.starAvg}}
+                    0
+                {{/selectStore.starAvg}}
+            </li>
             <li>최근 리뷰 {{selectStoreReview.commentCnt}} | 최근사장님댓글 {{selectStoreReview.replyCnt}}</li>
         </ul>
     </div>
@@ -41,12 +49,33 @@
         <div>
             <span>메뉴</span> | <span>정보</span> | <span>리뷰</span>
         </div>
+
         <div id="menuTap">
             <div id="menuText">
                 {{selectStore.store_detail_menu_text}}
             </div>
             <div id="menuList">
+                <h2>대표 메뉴</h2>
+                {{#kingMenu}}
+                    <a href="/user/store/menu/detail/{{menu_idx}}">
+                        <ul>
+                            <li>메뉴 이미지 : {{menu_img}}</li>
+                            <li>{{menu_name}}</li>
+                            <li>{{menu_price}}</li>
+                        </ul>
+                    </a>
+                {{/kingMenu}}
 
+                <h2>메뉴 소개</h2>
+                {{#menuList}}
+                    <a href="/user/store/menu/detail/{{menu_idx}}">
+                        <ul>
+                            <li>메뉴 이미지 : {{menu_img}}</li>
+                            <li>{{menu_name}}</li>
+                            <li>{{menu_price}}</li>
+                        </ul>
+                    </a>
+                {{/menuList}}
             </div>
         </div>
 
@@ -61,16 +90,6 @@
         </div>
     </div>
     <hr>
-    <div>
-        <h2>대표 메뉴</h2>
-        {{#kingMenu}}
-            <a href="/user/store/menu/detail/{{selectStore.store_detail_deliver_price}}/{{menu_name}}/{{menu_price}}">
-                <ul>
-                    <li>{{menu_name}}</li>
-                    <li>{{menu_price}}</li>
-                </ul>
-            </a>
-        {{/kingMenu}}
-    </div>
+
 </body>
 </html>
