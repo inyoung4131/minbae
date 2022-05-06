@@ -38,7 +38,8 @@ public class User {
     private String userSocial;
 
     @Builder
-    public User(String userEmail,String userPwd,String userNickName,String userBasicAddr,String userDetailAddr,String userTel,String userSocial){
+    public User(long userIdx,String userEmail,String userPwd,String userNickName,String userBasicAddr,String userDetailAddr,String userTel,String userSocial){
+        this.userIdx=userIdx;
         this.userEmail=userEmail;
         this.userPwd=userPwd;
         this.userNickname=userNickName;

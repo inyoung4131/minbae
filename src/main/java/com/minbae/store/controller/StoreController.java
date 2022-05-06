@@ -28,9 +28,10 @@ public class StoreController {
         return "store/main_store";
     }
 
-    // 가게 등록 페이지 이동
-    @GetMapping("/owne/createStore")
-    public String goCreateStorePage(){
+    // 특정 사장님의 가게 등록 페이지 이동
+    @GetMapping("/owne/createStore/{ownerIdx}")
+    public String goCreateStorePage(@PathVariable Long ownerIdx, Model model){
+        model.addAttribute("ownerIdx", ownerIdx);
         return "store/create_store_new";
     }
 

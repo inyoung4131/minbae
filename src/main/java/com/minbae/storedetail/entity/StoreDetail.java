@@ -1,5 +1,6 @@
 package com.minbae.storedetail.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.minbae.store.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class StoreDetail {
     @Column(name="store_detail_idx")
     private Long storeDetailIdx;
 
-
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name="storeIdx", unique = true)
     private Store store;
@@ -49,6 +50,5 @@ public class StoreDetail {
 
     @Column(name="store_detail_take_out_discount")
     private int storeDetailTakeOutDiscount;
-
 
 }
