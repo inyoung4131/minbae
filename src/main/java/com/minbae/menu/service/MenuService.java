@@ -90,7 +90,6 @@ public class MenuService {
                 deleteFile(existMenu.getMenuImg());
             }
             // 전달받은 이미지 저장소에 저장
-
             copyInto(menuSaveRequestDto.getStoreIdx().getStoreIdx(),file);
 
             // 전달받은 이미지 및 데이터 DB에 저장
@@ -108,11 +107,14 @@ public class MenuService {
 
     @Transactional // 데이터를 건드리면 transactional 붙이기
     public Menu delete(Long menuIdx) {
-        // 댓글이 존재하는지 조회
+        // 요청한 메뉴가 존재하는지 조회
         Menu target = menuRepository.findById(menuIdx).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 메뉴")
         );
-        // 이미지 존재여부 확인 및 삭제
+        // 이미지 존재여부 확인 및 저장소에서 삭제
+        if(target.getMenuImg() != null){
+            deleteFile(target.getMenuImg());
+        }
         
         // DB 삭제
         menuRepository.delete(target);
