@@ -1,4 +1,4 @@
-package com.minbae.comm.review.entity;
+package com.minbae.review.entity;
 
 
 import com.minbae.store.entity.Store;
