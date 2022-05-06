@@ -1,0 +1,19 @@
+#head_div {
+    text-align: center;
+    font-size: 23px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+#back {
+    display: inline-block;
+    float: left;
+}
+
+#map {
+    margin: auto;
+}
+
+#selectedDiv {
+    height: 50px;
+}
