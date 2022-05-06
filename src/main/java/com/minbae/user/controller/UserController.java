@@ -28,6 +28,7 @@ public class UserController {
 
     @GetMapping("/category/click/{categoryKo}/{categoryEn}")    //기본순은 여기서 뿌리기
     public ModelAndView categoryClick(@PathVariable String categoryKo, @PathVariable String categoryEn){
+
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("categoryKo", categoryKo);
