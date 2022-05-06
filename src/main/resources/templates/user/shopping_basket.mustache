@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        //      조회
+        const datas = JSON.parse(sessionStorage.getItem('item'));
+        console.log(datas);
+
+        datas.forEach(data => {
+            data.forEach(tt => console.log(tt))
+        })
+
+    </script>
+</head>
+<body>
+    <div id="store_name"></div>
+    <div id="menu_name"></div>
+    <div id="menu_price"></div>
+    <div id="total_price"></div>
+    <div id="total_quantity"></div>
+    <hr>
+    <select name="deliver_or_takeout">
+        <option value="배달">배달</option>
+        <option value="포장">포장</option>
+    </select>
+    <hr>
+    <div id="final_price"></div>
+    <div id="deliver_price"></div>
+    <hr>
+    <div id="Expected_price"></div>
+    <hr>
+    <button type="button" id="order_click"></button>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

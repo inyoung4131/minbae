@@ -1,5 +1,6 @@
 package com.minbae.store.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.minbae.owner.entity.Owner;
 import com.minbae.storedetail.entity.StoreDetail;
 import com.sun.istack.NotNull;
@@ -51,6 +52,7 @@ public class Store {
     @Column(name="store_tel")
     private String storeTel;
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "store", orphanRemoval = true)
     private StoreDetail storeDetail;
 

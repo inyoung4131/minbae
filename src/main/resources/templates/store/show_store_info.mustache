@@ -17,7 +17,6 @@
             <div class="col-12">
                 <label for="inputStoreCategory" class="form-label">가게 업종</label>
                 <select id="inputStoreCategory" class="form-select">
-                    <option value="{{storeCategory}}" selected>{{storeCategory}}</option>
                     <option value="CHICKEN">치킨</option>
                     <option value="CHINESEFOOD">중국집</option>
                     <option value="DESSERT">디저트/카페</option>
@@ -26,6 +25,12 @@
                     <option value="JAPANESEFOOD">돈까스/회</option>
                 </select>
             </div>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script>
+                window.onload = ()  => {
+                    $('#inputStoreCategory').val('{{storeCategory}}').prop("selected",true);
+                }
+            </script>
             <div class="col-12">
                 <label for="inputStoreTel" class="form-label">가게 전화번호</label>
                 <input type="text" class="form-control" id="inputStoreTel" value="{{storeTel}}">

@@ -14,9 +14,17 @@
 {{#starAndOrderCntList}}
     <a href="/user/store/detail/{{categoryKo}}/{{store_idx}}">
         <ul>
-            <li>가게 이미지</li>
+            <li>가게 이미지 : {{store_detail_info_img}}</li>
             <li>가게 이름:{{store_name}}</li>
-            <li>별점 :쿼리문 따로 작성해서 평균 내기</li>
+            <li>
+                별점 :
+                {{#starAvg}}
+                    {{starAvg}}
+                {{/starAvg}}
+                {{^starAvg}}
+                    0
+                {{/starAvg}}
+            </li>
             <li>최소 주문 : {{store_detail_minimum_price}}</li>
             <li>배달팁 : {{store_detail_deliver_price}}</li>
         </ul>

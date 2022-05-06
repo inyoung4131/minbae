@@ -16,8 +16,8 @@ import java.io.Serializable;
 public class TradeHistoryDetailPK implements Serializable {
     private static final long serialVersionUID = 1L;
     @ManyToOne
-    @JoinColumn(name="order_idx",nullable = false)
-    private TradeHistory orderIdx;
+    @JoinColumn(name="trade_history_idx",nullable = false)
+    private TradeHistory tradeHistoryIdx;
 
     @ManyToOne
     @JoinColumn(name="menu_idx",nullable = false)
