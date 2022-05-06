@@ -1,5 +1,6 @@
 package com.minbae.user.dao;
 
+import com.minbae.user.dto.UserReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,4 +21,9 @@ public interface UserMapper {
 
     List<Map<String, Object>> findReviewBykingMenu(Long store_idx);
 
+    List<Map<String, Object>> findByMenuList(Long store_idx);
+
+    Map<String, Object> findStoreByMenuIdx(Long menu_idx);
+
+    int reviewCreate(UserReviewDTO dto);
 }

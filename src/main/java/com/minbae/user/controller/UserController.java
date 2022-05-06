@@ -3,6 +3,7 @@ package com.minbae.user.controller;
 import com.minbae.store.comm.StoreCategory;
 import com.minbae.user.comm.UserApiResponse;
 import com.minbae.user.comm.UserApiStatus;
+import com.minbae.user.dao.UserMapper;
 import com.minbae.user.exception.UserCommException;
 import com.minbae.user.exception.comm.UserExceptionType;
 import com.minbae.user.service.UserService;
@@ -23,6 +24,7 @@ import java.util.Map;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping("/category/click/{categoryKo}/{categoryEn}")    //기본순은 여기서 뿌리기
     public ModelAndView categoryClick(@PathVariable String categoryKo, @PathVariable String categoryEn){
@@ -49,6 +51,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         List<Map<String, Object>> starAndOrderCntList = userService.getStoreByCategoryOrderAndStar(categoryEn, type);
 
+
         mav.addObject("starAndOrderCntList", starAndOrderCntList);
         mav.addObject("categoryKo", categoryKo);
         mav.addObject("categoryEn", categoryEn);
@@ -71,10 +74,14 @@ public class UserController {
         //해당 가게 대표 메뉴 리스트
         List<Map<String, Object>> kingMenu = userService.findReviewBykingMenu(store_idx);
 
+        //해당 가게 메뉴 리스트
+        List<Map<String, Object>> menuList = userService.findByMenuList(store_idx);
+
         ModelAndView mav = new ModelAndView();
         mav.addObject("selectStore", selectStore);
         mav.addObject("selectStoreReview", selectStoreReview);
         mav.addObject("kingMenu", kingMenu);
+        mav.addObject("menuList", menuList);
         mav.addObject("categoryKo", categoryKo);
         mav.setViewName("user/store_detail");
 
@@ -82,18 +89,23 @@ public class UserController {
     }
 
     //선택한 메뉴 담는 페이지
-    @GetMapping("/store/menu/detail/{deliver_price}/{menu_name}/{menu_price}")
-    public ModelAndView selectMenu(@PathVariable("deliver_price") int deliver_price,
-                                   @PathVariable("menu_name") String menu_name,
-                                   @PathVariable("menu_price") int menu_price){
+    @GetMapping("/store/menu/detail/{menu_idx}")
+    public ModelAndView selectMenu(@PathVariable("menu_idx") Long menu_idx){
+
+        //특정 메뉴idx에 해당하는 가게 정보
+        Map<String, Object> storeMenuIdx = userService.findStoreByMenuIdx(menu_idx);
+        System.out.println("store_detail_deliver_price => " + storeMenuIdx.get("store_detail_deliver_price"));
 
         ModelAndView mav = new ModelAndView();
-        mav.addObject("deliver_price", deliver_price);
-        mav.addObject("menu_name", menu_name);
-        mav.addObject("menu_price", menu_price);
+        mav.addObject("storeMenuIdx", storeMenuIdx);
         mav.setViewName("user/munu_click");
 
         return mav;
     }
 
+    //리뷰 작성 페이지 이동
+    @GetMapping("/review/form")
+    public String reviewForm(){
+        return "user/user_review_form";
+    }
 }
