@@ -72,7 +72,9 @@ public class MenuService {
     @Transactional
     public Menu updateMenu(MenuSaveRequestDto menuSaveRequestDto, MultipartFile file) throws IOException {
         // dto에서 menuIdx 꺼내서 기존 메뉴 객체 가져오기
-        Menu existMenu = menuRepository.findById(menuSaveRequestDto.getMenuIdx()).orElse(null);
+        Menu existMenu = menuRepository.findById(menuSaveRequestDto.getMenuIdx()).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 메뉴 입니다.")
+                );
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>새로 들어온 DTO의 menuIdx:"+menuSaveRequestDto.getMenuIdx());
         // 전달받은 새로운 메뉴 dto -> entity
         Menu newMenuEntity = menuSaveRequestDto.toEntity();

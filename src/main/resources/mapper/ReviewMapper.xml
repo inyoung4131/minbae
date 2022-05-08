@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.minbae.review.dao.ReviewMapper">
+
+    <select id="findReviewListByStoreIdx" resultType="hashmap">
+        select
+            r.*, u.user_nickname
+        from review r
+                 left join user u on u.user_idx = r.user_idx
+        where r.store_idx = #{storeIdx};
+    </select>
+
+    <select id="findByReviewIdx" resultType="com.minbae.review.dto.StoreReviewDto">
+        select
+            *
+        from review
+        where review_idx = #{reviewIdx}
+    </select>
+
+    <update id="updateStoreReview">
+        update
+            review
+        set review_reply = #{reviewReply}
+        where review_idx = #{reviewIdx}
+    </update>
+
+    <update id="deleteReplyByReviewIdx">
+        update
+            review
+        set review_reply = null
+        where review_idx = #{reviewIdx}
+    </update>
+
+
+</mapper>

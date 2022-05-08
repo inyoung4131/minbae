@@ -1,0 +1,49 @@
+<!-- Modal -->
+<div class="modal fade" id="update-reply-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">답변수정하기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!--review update form-->
+                <form id="modalReplyUpdateForm" method="post">
+                    <!-- review reply content -->
+                    <div class="mb-3">
+                        <label class="form-label">답변내용</label>
+                        <textarea class="form-control form-control-sm" id="update-reply-content" rows="8"></textarea>
+                    </div>
+
+                    <!-- 히든값 -->
+                    reviewIdx:<input type="text" id="update-review-idx" value="">
+                    storeIdx:<input type="text" id="update-review-store-idx" value="" readonly>
+                    <!-- 전송버튼 -->
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="reply-update-btn">수정 완료</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- setting modal data -->
+<script>
+    {
+        const reviewEditModal = document.querySelector("#update-reply-modal");
+        reviewEditModal.addEventListener("show.bs.modal", function (event){
+            const triggerBtn = event.relatedTarget;
+            const reviewidx = triggerBtn.getAttribute('data-bs-reviewidx');
+            const storeidx = triggerBtn.getAttribute('data-bs-storeidx');
+            const reviewreply = triggerBtn.getAttribute('data-bs-reviewreply');
+            document.querySelector("#update-review-idx").value = reviewidx;
+            document.querySelector("#update-review-store-idx").value = storeidx;
+            document.querySelector("#update-reply-content").value = reviewreply;
+
+        });
+    }
+</script>
+
+<!-- update store reply -->
+<script>
+
+</script>

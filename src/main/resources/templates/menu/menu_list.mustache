@@ -78,6 +78,9 @@
     const btns = document.querySelectorAll('#menuDelete');
     btns.forEach( btn => {
         btn.addEventListener("click", (event) => {
+            if(confirm('정말 해당 메뉴를 삭제하시겠습니까?') == false){
+                return;
+            }
             const menuDeleteBtn = event.target;
             const menuIdx = menuDeleteBtn.getAttribute("data-menu-idx");
             // 삭제 API 호출 및 처리
@@ -89,6 +92,7 @@
                     alert("메뉴 삭제 실패..!");
                     return;
                 }
+                alert("메뉴 삭제 성공")
                 const target = document.querySelector(`#menu-${menuIdx}`);
                 target.remove();
             });

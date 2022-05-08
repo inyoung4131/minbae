@@ -1,0 +1,146 @@
+{{>store/common/store_header}}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4">
+    <div>
+        <h1>가게 명 : {{storeIdx}}</h1>
+        <h2 class="h2">우리 가게 리뷰 관리페이지</h2>
+    </div>
+
+    <div class="d-grid gap-2 mx-auto mb-5">
+        <div class="input-group mb-3">
+            <input type="date" class="form-control" placeholder="Username" aria-label="Username">
+            <span class="input-group-text">~</span>
+            <input type="date" class="form-control" placeholder="Server" aria-label="Server" id="currentDate">
+        </div>
+
+        <button class="btn btn-primary">조회</button>
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+            <button type="button" class="btn btn-outline-primary">전체</button>
+            <button type="button" class="btn btn-outline-primary">미답변</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);;
+    </script>
+
+    <!-------------------------------------------------------------------------------------------------------------------->
+
+    {{#reviewList}}
+        <!--가게 답변 달린 경우-->
+        {{#review_reply}}
+            <div class="mb-5">
+                <div class="card m-3">
+                    <div class="card-header">
+                        <strong class="d-block text-gray-dark">@{{user_nickname}}</strong>
+                        <strong class="text-gray-dark"><label class="review-star-label">{{review_star}}</label> | {{review_write_date}}</strong>
+                        주문한 메뉴도 가져오는게 맞나..
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <img src="">이미지미지
+                        </div>
+                        <p class="comment-text">{{review_comment}}</p>
+                    </div>
+                    <div class="card-body bg-warning bg-opacity-10">
+                        <strong>└사장님 답변</strong>
+                        <br>
+                        <p class="comment-text">{{review_reply}}</p>
+                    </div>
+                    <div class="card-footer justify-content-md-end d-grid gap-2 d-md-flex">
+                        <button type="button" class="btn btn-sm btn-outline-primary" id="modal-reply-update-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#update-reply-modal"
+                                data-bs-reviewidx="{{review_idx}}"
+                                data-bs-reviewreply="{{review_reply}}"
+                                data-bs-storeidx="{{store_idx}}">답변수정-모달</button>
+                        <button type="button" class="btn btn-sm btn-outline-danger comment-delete-btn" id="deleteReplyBtn"
+                                bt-review-idx="{{review_idx}}"
+                                bt-store-idx="{{store_idx}}">답변삭제</button>
+                    </div>
+                </div>
+            </div>
+        {{/review_reply}}
+        <!--가게 답변 달리지 않은 경우-->
+        {{^review_reply}}
+                <div>
+                    <div class="card m-3">
+                        <div class="card-header">
+                            <strong class="d-block text-gray-dark">@{{user_nickname}}</strong>
+                            <strong class="text-gray-dark"><label class="review-star-label">{{review_star}}</label> | {{review_write_date}}</strong>
+                            주문한 메뉴도 가져오는게 맞나..
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <img src="">이미지미지
+                            </div>
+                            <p class="comment-text">{{review_comment}}</p>
+                        </div>
+                        <div class="card-footer justify-content-md-end d-grid gap-2 d-md-flex">
+                            <button type="button" class="btn btn-sm btn-outline-danger comment-delete-btn">리뷰삭제 요청요청</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="modal-reply-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#review-edit-modal"
+                                    data-bs-reviewidx="{{review_idx}}"
+                                    data-bs-reviewcomment="{{review_comment}}"
+                                    data-bs-reviewstar="{{review_star}}"
+                                    data-bs-storeidx="{{store_idx}}">사장님 답변 등록-모달</button>
+                        </div>
+                    </div>
+                </div>
+        {{/review_reply}}
+    {{/reviewList}}
+
+    <hr><hr><hr><hr><hr>
+
+</main>
+{{>review/store_reply_create_modal}}
+{{>review/store_reply_update_modal}}
+{{>store/common/store_footer}}
+
+<!-- switch innerHTML from review star Number to star Icon-->
+<script>
+    window.onload = () => {
+        let starElements = document.querySelectorAll('.review-star-label');
+        for(const starElement of starElements){
+            let starValue = starElement.innerHTML;
+            let starIcon = "";
+            for (let i = 1; i <= starValue; i++) {
+                starIcon = starIcon+"★"
+            }
+           starElement.innerHTML = starIcon;
+        };
+    }
+</script>
+
+<!-- delete store reply -->
+<script>
+    const deleteReplyBtns = document.querySelectorAll('#deleteReplyBtn');
+    deleteReplyBtns.forEach(deleteReplyBtn => {
+       deleteReplyBtn.addEventListener('click', () => {
+           if(confirm('해당 답변을 삭제하시겠습니까?') == false){
+               return;
+           };
+
+           const targetBtn = event.target;
+           const reviewIdx = targetBtn.getAttribute("bt-review-idx");
+           const storeIdx = targetBtn.getAttribute("bt-store-idx");
+           console.log("storeIdx==>"+storeIdx);
+
+           //삭제 API 호출 및 처리
+           const url = `/owne/delete/reply/${reviewIdx}`;
+           fetch(url, {
+               method: "DELETE"
+           }).then(response => response.json())
+                .then(res => {
+                    if(res.resultNum == 1){
+                        alert('삭제 성공');
+                        location.href = "/owne/store/"+storeIdx+"/reviews";
+                    }else{
+                        alert('삭제 실패');
+                    }
+                });
+
+       });
+    });
+</script>
+
+
