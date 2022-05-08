@@ -1,6 +1,7 @@
 package com.minbae.store.repository;
 
 import com.minbae.store.entity.Store;
+import com.minbae.user.dto.UserResponseStoreListDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,5 +20,9 @@ public interface StoreRepository extends JpaRepository<Store,Long>{
     @Query(value = "select * from store where store_idx = :storeIdx", nativeQuery = true)
     public Store findByStoreIdx(Long storeIdx);
 
+    // jpa 어려움 - 미해결 - 네이티브 쿼리로 대체
+
+//    @Query(value = "", nativeQuery = true)
+//    public List<UserResponseStoreListDto> findByStandard();
 
 }

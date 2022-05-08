@@ -24,10 +24,6 @@ public class YangsUserController {
     public String mainPageSearchPage(){
         return "user/addr/main_page_addr_change_view_page_search";
     }
-    @GetMapping("/user/main/addr/add_my_home")
-    public String mainPageAddMyHomePage(){
-        return "user/addr/main_page_addr_change_view_page_add_my_home";
-    }
     @GetMapping("/user/main/addr/search/result")
     public ModelAndView mainPageSearchResultPage(String basic, String road, ModelAndView model){
         model.addObject("basic",basic);
