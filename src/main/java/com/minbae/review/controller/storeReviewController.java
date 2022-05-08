@@ -18,11 +18,16 @@ public class storeReviewController {
 
     private final StoreReviewService storeReviewService;
 
+    // 특정가게의 리뷰조회 페이지 이동 + 조회
     @GetMapping("/owne/store/{storeIdx}/reviews")
     public String goReviewPage(@PathVariable String storeIdx, Model model){
         model.addAttribute("storeIdx",storeIdx);
+
         List<Map<String, Object>> reviewList = storeReviewService.getReviewList(Long.valueOf(storeIdx));
         model.addAttribute("reviewList", reviewList);
+
+        Map<String, Integer> countMap = storeReviewService.getReviewCountNum(Long.valueOf(storeIdx));
+        model.addAttribute("countMap", countMap);
         return "/review/store_review_main";
     }
 

@@ -2,12 +2,10 @@ package com.minbae.review.dao;
 
 import com.minbae.review.dto.StoreReviewDto;
 import com.minbae.review.dto.StoreReviewRequestDto;
-import com.minbae.review.entity.Review;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Mapper
 public interface ReviewMapper {
@@ -21,4 +19,11 @@ public interface ReviewMapper {
 
     // 특정 가게의 사장님 답변 삭제
     Integer deleteReplyByReviewIdx(Long reviewIdx);
+
+    // 특정 가게의 전체 리뷰 개수
+    Integer countAllReviewByStoreIdx(Long storeIdx);
+
+    // 특정 가게의 미답변 리뷰 개수
+    Integer countNotReplyReviewByStoreIdx(Long storeIdx);
+
 }

@@ -26,11 +26,12 @@ public class MenuController {
 
     // 특정 가게의 메뉴관리 페이지 이동 및 메뉴 조회
     @GetMapping("/owne/menu/{storeIdx}")
-    public String menuListPage(@PathVariable Long storeIdx, Model model){
-        List<Menu> menuList = menuService.getStoreMenuList(storeIdx);
+    public String menuListPage(@PathVariable String storeIdx, Model model){
+        Long storeIdxL = Long.valueOf(storeIdx);
+        List<Menu> menuList = menuService.getStoreMenuList(storeIdxL);
         model.addAttribute("menuList", menuList);
 
-        Store storeEntity = storeService.storeInfo(storeIdx);
+        Store storeEntity = storeService.storeInfo(storeIdxL);
         model.addAttribute("storeEntity", storeEntity);
         return "/menu/menu_list";
     }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,14 @@ public class StoreReviewService {
             new IllegalArgumentException("존재하지 않는 가게 입니다.");
         }
         return reviewListByStoreIdx;
+    }
+
+    // 특정가게의 리뷰개수 조회
+    public Map<String, Integer> getReviewCountNum(Long storeIdx){
+        Map<String, Integer> map = new HashMap<>();
+        map.put("allReviewCount", reviewMapper.countAllReviewByStoreIdx(storeIdx));
+        map.put("notReplyReviewCount", reviewMapper.countNotReplyReviewByStoreIdx(storeIdx));
+        return map;
     }
 
     // 특정 가게의 사장님 리뷰 생성

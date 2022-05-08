@@ -33,5 +33,23 @@
         where review_idx = #{reviewIdx}
     </update>
 
+    <select id="countAllReviewByStoreIdx" resultType="integer">
+        select
+            count(review_idx)
+        from
+            review
+        where
+            store_idx = #{storeIdx}
+    </select>
+
+    <select id="countNotReplyReviewByStoreIdx" resultType="integer">
+        select
+            count(review_idx)
+        from
+            review
+        where
+            store_idx = #{storeIdx} and review_reply is null
+    </select>
+
 
 </mapper>
