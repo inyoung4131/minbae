@@ -26,4 +26,10 @@ public interface UserMapper {
     Map<String, Object> findStoreByMenuIdx(Long menu_idx);
 
     int reviewCreate(UserReviewDTO dto);
+
+    List<Map<String, Object>> reviewList(Long user_idx);
+
+    Map<String, Object> reviewCnt(Long user_idx);
+
+    int reviewDel(String review_idx);
 }

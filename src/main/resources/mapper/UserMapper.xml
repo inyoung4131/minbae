@@ -105,4 +105,28 @@
                )
     </insert>
 
+    <select id="reviewList" resultType="hashMap">
+
+        select
+            r.*, s.store_name
+        from review r
+                 left join store s on r.store_idx = s.store_idx
+        where r.user_idx = #{user_idx}
+        order by r.review_write_date desc;
+    </select>
+
+    <select id="reviewCnt" resultType="hashMap">
+        select
+            count(*) reviewCnt
+        from review
+        where user_idx = #{user_idx}
+        group by user_idx
+    </select>
+
+    <delete id="reviewDel">
+        delete from
+                   review
+        where review_idx = #{review_idx};
+    </delete>
+
 </mapper>
