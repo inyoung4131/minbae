@@ -16,13 +16,7 @@ public interface StoreRepository extends JpaRepository<Store,Long>{
     // jpa 에러 - 미해결
     //public List<Store> findAllByOwnerIdx(Long ownerIdx);
 
-    // jpa 에러 - 미해결 - 네이티브 쿼리로 대체
-    @Query(value = "select * from store where store_idx = :storeIdx", nativeQuery = true)
+
     public Store findByStoreIdx(Long storeIdx);
-
-    // jpa 어려움 - 미해결 - 네이티브 쿼리로 대체
-
-//    @Query(value = "", nativeQuery = true)
-//    public List<UserResponseStoreListDto> findByStandard();
 
 }
