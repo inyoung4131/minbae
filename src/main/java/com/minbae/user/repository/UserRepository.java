@@ -26,8 +26,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
             ",sd.store_detail_minimum_price\n" +
             ",sd.store_detail_info_img \n" +
             ",IFNULL(\n" +
-            "\tmin(ST_DISTANCE_SPHERE(POINT(f.flag_lng,f.flag_lat),ST_GEOMFROMTEXT('POINT('+:user_lat+' '+user_lng+')')))\n" +
-            "\t, ST_DISTANCE_SPHERE(POINT(store_lng ,store_lat),ST_GEOMFROMTEXT('POINT('+:user_lat+' '+user_lng+')'))\n" +
+            "\tmin(ST_DISTANCE_SPHERE(POINT(f.flag_lng,f.flag_lat),ST_GEOMFROMTEXT('POINT('+:user_lat+' '+:user_lng+')')))\n" +
+            "\t, ST_DISTANCE_SPHERE(POINT(store_lng ,store_lat),ST_GEOMFROMTEXT('POINT('+:user_lat+' '+:user_lng+')'))\n" +
             "\t) AS dist\n" +
             ",sd.store_detail_minimum_price \n" +
             ",count(s.store_idx) cou\n" +
