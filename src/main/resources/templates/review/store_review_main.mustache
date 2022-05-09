@@ -15,7 +15,7 @@
         <button class="btn btn-primary" id="getListBtn">조회</button>
 
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradio" id="allListBtn" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradio" id="allListBtn" autocomplete="off" checked>
             <label class="btn btn-outline-primary" for="btnradio1">전체({{countMap.allReviewCount}})</label>
 
             <input type="radio" class="btn-check" name="btnradio" id="noReplyListBtn" autocomplete="off">
@@ -152,19 +152,13 @@
     });
 </script>
 
-<!-- get All review Btn-->
+<!-- 조회버튼 클릭 시 조건에 맞는(담은) URL을 컨트롤러로 전송-->
 <script>
     const allListBtn = document.getElementById('allListBtn');
     allListBtn.addEventListener('click', () => {
 
     });
 
-</script>
-
-
-<!-- get NoReply review Btn-->
-<script>
-    noReplyListBtn
 </script>
 
 
