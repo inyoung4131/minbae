@@ -10,7 +10,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @DynamicInsert
 @DynamicUpdate
@@ -45,7 +44,7 @@ public class StoreDetail {
     @Column(name="store_detail_review_text")
     private String storeDetailReviewText;
 
-    @Column(name="store_detail_info_img")
+    @Column(nullable = true, name="store_detail_info_img")
     private String storeDetailInfoImg;
 
     @Column(name="store_detail_take_out_discount")
