@@ -15,10 +15,9 @@ import java.time.LocalDateTime;
 @Entity
 public class Review {
     @Id
-    @JsonBackReference
-    @OneToOne
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="review_idx")
-    private TradeHistory tradeHistory;
+    private Long reviewIdx;
 
     @ManyToOne
     @JoinColumn(name="store_idx",nullable = false)
@@ -43,5 +42,9 @@ public class Review {
     @Column(nullable = false,name="review_write_date")
     private LocalDateTime reviewWriteDate;
 
+    @JsonBackReference
+    @OneToOne
+    @JoinColumn(name="tradeHistoryIdx")
+    private TradeHistory tradeHistory;
 
 }
