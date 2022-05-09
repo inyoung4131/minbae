@@ -1,7 +1,7 @@
-package com.minbae.comm.review.repository;
+package com.minbae.review.repository;
 
-import com.minbae.comm.review.entity.Review;
 import com.minbae.user.dto.UserResponseStoreListDto;
+import com.minbae.review.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -67,12 +67,24 @@ public class StoreService {
 
     // 특정 가게 일반 정보 수정하기
     public Store update(Long storeIdx, StoreUpdateRequestDto storeUpdateRequestDto){
-        // dto -> entity
+        // 요청 url과 dto의 불일치 검증
+        if(storeIdx != storeUpdateRequestDto.getStoreIdx()){
+            throw new IllegalArgumentException("잘못된 접근입니다.");
+        }
+
+        // 이전의 가게
+        Store existStore = storeRepository.findById(storeIdx).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않은 가게 입니다.")
+        );
+
+        // dto -> 새로운 가게 entity
         Store target = storeUpdateRequestDto.toEntity();
-        // 올바르지 않은 storeIdx 검증
-        if(storeIdx != target.getStoreIdx()){return null;}
-        // repository db
-        Store updated = storeRepository.save(target);
+
+        // 수정
+        existStore.patch(target);
+
+        // repository db save
+        Store updated = storeRepository.save(existStore);
         return updated;
     }
 

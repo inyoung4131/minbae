@@ -1,0 +1,109 @@
+
+<div id="map" style="width:385px;height:385px;"></div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240&libraries=services"></script>
+
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const cur_lat = position.coords.latitude;
+            const cur_lng = position.coords.longitude;
+
+            $.ajax({
+                type: 'GET',
+                url: '/user/store_detail/map/store?storeIdx='+`{{storeIdx}}`,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8'
+            }).done(function (result) {
+
+
+                const cateImg=getMarkerImgSrc(result.storeCategory);
+                const cateImageSize = new kakao.maps.Size(55, 60); // 마커이미지의 크기입니다
+                const cateImageOption = {offset: new kakao.maps.Point(27, 69)};
+                const distLat = result.storeLat-cur_lat;
+                const distLng = result.storeLng-cur_lng;
+                const dist = Math.sqrt( Math.abs( distLat * distLat ) + Math.abs( distLng * distLng ) );
+                var mapContainer = document.getElementById('map'),
+                        mapOption = {
+                            center: new kakao.maps.LatLng((result.storeLat+cur_lat)/2, (result.storeLng+cur_lng)/2),
+                            level: distCalculator(dist) // 지도의 확대 레벨
+                        };
+
+                var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                var storeMarkerImage = new kakao.maps.MarkerImage(cateImg,cateImageSize,cateImageOption)
+                var storeMarkerPosition = new kakao.maps.LatLng(result.storeLat, result.storeLng);
+                var storeMarker = new kakao.maps.Marker({
+                    position: storeMarkerPosition,
+                    image: storeMarkerImage
+                });
+                storeMarker.setMap(map);
+                var iwContent = result.storeName,
+                        iwPosition = new kakao.maps.LatLng(result.storeLat, result.storeLng);
+
+                var infowindow = new kakao.maps.InfoWindow({
+                    position : iwPosition,
+                    content : iwContent
+                });
+                infowindow.open(map, storeMarker);
+
+                var userMarkerImage = new kakao.maps.MarkerImage("https://i.esdrop.com/d/f/3IfGDhTdT6/yK5FGL4WFo.png",new kakao.maps.Size(30, 30),{offset: new kakao.maps.Point(15, 69)})
+                var userMarkerPosition = new kakao.maps.LatLng(cur_lat, cur_lng);
+                var userMarker = new kakao.maps.Marker({
+                    position: userMarkerPosition,
+                    image:userMarkerImage
+                });
+                userMarker.setMap(map);
+
+                var userIwContent = "나의 위치",
+                        userIwPosition = new kakao.maps.LatLng(cur_lat, cur_lng);
+
+                var infowindow = new kakao.maps.InfoWindow({
+                    position : userIwPosition,
+                    content : userIwContent
+                });
+                infowindow.open(map, userMarker);
+
+                function distCalculator(dist){
+                    if(dist>0.08) {
+                        return 8;
+                    }else if(dist>0.04){
+                        return 7;
+                    }else if(dist>0.02){
+                        return 6;
+                    }else if(dist>0.01){
+                        return 5;
+                    }else if(dist>0.004){
+                        return 4;
+                    }else{
+                        return 3;
+                    }
+                }
+
+                function getMarkerImgSrc(cate){
+                    if(cate=="DESSERT"){
+                        return "https://i.esdrop.com/d/f/3IfGDhTdT6/tIPuNVePMf.png";
+                    }else if(cate=="PIZZA"){
+                        return "https://i.esdrop.com/d/f/3IfGDhTdT6/9wJs6fOx6m.png";
+                    }else if(cate=="CHINESEFOOD"){
+                        return "https://i.esdrop.com/d/f/3IfGDhTdT6/QCq0r2UisW.png";
+                    }else if(cate=="CHICKEN"){
+                        return "https://i.esdrop.com/d/f/3IfGDhTdT6/Gqtc5ED84H.png";
+                    }else if(cate=="BUNSIK"){
+                        return "https://i.esdrop.com/d/f/3IfGDhTdT6/EteXhFtug4.png";
+                    }else if(cate=="JAPANESEFOOD"){
+                        return "https://i.esdrop.com/d/f/3IfGDhTdT6/kVWbCe0ECD.png";
+                    }
+                }
+
+            });
+
+
+        });
+    }
+
+
+
+</script>

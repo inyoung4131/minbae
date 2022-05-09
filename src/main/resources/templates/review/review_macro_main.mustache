@@ -1,0 +1,37 @@
+{{>store/common/store_header}}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4">
+    <div>
+        <h1>가게 명 : {{storeIdx}}</h1>
+        <h2 class="h2">우리 가게 리뷰 매크로 관리페이지</h2>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $( "#sortable" ).sortable({
+                revert: true
+            });
+            $( "#draggable" ).draggable({
+                connectToSortable: "#sortable",
+                helper: "clone",
+                revert: "invalid"
+            });
+            $( "ul, li" ).disableSelection();
+        });
+    </script>
+
+
+    <ul>
+        <li id="draggable" class="ui-state-highlight">Drag me down</li>
+    </ul>
+    <ul id="sortable">
+        <li class="ui-state-default">Item 1</li>
+        <li class="ui-state-default">Item 2</li>
+        <li class="ui-state-default">Item 3</li>
+        <li class="ui-state-default">Item 4</li>
+        <li class="ui-state-default">Item 5</li>
+    </ul>
+
+
+</main>
+{{>store/common/store_footer}}

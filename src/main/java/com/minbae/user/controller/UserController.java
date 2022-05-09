@@ -1,9 +1,5 @@
 package com.minbae.user.controller;
 
-import com.minbae.store.comm.StoreCategory;
-import com.minbae.user.comm.UserApiResponse;
-import com.minbae.user.comm.UserApiStatus;
-import com.minbae.user.dao.UserMapper;
 import com.minbae.user.exception.UserCommException;
 import com.minbae.user.exception.comm.UserExceptionType;
 import com.minbae.user.service.UserService;
@@ -24,9 +20,8 @@ import java.util.Map;
 @Controller
 public class UserController {
     private final UserService userService;
-    private final UserMapper userMapper;
 
-    @GetMapping("/category/click/{categoryKo}/{categoryEn}")    //기본순은 여기서 뿌리기
+    @GetMapping("/category/click/{categoryKo}/{categoryEn}")
     public ModelAndView categoryClick(@PathVariable String categoryKo, @PathVariable String categoryEn){
 
         ModelAndView mav = new ModelAndView();
@@ -42,7 +37,6 @@ public class UserController {
     public ModelAndView getStoreByCategory(@PathVariable("categoryKo") String categoryKo,
                                            @PathVariable("categoryEn") String categoryEn,
                                            @PathVariable("type") String type) {
-
         //정해진 카테고리에 포함되지 않을 경우
         List<String> categorys = new ArrayList<>(Arrays.asList("CHICKEN", "CHINESEFOOD", "DESSERT", "BUNSIK", "PIZZA", "JAPANESEFOOD"));
         if(!categorys.contains(categoryEn)) {
@@ -50,21 +44,23 @@ public class UserController {
         }
 
         ModelAndView mav = new ModelAndView();
-        List<Map<String, Object>> starAndOrderCntList = userService.getStoreByCategoryOrderAndStar(categoryEn, type);
+        List<Map<String, Object>> store_list = userService.getStoreByCategoryOrderAndStar(categoryEn, type);
 
 
-        mav.addObject("starAndOrderCntList", starAndOrderCntList);
+        mav.addObject("store_list", store_list);
         mav.addObject("categoryKo", categoryKo);
         mav.addObject("categoryEn", categoryEn);
+        mav.addObject("type", type);
         mav.setViewName("user/category_click");
 
         return mav;
     }
 
     //가게 상세 정보
-    @GetMapping("/store/detail/{categoryKo}/{store_idx}")
+    @GetMapping("/store/detail/{categoryKo}/{store_idx}/{type}")
     public ModelAndView storeDetail(@PathVariable("store_idx") Long store_idx,
-                                    @PathVariable("categoryKo") String categoryKo){
+                                    @PathVariable("categoryKo") String categoryKo,
+                                    @PathVariable("type") String type){
 
         //해당 가게 상세 정보
         Map<String, Object> selectStore = userService.findStoreById(store_idx);
@@ -84,21 +80,23 @@ public class UserController {
         mav.addObject("kingMenu", kingMenu);
         mav.addObject("menuList", menuList);
         mav.addObject("categoryKo", categoryKo);
+        mav.addObject("type", type);
         mav.setViewName("user/store_detail");
 
         return mav;
     }
 
     //선택한 메뉴 담는 페이지
-    @GetMapping("/store/menu/detail/{menu_idx}")
-    public ModelAndView selectMenu(@PathVariable("menu_idx") Long menu_idx){
+    @GetMapping("/store/menu/detail/{menu_idx}/{categoryKo}")
+    public ModelAndView selectMenu(@PathVariable("menu_idx") Long menu_idx,
+                                   @PathVariable("categoryKo") String categoryKo){
 
         //특정 메뉴idx에 해당하는 가게 정보
         Map<String, Object> storeMenuIdx = userService.findStoreByMenuIdx(menu_idx);
-        System.out.println("store_detail_deliver_price => " + storeMenuIdx.get("store_detail_deliver_price"));
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("storeMenuIdx", storeMenuIdx);
+        mav.addObject("categoryKo", categoryKo);
         mav.setViewName("user/munu_click");
 
         return mav;
@@ -108,5 +106,36 @@ public class UserController {
     @GetMapping("/review/form")
     public String reviewForm(){
         return "user/user_review_form";
+    }
+
+    //장바구니 상세 페이지 이도
+    @GetMapping("/shopping/list")
+    public String shoppingBasket(){
+        return "user/shopping_basket";
+    }
+
+    @GetMapping("/shopping/visible")
+    public String shoppingVisible(){
+        return "user/shopping_visible";
+    }
+
+    //마이페이지 이동
+    @GetMapping("/myPage")
+    public String myPage(){
+        return "user/user_mypage";
+    }
+
+    @GetMapping("/review/management/{user_idx}")
+    public ModelAndView reviewManagement(@PathVariable("user_idx") Long user_idx){
+
+        ModelAndView mav = new ModelAndView();
+        List<Map<String, Object>> reviewList = userService.reviewList(user_idx);
+        Map<String, Object> reviewCnt = userService.reviewCnt(user_idx);
+
+        mav.addObject("reviewList", reviewList);
+        mav.addObject("reviewCnt", reviewCnt);
+        mav.setViewName("user/review_management");
+
+        return mav;
     }
 }

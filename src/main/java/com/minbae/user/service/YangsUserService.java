@@ -1,15 +1,14 @@
 package com.minbae.user.service;
 
-import com.minbae.comm.review.entity.Review;
-import com.minbae.comm.review.repository.ReviewRepository;
+import com.minbae.store.entity.Store;
 import com.minbae.store.repository.StoreRepository;
 import com.minbae.user.dto.UserAddrChangeDto;
 import com.minbae.user.dto.UserResponseStoreListDto;
 import com.minbae.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -17,6 +16,7 @@ import java.util.List;
 public class YangsUserService {
 
     private final UserRepository userRepository;
+    private final StoreRepository storeRepository;
 
     public long userAddrChange(UserAddrChangeDto userAddrChangeDto){
         userRepository.findByUserIdx(userAddrChangeDto.toEntity());
@@ -28,4 +28,9 @@ public class YangsUserService {
         List<UserResponseStoreListDto> list = userRepository.findStandardList(page,category,user_lat,user_lng);
         return list;
     }
+
+    public Store getStoreinfo(long storeIdx){
+        return storeRepository.findByStoreIdx(storeIdx);
+    }
+
 }

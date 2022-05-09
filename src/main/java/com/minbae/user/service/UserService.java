@@ -93,9 +93,6 @@ public class UserService {
 
             long fileSize = mf.getSize(); // 파일 사이즈
 
-            System.out.println("originFileName : " + originFileName);
-            System.out.println("fileSize : " + fileSize);
-
             String safeFile = "c:/이젠/upload/" + originFileName;
             try {
                 mf.transferTo(new File(safeFile));
@@ -122,6 +119,25 @@ public class UserService {
 //        copyInto(upload);
 
         return userMapper.reviewCreate(dto);
+    }
+
+    public List<Map<String, Object>> reviewList(Long user_idx) {
+
+        List<Map<String, Object>> reviewList = userMapper.reviewList(user_idx);
+
+        return reviewList;
+
+    }
+
+    public Map<String, Object> reviewCnt(Long user_idx) {
+        Map<String, Object> reviewCnt = userMapper.reviewCnt(user_idx);
+
+        return reviewCnt;
+    }
+
+    public int reviewDel(String review_idx) {
+        int deleteResult = userMapper.reviewDel(review_idx);
+        return deleteResult;
     }
 
 //    public void copyInto(List<MultipartFile> upload) throws IOException {

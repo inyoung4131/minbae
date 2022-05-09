@@ -5,80 +5,21 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>Document</title>
-    <script>
-
-        let totalQuantity = 0;
-        let totalPrice = 0;
-        function count(type)  {
-            // 결과를 표시할 element
-            const resultElement = document.getElementById('quantity');
-            const s_final_price = document.getElementById('final_menu_price');
-            const s_fix_price = document.getElementById('fix_price');
-
-            // 현재 화면에 표시된 값
-            totalQuantity = resultElement.innerText;
-            totalPrice = parseInt(s_final_price.innerText);
-            let price = parseInt(s_fix_price.innerText);
-
-            // 더하기/빼기
-            if(type === 'plus') {
-                totalQuantity = parseInt(totalQuantity) + 1;
-                totalPrice = totalPrice + price;
-                if (totalQuantity > 10){
-                    return;
-                }
-            }else if(type === 'minus')  {
-                totalQuantity = parseInt(totalQuantity) - 1;
-                totalPrice = totalPrice - price;
-                if (totalQuantity < 1){
-                    return;
-                }
-            }
-            // 결과 출력
-            resultElement.innerText = totalQuantity;
-            s_final_price.innerText = ""+totalPrice;
-            document.getElementById('bt_order').innerText = totalQuantity + '개 담기';
-        }
-
-        //장바구니 담기
-        window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('bt_order').addEventListener('click', () => {
-
-                const store_idx = document.getElementById('store_idx').value;
-                const menu_idx = document.getElementById('menu_idx').value;
-                const store_name = document.getElementById("store_name").value;
-                const menu_name = document.getElementById("menu_name").innerText;
-                const menu_price = document.getElementById("fix_price").innerText;
-                const deliver_price = document.getElementById("deliver_price").value;
-                const menu_img = document.getElementById("menu_img").innerText;
-
-                //세션스토리지에 저장(하기 전에 null 체크 먼저 해서 null이면 밑에 거, 아니면 조회 후 push로 넣기(장바구니 또 넣기)
-                let shoppingList = JSON.parse(sessionStorage.getItem('item'));
-
-                console.log(shoppingList)
-
-                if(shoppingList == null){
-                    sessionStorage.setItem("item", JSON.stringify([
-                        [store_idx, menu_idx, store_name, menu_name, menu_price, deliver_price, totalQuantity, totalPrice, menu_img]
-                    ]));
-                }else {
-
-                    shoppingList.push([1,1,1,1,1,1,1,1,1])
-                    sessionStorage.setItem('item', JSON.stringify(shoppingList));
-
-                }
-
-
-
-
-            })
-        })
-
-    </script>
+    <script src="/js/menu_click.js?v=131" defer></script>
 </head>
 <body>
     {{#storeMenuIdx}}
+
+    <div>
+        <a href="javascript:a_back();" class="link-secondary"><-</a>
+    </div>
+    <div>
+        <input type="hidden" id="categoryKo" value="{{categoryKo}}">
+    </div>
+
     <div>
         <input type="hidden" id="store_idx" value="{{store_idx}}">
         <input type="hidden" id="menu_idx" value="{{menu_idx}}">
@@ -107,5 +48,8 @@
         </div>
     </div>
     {{/storeMenuIdx}}
+    <div id="result_alert">
+
+    </div>
 </body>
 </html>

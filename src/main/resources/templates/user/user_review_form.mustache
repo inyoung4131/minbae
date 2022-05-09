@@ -38,40 +38,40 @@
             margin-left: 5px;
         }
 
-        <!--img-->
-        #c_img{
-            width: 10px;
-            height: 10px;
-            }
+        /*<!--img-->*/
+        /*#c_img{*/
+        /*    width: 10px;*/
+        /*    height: 10px;*/
+        /*    }*/
 
     </style>
 
     <script>
 
-        var fileNo = 0;
-        var filesArr = new Array();
+        let fileNo = 0;
+        let filesArr = new Array();
 
         /* 첨부파일 추가 */
         function addFile(obj) {
 
-            var maxFileCnt = 3;   // 첨부파일 최대 개수
-            var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-            var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-            var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
+            let maxFileCnt = 3;   // 첨부파일 최대 개수
+            let attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
+            let remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
+            let curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
 
             // 첨부파일 개수 확인
             if (curFileCnt > remainFileCnt) {
                 alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
             }
 
-            for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
+            for (let i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
 
                 const file = obj.files[i];
 
                 // 첨부파일 검증
                 if (validation(file)) {
                     // 파일 배열에 담기
-                    var reader = new FileReader();
+                    let reader = new FileReader();
                     reader.onload = function () {
                         filesArr.push(file);
                     };
@@ -171,7 +171,7 @@
                 let formData = new FormData();
                 formData.append('store_idx', document.getElementById('store_idx').value);
                 formData.append('review_comment', document.getElementById('review_comment').value);
-                // formData.append('upload',document.getElementById('upload').files);
+                // formData.append('upload',document.getElementById('upload').files[0]);
                 formData.append('review_star', $("input[name='review_star']:checked").val());
 
                 for (var i = 0; i < filesArr.length; i++) {
@@ -186,9 +186,9 @@
                     method: 'POST',
                     body: formData
                 })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            console.log(data);
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
                 });
             }
 

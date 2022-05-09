@@ -1,13 +1,15 @@
 package com.minbae.user.controller;
 
+import com.minbae.store.entity.Store;
 import com.minbae.user.dto.UserAddrChangeDto;
 import com.minbae.user.service.YangsUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -28,5 +30,10 @@ public class YangsUserRestController {
         List list =yangsUserService.getStoreByCategoryAndStandard(page, category, user_lat, user_lng);
         model.addAttribute("store_list",list);
         return  model;
+    }
+
+    @GetMapping("/user/store_detail/map/store")
+    public Store getStoreinfo(@Param("storeIdx") long storeIdx){
+        return yangsUserService.getStoreinfo(storeIdx);
     }
 }
