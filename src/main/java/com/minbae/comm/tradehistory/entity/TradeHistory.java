@@ -47,6 +47,5 @@ public class TradeHistory {
     private LocalDateTime orderDate;
     @Column(name="order_review_state")
     private String orderReviewState;
-
-
+    
 }
