@@ -43,4 +43,5 @@ public class Review {
     @Column(nullable = false,name="review_write_date")
     private LocalDateTime reviewWriteDate;
 
+
 }

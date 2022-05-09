@@ -2,6 +2,7 @@ package com.minbae.review.dao;
 
 import com.minbae.review.dto.StoreReviewDto;
 import com.minbae.review.dto.StoreReviewRequestDto;
+import com.minbae.review.dto.StoreReviewUpdateDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface ReviewMapper {
     // 특정 가게의 미답변 리뷰 개수
     Integer countNotReplyReviewByStoreIdx(Long storeIdx);
 
+    //특정 가게 사장님 답변 수정
+    Integer updateStoreReply(StoreReviewUpdateDto updateDto);
 }

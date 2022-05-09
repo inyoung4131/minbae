@@ -3,6 +3,7 @@ package com.minbae.review.service;
 import com.minbae.review.dao.ReviewMapper;
 import com.minbae.review.dto.StoreReviewDto;
 import com.minbae.review.dto.StoreReviewRequestDto;
+import com.minbae.review.dto.StoreReviewUpdateDto;
 import com.minbae.review.entity.Review;
 import com.minbae.store.entity.Store;
 import com.minbae.store.repository.StoreRepository;
@@ -72,5 +73,12 @@ public class StoreReviewService {
 
         Integer resultNum = reviewMapper.deleteReplyByReviewIdx(Long.valueOf(reviewIdx));
         return resultNum;
+    }
+
+    public Integer updateStoreReply(StoreReviewUpdateDto updateDto) {
+
+        Integer resultNum = reviewMapper.updateStoreReply(updateDto);
+        return resultNum;
+
     }
 }

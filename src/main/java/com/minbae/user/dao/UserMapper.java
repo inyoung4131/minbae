@@ -32,4 +32,6 @@ public interface UserMapper {
     Map<String, Object> reviewCnt(Long user_idx);
 
     int reviewDel(String review_idx);
+
+    List<Map<String, Object>> orderHistory(Long user_idx);
 }
