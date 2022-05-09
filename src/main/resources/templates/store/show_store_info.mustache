@@ -68,7 +68,7 @@
     <div>
         <h3>스토어 디테일 정보</h3>
     </div>
-    <form class="row g-3">
+    <form class="row g-3" id="sotreDetailForm"  enctype="multipart/form-data">
         {{#StoreDetailInfo}}
             <div class="col-12">
                 <label for="inputStoreDetailDeliverPrice" class="form-label">배달비설정</label>
@@ -84,7 +84,13 @@
             </div>
             <div class="col-12">
                 <label for="inputStoreDetailInfoImg" class="form-label">가게대표이미지</label>
-                <input type="text" class="form-control" id="inputStoreDetailInfoImg" value="{{storeDetailInfoImg}}">
+                <input type="file" class="form-control" name="storeImg" id="inputStoreDetailInfoImg">
+                {{#storeDetailInfoImg}}
+                <label>등록된 이미지가 존재합니다. 이미지를 수정하려면 첨부파일을 업로드해주세요!</label>
+                {{/storeDetailInfoImg}}
+                {{^storeDetailInfoImg}}
+                    <label>등록된 이미지가 존재하지 않습니다. 이미지를 추가해보세요!</label>
+                {{/storeDetailInfoImg}}
             </div>
             <div class="col-12">
                 <label for="inputStoreDetailInfoText" class="form-label">가게소개글</label>
@@ -168,7 +174,7 @@
 <script>
     const updateStoreDetailBtn = document.querySelector('#update-detail-btn');
     updateStoreDetailBtn.addEventListener('click', function (){
-        window.alert('상세수정버튼눌림?');
+
         // store 객체 생성
         const storeDetail = {
             storeDetailIdx: document.querySelector("#inputStoreDetailIdx").value,
@@ -178,27 +184,34 @@
             storeDetailDeliverPrice: document.querySelector("#inputStoreDetailDeliverPrice").value,
             storeDetailMinimumPrice: document.querySelector("#inputStoreDetailMinimumPrice").value,
             storeDetailTakeOutDiscount: document.querySelector("#inputStoreDetailTakeOutDiscount").value,
-            storeDetailInfoImg: document.querySelector("#inputStoreDetailInfoImg").value,
+            //storeDetailInfoImg: document.querySelector("#inputStoreDetailInfoImg").value,
             storeDetailInfoText: document.querySelector("#inputStoreDetailInfoText").value,
             storeDetailMenuText: document.querySelector("#inputStoreDetailMenuText").value,
             storeDetailReviewText: document.querySelector("#inputStoreDetailReviewText").value
         }
         console.log(JSON.stringify(storeDetail));
 
-        // fetch
-        const url = "/api/storeDetailInfo/update/"+storeDetail.storeDetailIdx;
-        alert(storeDetail.storeDetailIdx);
-        fetch(url, {
-            method: "PATCH",
-            body: JSON.stringify(storeDetail),
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        }).then(response => {
-            const msg = (response.ok) ? "상세수정 성공" : "상세수정 실패!!";
-            alert(msg);
+        let updateForm1 = $('#sotreDetailForm')[0];
+        let formData1 = new FormData(updateForm1);
+        formData1.append('storeImg', $('#inputStoreDetailInfoImg'));
+        formData1.append('key', new Blob([JSON.stringify(storeDetail)], {type: "application/json"}));
+
+        $.ajax({
+            type: 'PATCH',
+            url: "/api/storeDetailInfo/update/"+storeDetail.storeDetailIdx+"/img",
+            data: formData1,
+            processData: false,
+            contentType: false
+
+        }).done(function () {
+            alert("상세정보 수정 성공");
             location.reload();
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+            alert("상세정보 수정 실패");
+            return;
         });
+
     });
 </script>
 
@@ -291,3 +304,5 @@
             });
         });
 </script>
+
+<!--Store Detail img -->

@@ -50,8 +50,7 @@ public class StoreService {
         StoreDetailSaveRequestDto target = new StoreDetailSaveRequestDto();
         target.setStoreIdx(newStore);
         StoreDetail newStoreDetail = storeDetailRepository.save(target.toEntity());
-        // 왜 아래 방법은 안통하지..
-        //StoreDetail newStoreDetail = storeDetailRepository.saveByStoreIdx(temp);
+
         if(newStoreDetail == null){
             throw new IllegalArgumentException("예외발생 - create storeDetail");
         };
