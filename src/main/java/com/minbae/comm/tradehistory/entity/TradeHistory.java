@@ -51,7 +51,7 @@ public class TradeHistory {
 
     @JsonManagedReference
     @OneToOne(mappedBy = "tradeHistory", orphanRemoval = true)
-    private Review review
+    private Review review;
 
 
 }
