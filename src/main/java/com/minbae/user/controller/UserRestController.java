@@ -23,17 +23,30 @@ public class UserRestController {
         this.userService = userService;
     }
 
+    //사용자 리뷰 작성
     @PostMapping("/review/create")
     public UserApiResponse reviewCreate(MultipartHttpServletRequest req, UserReviewDTO dto) throws Exception {
 
         List<MultipartFile> upload = req.getFiles("upload");
-        upload.forEach(data -> {
-            System.out.println("name => " + data.getOriginalFilename());
-
-        });
+//        upload.forEach(data -> {
+//            System.out.println("name => " + data.getOriginalFilename());
+//        });
         int InsertResult = userService.reviewCreate(dto, upload);
 
-        return new UserApiResponse(UserApiStatus.SUCCESS, dto);
+        return (InsertResult == 1) ?
+                new UserApiResponse(UserApiStatus.SUCCESS, dto) :
+                new UserApiResponse(UserApiStatus.FAIL, dto);
+    }
+
+    @DeleteMapping("/review/delete/{review_idx}")
+    public UserApiResponse reviewDel(@PathVariable("review_idx") String review_idx){
+
+        int deleteResult = userService.reviewDel(review_idx);
+
+
+        return (deleteResult == 1) ?
+        new UserApiResponse(UserApiStatus.SUCCESS, deleteResult) :
+        new UserApiResponse(UserApiStatus.FAIL, deleteResult);
     }
 
 //    //주문 많은 순, 별점 많은 순

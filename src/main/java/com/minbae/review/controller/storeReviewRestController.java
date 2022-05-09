@@ -1,6 +1,7 @@
 package com.minbae.review.controller;
 
 import com.minbae.review.dto.StoreReviewRequestDto;
+import com.minbae.review.dto.StoreReviewUpdateDto;
 import com.minbae.review.service.StoreReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,15 @@ public class storeReviewRestController {
     @DeleteMapping("/owne/delete/reply/{reviewIdx}")
     public Map<String, Integer> deleteStoreReply(@PathVariable String reviewIdx){
         Integer resultNum = storeReviewService.deleteStoreReply(reviewIdx);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("resultNum", resultNum);
+        return map;
+    }
+
+    //특정 가게의 사장님 답변 수정
+    @PatchMapping("/owne/patch/reply")
+    public Map<String, Integer> updateStoreReply(@RequestBody StoreReviewUpdateDto updateDto) {
+        Integer resultNum = storeReviewService.updateStoreReply(updateDto);
         Map<String, Integer> map = new HashMap<>();
         map.put("resultNum", resultNum);
         return map;

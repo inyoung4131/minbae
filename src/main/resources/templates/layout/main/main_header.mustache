@@ -10,10 +10,45 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
     />
     <title>Hello, world!</title>
+    <style>
+        #customHeaderColor {
+            background-color: #2AC1BC !important;
+        }
+    </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;" id="customHeaderColor">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">민족의 배달</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <div class="nav-link" id="detailAddr">우리집</div>
+                </li>
+            </ul>
+            <span class="nav-item d-flex">
+                <a class="nav-link active" aria-current="page" href="#">알림</a>
+            </span>
+            <span class="nav-item">
+                <a class="nav-link active" aria-current="page" href="user/myPage">마이페이지</a>
+            </span>
+        </div>
+    </div>
+</nav>
     {{>user/user_addr_change}}
-    <input type="text" name="header_search" placeholder="검색어를 입력해 주세요." required>
-    <input type="button" value="검색">
+<form class="d-flex">
+    <input class="form-control me-2" type="search" placeholder="찾는 맛집 이름이 뭐예요?" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
 
 <hr>
+<script>
+    // let member_info = sessionStorage.getItem("memberData");
+    // console.log(member_info);
+</script>
