@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     User findByUserIdx(User user);
 
+    User findByUserEmail(String userEmail);
+
     //  jpa 어려움 - 미해결 - 네이티브 쿼리로 대체
 
     @Query(value = "select s.store_idx \n" +

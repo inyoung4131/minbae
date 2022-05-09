@@ -1,5 +1,7 @@
 package com.minbae.review.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.minbae.comm.tradehistory.entity.TradeHistory;
 import com.minbae.store.entity.Store;
 import com.minbae.user.entity.User;
 import lombok.Getter;
@@ -13,9 +15,10 @@ import java.time.LocalDateTime;
 @Entity
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonBackReference
+    @OneToOne
     @Column(name="review_idx")
-    private Long reviewIdx;
+    private TradeHistory tradeHistory;
 
     @ManyToOne
     @JoinColumn(name="store_idx",nullable = false)
