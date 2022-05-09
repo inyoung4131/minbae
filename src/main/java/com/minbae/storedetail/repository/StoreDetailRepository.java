@@ -14,4 +14,7 @@ public interface StoreDetailRepository extends JpaRepository<StoreDetail, Long> 
     // 왜 values에 값이 전달이 안될까?
     @Query(value = "INSERT INTO store_detail(store_idx) VALUES (:temp)", nativeQuery = true)
     public StoreDetail saveByStoreIdx(@Param("temp")Long temp);
+
+    @Query(value = "SELECT store_detail_info_img from store_detail where store_detail_idx = :storeDetailIdx", nativeQuery = true)
+    public String findImgNameById(Long storeDetailIdx);
 }

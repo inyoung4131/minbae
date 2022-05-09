@@ -1,7 +1,10 @@
 package com.minbae.comm.tradehistory.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.minbae.deliver.entity.Deliver;
+import com.minbae.review.entity.Review;
 import com.minbae.store.entity.Store;
+import com.minbae.storedetail.entity.StoreDetail;
 import com.minbae.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +48,9 @@ public class TradeHistory {
     private int orderCoupon;
     @Column(nullable = false,name="order_date")
     private LocalDateTime orderDate;
-    @Column(name="order_review_state")
-    private String orderReviewState;
-    
+
+    @JsonManagedReference
+    @OneToOne(mappedBy = "tradeHistory", orphanRemoval = true)
+    private Review review;
+
 }

@@ -12,10 +12,19 @@
             <input type="date" class="form-control" placeholder="Server" aria-label="Server" id="currentDate">
         </div>
 
-        <button class="btn btn-primary">조회</button>
+        <button class="btn btn-primary" id="getListBtn">조회</button>
+
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="allListBtn" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio1">전체({{countMap.allReviewCount}})</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="noReplyListBtn" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio2">미답변({{countMap.notReplyReviewCount}})</label>
+        </div>
+
         <div class="btn-group" role="group" aria-label="Basic outlined example">
-            <button type="button" class="btn btn-outline-primary">전체({{countMap.allReviewCount}})</button>
-            <button type="button" class="btn btn-outline-primary">미답변({{countMap.notReplyReviewCount}})</button>
+            <button type="button" class="btn btn-outline-primary" id="allListBtn">전체({{countMap.allReviewCount}})</button>
+            <button type="button" class="btn btn-outline-primary" id="noReplyListBtn">미답변({{countMap.notReplyReviewCount}})</button>
         </div>
     </div>
     <script>
@@ -141,6 +150,21 @@
 
        });
     });
+</script>
+
+<!-- get All review Btn-->
+<script>
+    const allListBtn = document.getElementById('allListBtn');
+    allListBtn.addEventListener('click', () => {
+
+    });
+
+</script>
+
+
+<!-- get NoReply review Btn-->
+<script>
+    noReplyListBtn
 </script>
 
 

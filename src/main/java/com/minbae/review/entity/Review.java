@@ -1,5 +1,7 @@
 package com.minbae.review.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.minbae.comm.tradehistory.entity.TradeHistory;
 import com.minbae.store.entity.Store;
 import com.minbae.user.entity.User;
 import lombok.Getter;
@@ -40,5 +42,9 @@ public class Review {
     @Column(nullable = false,name="review_write_date")
     private LocalDateTime reviewWriteDate;
 
+    @JsonBackReference
+    @OneToOne
+    @JoinColumn(name="tradeHistoryIdx")
+    private TradeHistory tradeHistory;
 
 }

@@ -71,6 +71,7 @@
             이를 다시 json 객체로 변환하여 꺼내왔다??
             */
             console.log("객체>"+loadedToDos);
+            console.log(parsedToDos.memberData.ownerIdx);
             console.log(parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx);
             ownerIdx = parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx;
         }
