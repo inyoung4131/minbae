@@ -71,9 +71,7 @@
 
     function deleteAddr(addr_form){
         let count=addr_form.id;
-        alert(count);
         usedAddr.splice(count,1);
-        alert(count);
         usedAddr=JSON.stringify(usedAddr);
         window.localStorage.setItem("used_addr",usedAddr);
         location.reload();

@@ -22,11 +22,11 @@ public class YangsUserRestController {
         return yangsUserService.userAddrChange(userAddrChangeDto);
     }
 
-    //기본순
-//    @GetMapping("/user/category/standard")
-//    public Model getStoreByCategoryAndStandard(Model model, int page, String category, int user_lat, int user_lng){
-//        List list =yangsUserService.getStoreByCategoryAndStandard(page, category, user_lat, user_lng);
-//        model.addAttribute("store_list",list);
-//        return  model;
-//    }
+
+    @GetMapping("/user/category/standard")
+    public Model getStoreByCategoryAndStandard(Model model, int page, String category, int user_lat, int user_lng){
+        List list =yangsUserService.getStoreByCategoryAndStandard(page, category, user_lat, user_lng);
+        model.addAttribute("store_list",list);
+        return  model;
+    }
 }
