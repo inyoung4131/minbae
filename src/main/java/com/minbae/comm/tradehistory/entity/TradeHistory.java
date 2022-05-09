@@ -53,5 +53,4 @@ public class TradeHistory {
     @OneToOne(mappedBy = "tradeHistory", orphanRemoval = true)
     private Review review;
 
-
 }
