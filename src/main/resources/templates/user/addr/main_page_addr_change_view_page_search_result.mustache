@@ -13,6 +13,8 @@
     <input type="hidden" value="{{basic}}" id="basic">
     <div>도로명 {{road}}</div>
     <input type="hidden" value="{{road}}" id="road">
+    <input type="hidden" id="lat">
+    <input type="hidden" id="lng">
     <div><input type="text" placeholder="상세 주소 입력" id="detail_addr"></div>
     <div><input type='checkbox'
                 name='category'
@@ -36,7 +38,18 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
-    $('#back').on('click',function (){
+
+    function setUserLatLng() {
+        let user_lat_lng = {
+            user_lat: $('#lat').val(),
+            user_lng: $('#lng').val()
+        }
+        user_lat_lng = JSON.stringify(user_lat_lng);
+        window.localStorage.setItem("user_latlng", user_lat_lng);
+    };
+
+
+    $('#back').on('click', function () {
         location.href = "/user/main/addr/search";
     })
     let category = '';
@@ -58,49 +71,69 @@
     function process_end() {
         if (window.localStorage.getItem("used_addr") != null && window.localStorage.getItem("used_addr") != undefined) {
 
-            var mem = JSON.parse(window.localStorage.getItem("used_addr"));
-            var arr =
-                    {
-                        "basic": $('#basic').val()
-                        , "road": $('#road').val()
-                        , "detail": $('#detail_addr').val()
-                        , "category": category
-                        , "alias": $('#alias').val()
-                    };
-            mem.push(arr);
-            mem = JSON.stringify(mem);
-            window.localStorage.setItem("used_addr", mem);
-            location.href = "/user/main/addr/main";
+            $.ajax({
+                url: 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURIComponent($('#basic').val()),
+                type: 'GET',
+                headers: {'Authorization': 'KakaoAK 22e00e7447c5306d5873193d9373f549'}
+            }).done(function (data2) {
+                document.getElementById('lat').value = data2.documents[0].y;
+                document.getElementById('lng').value = data2.documents[0].x;
+                setUserLatLng();
+                var mem = JSON.parse(window.localStorage.getItem("used_addr"));
+                var arr =
+                        {
+                            "basic": $('#basic').val()
+                            , "road": $('#road').val()
+                            , "detail": $('#detail_addr').val()
+                            , "category": category
+                            , "alias": $('#alias').val()
+                        };
+                mem.push(arr);
+                mem = JSON.stringify(mem);
+                window.localStorage.setItem("used_addr", mem);
+                location.href = "/user/main/addr/main";
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+
         } else {
-            var mem = [];
-            var arr =
-                    {
-                        "basic": $('#basic').val()
-                        , "road": $('#road').val()
-                        , "detail": $('#detail_addr').val()
-                        , "category": category
-                        , "alias": $('#alias').val()
-                    };
-            mem.push(arr);
-            mem = JSON.stringify(mem);
-            window.localStorage.setItem("used_addr", mem);
-            if (window.sessionStorage.getItem("memberData") != null) {
-                var data={
-                    userIdx: JSON.parse(window.sessionStorage.getItem("memberData"))[0].userIdx,
-                    userBasicAddr: $('#road').val(),
-                    userDetailAddr: $('#detail_addr').val()
-                };
-                $.ajax({
-                    type: 'PUT',
-                    url: '/user/main/addr/change',
-                    dataType: 'json',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(data)
-                }).done(function () {
-                    location.href = "/user/main/addr/main";
-                })
-                ;
-            }
+            $.ajax({
+                url: 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURIComponent($('#basic').val()),
+                type: 'GET',
+                headers: {'Authorization': 'KakaoAK 22e00e7447c5306d5873193d9373f549'}
+            }).done(function (data2) {
+                var mem = [];
+                var arr =
+                        {
+                            "basic": $('#basic').val()
+                            , "road": $('#road').val()
+                            , "detail": $('#detail_addr').val()
+                            , "category": category
+                            , "alias": $('#alias').val()
+                        };
+                mem.push(arr);
+                mem = JSON.stringify(mem);
+                window.localStorage.setItem("used_addr", mem);
+                setUserLatLng();
+                // 아직. 로그인 다 하고.
+                // if (window.sessionStorage.getItem("memberData") != null) {
+                //     var data={
+                //         userIdx: JSON.parse(window.sessionStorage.getItem("memberData"))[0].userIdx,
+                //         userBasicAddr: $('#road').val(),
+                //         userDetailAddr: $('#detail_addr').val()
+                //     };
+                //     $.ajax({
+                //         type: 'PUT',
+                //         url: '/user/main/addr/change',
+                //         dataType: 'json',
+                //         contentType: 'application/json; charset=utf-8',
+                //         data: JSON.stringify(data)
+                //     }).done(function () {
+                //         location.href = "/user/main/addr/main";
+                //     })
+                //     ;
+                // }
+            });
         }
     }
 </script>
