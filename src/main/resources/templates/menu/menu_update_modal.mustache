@@ -160,7 +160,8 @@
                         return;
                     }
                     alert('이미지 삭제 성공');
-                    location.href="/owne/menu/"+document.querySelector('#edit-store-idx').value;
+                    const addUrl = document.querySelector('#edit-store-idx').value;
+                    location.href=`/owne/menu/${addUrl}`;
                 });
             });
 
@@ -191,7 +192,7 @@
 
             //const url = "/update/menuInfo";
             $.ajax({
-                type: 'POST',
+                type: 'PATCH',
                 url: '/update/menuInfo',
                 data: formData1,
                 processData: false,
@@ -205,19 +206,6 @@
                 alert("메뉴 수정 실패");
                 return;
             });
-            // fetch(url, {
-            //     method: "PATCH",
-            //     body: formData,
-            //     headers: {}
-            //
-            // }).then(response => {
-            //     if(!response.ok){
-            //         alert("메뉴 수정 실패");
-            //         return;
-            //     }
-            //     alert("메뉴 수정 성공");
-            //     location.href="/owne/menu/"+updateData.storeIdx.storeIdx;
-            // });
         });
 
     });

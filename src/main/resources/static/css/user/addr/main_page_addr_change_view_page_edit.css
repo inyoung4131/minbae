@@ -1,0 +1,57 @@
+html {
+    animation: change 0.3s ease forwards;
+}
+@keyframes change {
+    from {
+        transform: translateX(100%);
+        visibility: visible;
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+#head_div{
+    text-align: center;
+    font-weight: 600;
+    font-size:22px;
+}
+#back{
+    display: inline-block;
+    float: left;
+}
+#head_div::after {
+
+    content: '';
+
+    display: block;
+
+    clear: both;
+}
+#search_div_img {
+    display: inline-block;
+    float: left;
+}
+
+#search_div_text {
+    font-size: 17px;
+    font-weight: 600;
+    height: 45px;
+}
+
+#search_div::after {
+
+    content: '';
+
+    display: block;
+
+    clear: both;
+}
+#search_div {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+.print_addr_div1 {
+
+    display: inline-block;
+    float: left;
+}

@@ -80,4 +80,15 @@ public class Store {
         this.storeLng = storeLng;
         this.storeTel = storeTel;
     }
+
+    public void patch(Store newStoreTarget) {
+        if(newStoreTarget.storeName != null){this.storeName = newStoreTarget.storeName;}
+        if(newStoreTarget.storeCategory != null){this.storeCategory = newStoreTarget.storeCategory;}
+        if(newStoreTarget.storeBasicAddr != null){this.storeBasicAddr = newStoreTarget.storeBasicAddr;}
+        if(newStoreTarget.storeDetailAddr != null){this.storeDetailAddr = newStoreTarget.storeDetailAddr;}
+        if(newStoreTarget.storeLat != null){this.storeLat = newStoreTarget.storeLat;}
+        if(newStoreTarget.storeLng != null){this.storeLng = newStoreTarget.storeLng;}
+        if(newStoreTarget.storeTel != null){this.storeTel = newStoreTarget.storeTel;}
+
+    }
 }

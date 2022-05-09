@@ -23,6 +23,7 @@ public class UserController {
 
     @GetMapping("/category/click/{categoryKo}/{categoryEn}")
     public ModelAndView categoryClick(@PathVariable String categoryKo, @PathVariable String categoryEn){
+
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("categoryKo", categoryKo);

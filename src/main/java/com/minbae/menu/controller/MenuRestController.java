@@ -50,7 +50,7 @@ public class MenuRestController {
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PostMapping(value = "/update/menuInfo", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping(value = "/update/menuInfo", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Menu> updateMenu(@RequestPart(value = "key") MenuSaveRequestDto requestDto,
                                            @RequestPart(value = "file", required = false) MultipartFile file) throws Exception{
 
