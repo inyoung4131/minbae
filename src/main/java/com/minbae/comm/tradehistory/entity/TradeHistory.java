@@ -45,6 +45,8 @@ public class TradeHistory {
     private int orderCoupon;
     @Column(nullable = false,name="order_date")
     private LocalDateTime orderDate;
+    @Column(name="order_review_state")
+    private String orderReviewState;
 
 
 }

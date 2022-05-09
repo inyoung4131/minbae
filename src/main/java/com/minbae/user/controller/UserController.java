@@ -138,4 +138,17 @@ public class UserController {
 
         return mav;
     }
+
+    //주문 내역 리스트
+    @GetMapping("/order/history/{user_idx}")
+    public ModelAndView orderHistory(@PathVariable("user_idx") Long user_idx){
+
+        ModelAndView mav = new ModelAndView();
+        List<Map<String, Object>> orderHistoryList = userService.orderHistory(user_idx);
+
+            mav.addObject("orderHistoryList", orderHistoryList);
+        mav.setViewName("user/uesr_order_history");
+
+        return mav;
+    }
 }

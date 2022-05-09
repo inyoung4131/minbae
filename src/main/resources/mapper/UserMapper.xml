@@ -129,4 +129,15 @@
         where review_idx = #{review_idx};
     </delete>
 
+    <select id="orderHistory" resultType="hashMap">
+        select
+            t.order_date, sd.store_detail_info_img, s.store_name, sum(thd.count) totalCount, t.order_price, t.trade_history_idx
+        from trade_history t
+                 join trade_history_detail thd on t.trade_history_idx = thd.trade_history_idx
+                 join store_detail sd on t.store_idx = sd.store_idx
+                 join store s on s.store_idx = sd.store_idx
+        where user_idx = #{user_idx}
+        group by t.trade_history_idx;
+    </select>
+
 </mapper>

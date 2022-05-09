@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -90,10 +91,9 @@ public class UserService {
         for (MultipartFile mf : upload) {
             fileName.add(mf.getOriginalFilename());
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
+            String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년MM월dd일HH시mm분ss초"));
 
-            long fileSize = mf.getSize(); // 파일 사이즈
-
-            String safeFile = "c:/이젠/upload/" + originFileName;
+            String safeFile = "c:/이젠/upload/" + formatedNow + originFileName;
             try {
                 mf.transferTo(new File(safeFile));
             } catch (IllegalStateException e) {
@@ -138,6 +138,13 @@ public class UserService {
     public int reviewDel(String review_idx) {
         int deleteResult = userMapper.reviewDel(review_idx);
         return deleteResult;
+    }
+
+    public List<Map<String, Object>> orderHistory(Long user_idx) {
+
+        List<Map<String, Object>> orderHistoryList = userMapper.orderHistory(user_idx);
+
+        return orderHistoryList;
     }
 
 //    public void copyInto(List<MultipartFile> upload) throws IOException {
