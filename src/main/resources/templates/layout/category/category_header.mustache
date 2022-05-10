@@ -14,25 +14,12 @@
 </div>
 
 <div>
-    <span class="categoryLink" id="JAPANESEFOOD" value="JAPANESEFOOD">돈가스|회|일식</span>
-    <span class="categoryLink" id="CHICKEN" value="CHICKEN">치킨</span>
-    <span class="categoryLink" id="CHINESEFOOD" value="CHINESEFOOD">중국집</span>
-    <span class="categoryLink" id="BUNSIK" value="BUNSIK">분식</span>
-    <span class="categoryLink" id="PIZZA" value="PIZZA">피자</span>
-    <span class="categoryLink" id="DESSERT" value="DESSERT">카페|디저트</span>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-        var page =0;
-        var category ='CHICKEN';
-        $('.categoryLink').on('click',function(){
-            category=this.id;
-            page=0;
-            $('#storeListDiv').empty();
-            requestStandardStoreList();
-        })
-
-    </script>
-
+    <a href="/user/category/click/돈가스|회|일식/JAPANESEFOOD">돈가스|회|일식</a>
+    <a href="/user/category/click/치킨/CHICKEN">치킨</a>
+    <a href="/user/category/click/중국집/CHINESEFOOD">중국집</a>
+    <a href="/user/category/click/분식/BUNSIK">분식</a>
+    <a href="/user/category/click/피자/PIZZA">피자</a>
+    <a href="/user/category/click/카페|디저트/DESSERT">카페|디저트</a>
 </div>
 <hr>
 <div>
