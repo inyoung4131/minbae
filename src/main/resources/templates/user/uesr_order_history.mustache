@@ -6,31 +6,52 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+<!--    <script src="/js/user_order_history.js?v=5" defer></script>-->
     <script>
-        const b_back = () => {
-            location.href = document.referrer;
+        window.onload = () => {
+            fetch("/user/order/history/get/1")   //세션스토리지에서 user_idx 값 가져와서 넣어줘
+            .then((response) => response.json())
+            .then((datas) => {
+                datas.data.forEach( (data, idx) => {
+                    // console.log(data.trade_history_idx);
+                    let historyList = '';
+                    historyList += `<div>`;
+                    historyList += `<input type="hidden" id="trade_history_idx${idx}" value="${data.trade_history_idx}">`
+                    historyList += `<div>주문 날짜:${data.order_date}</div>
+                                    <div>가게 이미지:${data.store_detail_info_img}</div>
+                                    <div>가게 이름:${data.store_name}</div>
+                                    <div>총 주문 수량:${data.totalCount}</div>
+                                    <div>총 금액:${data.order_price}</div>
+                                    <div>
+                                        <a href="javascript:reviewCreate(${data.store_idx}, ${data.trade_history_idx});" style="display: none" id="reviewCreate${idx}">리뷰 작성하기</a>
+                                    </div>
+                                    <hr>
+                                    </div>`
+                    let div_historyList = document.createElement('div');
+                    div_historyList.innerHTML = historyList;
+                    document.body.appendChild(div_historyList);
+
+                    fetch(`/user/review/state/${data.trade_history_idx}`)   //세션스토리지에서 user_idx 값 가져와서 넣어줘
+                    .then((response) => response.json())
+                    .then((datas) => {
+                        if(datas.data === null){
+                            document.getElementById(`reviewCreate${idx}`).style.display = 'block';
+                        }
+                    })
+                })
+            });
         }
 
-        const reviewCreate = () => {
+        const reviewCreate = (store_idx, trade_history_idx) => {
+            console.log(trade_history_idx);
+            window.location.href = `/user/review/form/${store_idx}/${trade_history_idx}`;
 
         }
+
     </script>
 </head>
 <body>
-    <div><a href="javascript:b_back()"><-</a></div>
+    <div><a href="/user/myPage"><-</a></div>
     <hr>
-    <div>
-        {{#orderHistoryList}}
-        <div>주문 날짜:{{order_date}}</div>
-        <div>가게 이미지:{{store_detail_info_img}}</div>
-        <div>가게 이름:{{store_name}}</div>
-        <div>총 주문 수량:{{totalCount}}</div>
-        <div>총 금액:{{order_price}}</div>
-        <div>
-            <a href="javascript:reviewCreate();">리뷰 작성하기</a>
-        </div>
-        <hr>
-        {{/orderHistoryList}}
-    </div>
 </body>
 </html>

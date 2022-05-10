@@ -96,7 +96,12 @@
         <div id="reviewTapList" style="display: none">
             <div id="reviewText">
                 <div>
+                    {{#selectStore.starAvg}}
                     별점 : {{selectStore.starAvg}}
+                    {{/selectStore.starAvg}}
+                    {{^selectStore.starAvg}}
+                        0
+                    {{/selectStore.starAvg}}
                 </div>
                 <div>
                     사장님 한마디 : {{selectStore.store_detail_review_text}}

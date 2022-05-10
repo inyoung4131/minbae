@@ -49,6 +49,28 @@ public class UserRestController {
         new UserApiResponse(UserApiStatus.FAIL, deleteResult);
     }
 
+    //특정 유저의 주문 내역 리스트
+    @GetMapping("/order/history/get/{user_idx}")
+    public UserApiResponse reviewList(@PathVariable("user_idx") Long user_idx){
+
+        List<Map<String, Object>> orderHistoryList = userService.orderHistory(user_idx);
+//        System.out.println(orderHistoryList);
+
+        return (orderHistoryList != null) ?
+                new UserApiResponse(UserApiStatus.SUCCESS, orderHistoryList) :
+                new UserApiResponse(UserApiStatus.FAIL, null);
+    }
+
+    @GetMapping("/review/state/{trade_history_idx}")
+    public UserApiResponse reviewState(@PathVariable("trade_history_idx") Long trade_history_idx){
+        Map<String, Object> reviewState = userService.reviewState(trade_history_idx);
+
+        return (reviewState != null) ?
+                new UserApiResponse(UserApiStatus.SUCCESS, reviewState) :
+                new UserApiResponse(UserApiStatus.FAIL, null);
+    }
+
+
 //    //주문 많은 순, 별점 많은 순
 //    @GetMapping("/store/{category}/{type}")
 //    public UserApiResponse getStoreByCategory(@PathVariable("category") String category,
