@@ -18,13 +18,27 @@
             var lat = position.coords.latitude+"000001",
                     lon = position.coords.longitude+"000001";
             latlng = new kakao.maps.LatLng(lat, lon);
+
             searchDetailAddrFromCoords(latlng, function(result, status) {
                 if (status === kakao.maps.services.Status.OK) {
                     var detailAddr = !!result[0].road_address ? result[0].road_address.address_name : '';
                     var detailAddr2 = result[0].address.address_name;
+
                     if(detailAddr!=''){
-                        $(`#detailAddr`).text(12345);
+                        let user_lat_lng = {
+                            user_lat: lat,
+                            user_lng: lon
+                        }
+                        user_lat_lng = JSON.stringify(user_lat_lng);
+                        window.localStorage.setItem("user_latlng", user_lat_lng);
+                        $(`#detailAddr`).text();
                     }else if(detailAddr2!=undefined){
+                        let user_lat_lng = {
+                            user_lat: lat,
+                            user_lng: lon
+                        }
+                        user_lat_lng = JSON.stringify(user_lat_lng);
+                        window.localStorage.setItem("user_latlng", user_lat_lng);
                         $(`#detailAddr`).text(detailAddr2);
                     }
                 }

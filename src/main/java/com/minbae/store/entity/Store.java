@@ -3,6 +3,7 @@ package com.minbae.store.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.minbae.owner.entity.Owner;
 import com.minbae.storedetail.entity.StoreDetail;
+import com.minbae.user.dto.UserResponseStoreListDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 
 @Getter
 @NoArgsConstructor

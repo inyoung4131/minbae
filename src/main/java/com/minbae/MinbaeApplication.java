@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-//@ServletComponentScan // fillter 어노테이션
+//@ServletComponentScan
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class MinbaeApplication {
 
