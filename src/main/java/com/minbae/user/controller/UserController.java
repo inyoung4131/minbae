@@ -103,9 +103,14 @@ public class UserController {
     }
 
     //리뷰 작성 페이지 이동
-    @GetMapping("/review/form")
-    public String reviewForm(){
-        return "user/user_review_form";
+    @GetMapping("/review/form/{store_idx}/{trade_history_idx}")
+    public ModelAndView reviewForm(@PathVariable("store_idx") Long store_idx,
+                             @PathVariable("trade_history_idx") Long trade_history_idx){
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("store_idx", store_idx);
+        mav.addObject("trade_history_idx", trade_history_idx);
+        mav.setViewName("user/user_review_form");
+        return mav;
     }
 
     //장바구니 상세 페이지 이도
@@ -139,14 +144,14 @@ public class UserController {
         return mav;
     }
 
-    //주문 내역 리스트
+    //주문 내역 리스트로 이동
     @GetMapping("/order/history/{user_idx}")
     public ModelAndView orderHistory(@PathVariable("user_idx") Long user_idx){
 
         ModelAndView mav = new ModelAndView();
-        List<Map<String, Object>> orderHistoryList = userService.orderHistory(user_idx);
-
-            mav.addObject("orderHistoryList", orderHistoryList);
+//        List<Map<String, Object>> orderHistoryList = userService.orderHistory(user_idx);
+//
+//            mav.addObject("orderHistoryList", orderHistoryList);
         mav.setViewName("user/uesr_order_history");
 
         return mav;

@@ -170,12 +170,13 @@
 
                 let formData = new FormData();
                 formData.append('store_idx', document.getElementById('store_idx').value);
+                formData.append('trade_history_idx', document.getElementById('trade_history_idx').value);
+                formData.append('user_idx', 1); //세션스토리지에서 user_idx 가지고 와야 됨
                 formData.append('review_comment', document.getElementById('review_comment').value);
                 // formData.append('upload',document.getElementById('upload').files[0]);
                 formData.append('review_star', $("input[name='review_star']:checked").val());
 
                 for (var i = 0; i < filesArr.length; i++) {
-
                     // 삭제되지 않은 파일만 폼데이터에 담기
                     if (!filesArr[i].is_delete) {
                         formData.append("upload", filesArr[i]);
@@ -188,7 +189,10 @@
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
+                    if(data.status == 'SUCCESS'){
+                        alert('리뷰가 등록되었습니다.');
+                        location.href = document.referrer;
+                    }
                 });
             }
 
@@ -199,7 +203,8 @@
 
     <div class="insert">
 <!--        <form method="POST" onsubmit="return false;" enctype="multipart/form-data">-->
-            <input type="hidden" id="store_idx" value="1"/>
+            <input type="hidden" id="store_idx" value="{{store_idx}}"/>
+            <input type="hidden" id="trade_history_idx" value="{{trade_history_idx}}"/>
             <div>
                 <input type="text" id="review_comment">
             </div>

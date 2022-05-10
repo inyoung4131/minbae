@@ -20,5 +20,7 @@ public class UserReviewDTO {
     private String review_star;
     private Date review_write_date;
     private Long store_idx;
+    private Long user_idx;
+    private Long trade_history_idx;
 
 }
