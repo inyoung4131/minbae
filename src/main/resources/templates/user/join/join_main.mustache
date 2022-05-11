@@ -1,0 +1,98 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<input type="text" id="tel"> <input type="button" value="인증번호 요청" id="autheButton" onclick="asdfg()">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script>
+    var method = "POST";
+    var space = " ";
+    var newLine = "\n";
+    var secretKey = "BQycyHZWZ5ejz0MOqAIhBo0qKI0FO4dBFsnAapNf";
+    var serviceId = "ncp:sms:kr:285641559784:minbae";
+    var accessKey = "jUaOu7qg8xzRJLmsr8eb";
+    var url = `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`;
+    var date = Date.now().toString();
+    var uri = `/sms/v2/services/${serviceId}/messages`;
+    var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
+    hmac.update(method);
+    hmac.update(space);
+    hmac.update(uri);
+    hmac.update(newLine);
+    hmac.update(date);
+    hmac.update(newLine);
+    hmac.update(accessKey);
+    var hash = hmac.finalize();
+    var signature = hash.toString(CryptoJS.enc.Base64);
+
+    const tel = $('#tel').val();
+
+    const verifyCode = Math.floor(Math.random() * (999999 - 100000)) + 100000;
+
+    function asdfg() {
+        $.ajax({
+            type: "POST",
+            url: url,
+            headers: {'Content-Type': 'application/json; charset=utf-8',
+                'x-ncp-apigw-timestamp': date,
+                'x-ncp-iam-access-key': accessKey,
+                'x-ncp-apigw-signature-v2': signature
+            },
+            body: {
+                type: 'SMS',
+                from: '01035584131',
+                content: `[인영테스트중] 인증번호 []를 입력해주세요.`,
+                messages: [
+                    {
+                        to: `01035584131`
+                    }
+                ]
+            },
+            success:function (data){
+                alert(1);
+            },
+            error:function(request,status,error){
+                alert(2);
+            },
+            complete : function(data) {
+                alert(3);
+            }
+        });
+        // alert(1);
+        // fetch(url,{
+        //     method: "POST",
+        //     body: {
+        //         type: 'SMS',
+        //         from: '01035584131',
+        //         content: `[인영테스트중] 인증번호 []를 입력해주세요.`,
+        //         messages: [
+        //             {
+        //                 to: `01035584131`
+        //             }
+        //         ]
+        //     },
+        //     headers: {
+        //         'Content-Type': 'application/json; charset=utf-8',
+        //         'x-ncp-apigw-timestamp': date,
+        //         'x-ncp-iam-access-key': accessKey,
+        //         'x-ncp-apigw-signature-v2': signature
+        //     }
+        // }).then(
+        //         alert(2)
+        // ).catch(err => { // 오류 발생시 오류를 담아서 보여줌
+        //     alert(3);
+        //     console.log('Fetch Error', err);
+        // });
+    }
+
+</script>
+
+</body>
+</html>
