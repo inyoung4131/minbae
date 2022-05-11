@@ -1,9 +1,11 @@
 package com.minbae.review.dao;
 
+import com.minbae.review.dto.ReviewCountAndAvgStar;
 import com.minbae.review.dto.StoreReviewDto;
 import com.minbae.review.dto.StoreReviewRequestDto;
 import com.minbae.review.dto.StoreReviewUpdateDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -36,4 +38,8 @@ public interface ReviewMapper {
     List<Map<String, Object>> findReviewListByStoreIdxAndDate(Long storeIdxVal, String startDate, String endDate);
     // 미답변 리뷰 조회 - 날짜 조건
     List<Map<String, Object>> findNoReplyReviewListByStoreIdxAndDate(Long storeIdxVal, String startDate, String endDate);
+
+    //특정 가게 리뷰횟수,별총점
+    ReviewCountAndAvgStar getReviewCountAndStarAvg(@Param("storeIdx") Long storeIdx);
+
 }

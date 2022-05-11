@@ -32,23 +32,33 @@ public class UserService {
         List<Map<String, Object>> orderAndStarCntList = new ArrayList<>();
         //리스트로 나온 놈들의 store idx들을 담을 놈
         List<Long> storeIdxs = new ArrayList<>();
+        //별점, 주문순에 해당 안 되는 리스트
+        List<Map<String, Object>> storeByNotInIdxs;
 
         if(type.equals("order")) {
             //주문 많은 순
             orderAndStarCntList = userMapper.findStoreByCategoryOrder(category);
+
+            //orderAndStarCntList에 담긴 가게 idx들을 따로 담음
+            orderAndStarCntList.forEach(data -> storeIdxs.add((Long) data.get("store_idx")));
+
+            //orderAndStarCntList에 담긴 가게 idx들을 제외한 결제 내역, 리뷰 테이블에 없는 가게들 list 출력
+            storeByNotInIdxs = userMapper.findStoreByOrderNotInIdxs(storeIdxs, category);
         }
         else if (type.equals("star")) {
             //별점 높은 순
             orderAndStarCntList = userMapper.findStoreByCategoryStar(category);
+
+            //orderAndStarCntList에 담긴 가게 idx들을 따로 담음
+            orderAndStarCntList.forEach(data -> storeIdxs.add((Long) data.get("store_idx")));
+
+            //orderAndStarCntList에 담긴 가게 idx들을 제외한 결제 내역, 리뷰 테이블에 없는 가게들 list 출력
+            storeByNotInIdxs = userMapper.findStoreByStarNotInIdxs(storeIdxs, category);
+
+
         }else{
             throw new UserCommException(UserExceptionType.NOT_EXIST_TYPE);
         }
-
-        //orderAndStarCntList에 담긴 가게 idx들을 따로 담음
-        orderAndStarCntList.forEach(data -> storeIdxs.add((Long) data.get("store_idx")));
-
-        //orderAndStarCntList에 담긴 가게 idx들을 제외한 결제 내역, 리뷰 테이블에 없는 가게들 list 출력
-        List<Map<String, Object>> storeByNotInIdxs = userMapper.findStoreByNotInIdxs(storeIdxs, category);
 
         //orderAndStarCntList와 StoreByNotInIdxs를 합침
         List<Map<String, Object>> finalOrderAndStarCntList = Stream.concat(orderAndStarCntList.stream(), storeByNotInIdxs.stream())
@@ -140,12 +150,21 @@ public class UserService {
         return deleteResult;
     }
 
+    //특정 사용자의 주문 내역 리스트
     public List<Map<String, Object>> orderHistory(Long user_idx) {
 
         List<Map<String, Object>> orderHistoryList = userMapper.orderHistory(user_idx);
 
         return orderHistoryList;
     }
+
+    public Map<String, Object> reviewState(Long trade_history_idx) {
+
+        Map<String, Object> reviewState = userMapper.reviewState(trade_history_idx);
+
+        return reviewState;
+    }
+
 
 //    public void copyInto(List<MultipartFile> upload) throws IOException {
 //

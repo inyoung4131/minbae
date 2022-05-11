@@ -44,7 +44,7 @@ public class Review {
 
     @JsonBackReference
     @OneToOne
-    @JoinColumn(name="tradeHistoryIdx")
+    @JoinColumn(name="tradeHistoryIdx",unique = true)
     private TradeHistory tradeHistory;
 
 }

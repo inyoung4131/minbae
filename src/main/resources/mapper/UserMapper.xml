@@ -10,18 +10,17 @@
         FROM trade_history th
                  left join store s on th.store_idx = s.store_idx
                  left join store_detail sd on s.store_idx = sd.store_idx
-                 left join review r on s.store_idx = r.store_idx
+                 left join review r on th.trade_history_idx = r.trade_history_idx
         where s.store_category = #{category}
         GROUP BY th.store_idx HAVING count(*) >= 0
-        order by orderCnt desc;
+        order by orderCnt desc
     </select>
 
-    <select id="findStoreByNotInIdxs" resultType="hashmap">
+    <select id="findStoreByOrderNotInIdxs" resultType="hashmap">
         select
-            s.*, sd.*, truncate(avg(r.review_star), 1) starAvg
+            s.*, sd.*
         from store s
                 left join store_detail sd on s.store_idx = sd.store_idx
-                left join review r on s.store_idx = r.store_idx
         where
             <if test="idxs.size() != 0">
                 s.store_idx not in (
@@ -33,7 +32,24 @@
             </if>
 
             s.store_category = #{category}
-        group by r.store_idx;
+        group by s.store_idx;
+    </select>
+
+    <select id="findStoreByStarNotInIdxs" resultType="hashmap">
+        select
+            s.*, sd.*, 0 as starAvg
+        from store s
+                 left join store_detail sd on s.store_idx = sd.store_idx
+        where
+            <if test="idxs.size() != 0">
+                s.store_idx not in (
+                <foreach collection="idxs" item="item" separator=",">
+                    #{item}
+                </foreach>
+                )
+                and
+            </if>
+            s.store_category = #{category}
     </select>
 
     <select id="findStoreByCategoryStar" resultType="hashMap">
@@ -93,7 +109,7 @@
 
     <insert id="reviewCreate">
         INSERT INTO
-            review (`review_comment`, `review_img1`, `review_img2`, `review_img3`, `review_star`, `review_write_date`,`store_idx`)
+            review (`review_comment`, `review_img1`, `review_img2`, `review_img3`, `review_star`, `review_write_date`, `store_idx`, `user_idx`, `trade_history_idx`)
         VALUES (
                    #{review_comment},
                    #{review_img1},
@@ -101,7 +117,9 @@
                    #{review_img3},
                    #{review_star},
                    sysdate(),
-                   #{store_idx}
+                   #{store_idx},
+                   #{user_idx},
+                   #{trade_history_idx}
                )
     </insert>
 
@@ -131,13 +149,21 @@
 
     <select id="orderHistory" resultType="hashMap">
         select
-            t.order_date, sd.store_detail_info_img, s.store_name, sum(thd.count) totalCount, t.order_price, t.trade_history_idx
+            t.order_date, sd.store_detail_info_img, s.store_name, sum(thd.count) totalCount, t.order_price, t.trade_history_idx, s.store_idx
         from trade_history t
                  join trade_history_detail thd on t.trade_history_idx = thd.trade_history_idx
                  join store_detail sd on t.store_idx = sd.store_idx
                  join store s on s.store_idx = sd.store_idx
         where user_idx = #{user_idx}
         group by t.trade_history_idx;
+    </select>
+
+    <select id="reviewState" resultType="hashMap">
+        select
+            review_comment
+        from trade_history th
+                 left join review r on th.trade_history_idx = r.trade_history_idx
+        where r.trade_history_idx = #{trade_history_idx};
     </select>
 
 </mapper>

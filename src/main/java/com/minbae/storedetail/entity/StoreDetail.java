@@ -2,6 +2,7 @@ package com.minbae.storedetail.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.minbae.store.entity.Store;
+import com.minbae.user.dto.UserResponseStoreListDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

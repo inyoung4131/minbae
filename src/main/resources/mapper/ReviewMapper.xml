@@ -69,7 +69,17 @@
         from
             review
         where
-            store_idx = #{storeIdx}
+            store_idx =#{storeIdx}
+    </select>
+
+    <select id="getReviewCountAndStarAvg" resultType="com.minbae.review.dto.ReviewCountAndAvgStar">
+        select store_idx
+             ,COUNT(store_idx) cou
+        ,avg(review_star) avger_star
+        from review
+        where store_idx=${storeIdx}
+        group by store_idx
+
     </select>
 
     <select id="countNotReplyReviewByStoreIdx" resultType="integer">

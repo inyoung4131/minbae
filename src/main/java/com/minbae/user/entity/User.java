@@ -1,11 +1,24 @@
 package com.minbae.user.entity;
 
+import com.minbae.user.dto.UserResponseStoreListDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
+@SqlResultSetMapping(
+        name="StoreListDtoMapping",
+        classes = @ConstructorResult(
+                targetClass = UserResponseStoreListDto.class,
+                columns = {
+                        @ColumnResult(name="store_idx", type = long.class),
+                        @ColumnResult(name="store_name", type = String.class),
+                        @ColumnResult(name="store_detail_minimum_price", type = int.class),
+                        @ColumnResult(name="store_detail_info_img", type = String.class)
+                })
+)
 @Getter
 @NoArgsConstructor
 @Entity

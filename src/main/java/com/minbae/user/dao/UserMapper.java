@@ -11,7 +11,9 @@ public interface UserMapper {
 
     List<Map<String, Object>> findStoreByCategoryOrder(String category);
 
-    List<Map<String, Object>> findStoreByNotInIdxs(List<Long> idxs, String category);
+    List<Map<String, Object>> findStoreByOrderNotInIdxs(List<Long> idxs, String category);
+
+    List<Map<String, Object>> findStoreByStarNotInIdxs(List<Long> idxs, String category);
 
     List<Map<String, Object>> findStoreByCategoryStar(String categoryEn);
 
@@ -34,4 +36,8 @@ public interface UserMapper {
     int reviewDel(String review_idx);
 
     List<Map<String, Object>> orderHistory(Long user_idx);
+
+    Map<String, Object> reviewState(Long trade_history_idx);
+
+
 }

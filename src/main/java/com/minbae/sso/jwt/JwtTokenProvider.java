@@ -64,6 +64,10 @@ public class JwtTokenProvider {
         }
     }
 
+    public String getUserId(String jwtToken){
+        return (String)Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody().get(claimUid);
+    }
+
     public boolean validateExpTokenForRole(String jwtToken,String role) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
