@@ -8,4 +8,6 @@ import java.util.Map;
 public interface MenuMapper {
 
     int deleteMenuImageOnly(Long menuIdx, String menuImg);
+
+    Integer findHighestSunbunByStoreIDx(Long storeIdx);
 }

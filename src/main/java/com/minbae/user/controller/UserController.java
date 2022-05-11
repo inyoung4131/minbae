@@ -156,4 +156,19 @@ public class UserController {
 
         return mav;
     }
+
+    //로그인
+    @GetMapping("/login/form")
+    public String userLoginForm(){
+        return "user/user_login_form";
+    }
+
+    //결제 페이지 이동
+    @GetMapping("/order/page")
+    public ModelAndView orderPage(){
+
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("user/user_order_page");
+        return mav;
+    }
 }

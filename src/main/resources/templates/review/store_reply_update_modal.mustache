@@ -45,5 +45,28 @@
 
 <!-- update store reply -->
 <script>
+    const updateBtn = document.getElementById('reply-update-btn');
+    updateBtn.addEventListener('click', () => {
 
+        let data = {
+            review_idx : document.getElementById('update-review-idx').value,
+            review_reply : document.getElementById('update-reply-content').value
+        };
+
+       fetch("/owne/patch/reply",{
+           method : 'PATCH',
+           headers : {
+               "Content-Type": "application/json",
+           },
+           body : JSON.stringify(data)
+       }).then( response => response.json())
+            .then( res => {
+               if(res.resultNum != 1){
+                   alert('답변 수정 실패');
+                   return;
+               }
+               alert('답변 수정 성공');
+               location.reload();
+            });
+    });
 </script>

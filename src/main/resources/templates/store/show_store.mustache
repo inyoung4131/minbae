@@ -33,7 +33,7 @@
                     <div class="card h-100">
                         <div class="card-body">
                             플러스 버튼
-                            <button onclick="location.href='/owne/createStore'">새로운 가게 등록 하기</button>
+                            <button id="createNewStore">새로운 가게 등록 하기</button>
                         </div>
                     </div>
                  </div>
@@ -43,3 +43,13 @@
 
 
 {{>store/common/store_footer}}
+<script>
+    document.getElementById('createNewStore').addEventListener('click', () => {
+       const ownerIdxVal = window.sessionStorage.getItem("memberData");
+       let ownerIdx = 0;
+       if(ownerIdxVal != null ){
+           ownerIdx = JSON.parse(ownerIdxVal).memberData.ownerIdx;
+       }
+       location.href =  `/owner/createStore/${ownerIdx}`;
+    });
+</script>

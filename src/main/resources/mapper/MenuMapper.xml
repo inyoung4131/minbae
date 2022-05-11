@@ -14,4 +14,11 @@
             menu_img = #{menuImg};
     </update>
 
+    <select id="findHighestSunbunByStoreIDx" resultType="integer">
+        select
+               max(menu_sunbun)
+        from menu
+        where store_idx = #{storeIdx};
+    </select>
+
 </mapper>

@@ -13,8 +13,6 @@ import java.util.Map;
 @Mapper
 public interface ReviewMapper {
 
-    List<Map<String, Object>> findReviewListByStoreIdx(Long storeIdx);
-
     Integer updateStoreReview(StoreReviewRequestDto storeReviewRequestDto);
 
     // 리뷰식별번호로 리뷰 row 찾기
@@ -32,6 +30,16 @@ public interface ReviewMapper {
     //특정 가게 사장님 답변 수정
     Integer updateStoreReply(StoreReviewUpdateDto updateDto);
 
+    // 전체 리뷰 조회
+    List<Map<String, Object>> findReviewListByStoreIdx(Long storeIdx);
+    // 미답변 리뷰 조회
+    List<Map<String, Object>> findNoReplyReviewListByStoreIdx(Long storeIdx);
+    // 전체 리뷰 조회 - 날짜 조건
+    List<Map<String, Object>> findReviewListByStoreIdxAndDate(Long storeIdxVal, String startDate, String endDate);
+    // 미답변 리뷰 조회 - 날짜 조건
+    List<Map<String, Object>> findNoReplyReviewListByStoreIdxAndDate(Long storeIdxVal, String startDate, String endDate);
+
     //특정 가게 리뷰횟수,별총점
     ReviewCountAndAvgStar getReviewCountAndStarAvg(@Param("storeIdx") Long storeIdx);
+
 }

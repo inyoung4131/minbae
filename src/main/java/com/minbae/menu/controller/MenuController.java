@@ -25,7 +25,7 @@ public class MenuController {
     public final StoreService storeService;
 
     // 특정 가게의 메뉴관리 페이지 이동 및 메뉴 조회
-    @GetMapping("/owne/menu/{storeIdx}")
+    @GetMapping("/owner/menu/{storeIdx}")
     public String menuListPage(@PathVariable String storeIdx, Model model){
         Long storeIdxL = Long.valueOf(storeIdx);
         List<Menu> menuList = menuService.getStoreMenuList(storeIdxL);
@@ -37,7 +37,7 @@ public class MenuController {
     }
 
     // 특정 가게의 신규메뉴 등록 페이지 이동
-    @GetMapping("/owne/menu/create/{storeIdx}")
+    @GetMapping("/owner/menu/create/{storeIdx}")
     public String menuCreate(@PathVariable Long storeIdx, Model model){
         model.addAttribute("storeIdx",storeIdx);
         return "/menu/menu_create_form";

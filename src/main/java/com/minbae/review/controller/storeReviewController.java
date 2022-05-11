@@ -1,13 +1,10 @@
 package com.minbae.review.controller;
 
-import com.minbae.review.entity.Review;
 import com.minbae.review.service.StoreReviewService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -18,12 +15,25 @@ public class storeReviewController {
 
     private final StoreReviewService storeReviewService;
 
-    // 특정가게의 리뷰조회 페이지 이동 + 조회
-    @GetMapping("/owne/store/{storeIdx}/reviews")
-    public String goReviewPage(@PathVariable String storeIdx, Model model){
+    // 특정가게의 리뷰조회 페이지 이동 - 전체 또는 미답변 조회
+//    @GetMapping("/owne/store/{storeIdx}/reviews/{allOrNoReply}")
+//    public String goReviewPage(@PathVariable String storeIdx, Model model, @PathVariable String allOrNoReply){
+//        model.addAttribute("storeIdx",storeIdx);
+//
+//        List<Map<String, Object>> reviewList = storeReviewService.getReviewList(Long.valueOf(storeIdx), allOrNoReply);
+//        model.addAttribute("reviewList", reviewList);
+//
+//        Map<String, Integer> countMap = storeReviewService.getReviewCountNum(Long.valueOf(storeIdx));
+//        model.addAttribute("countMap", countMap);
+//        return "/review/store_review_main";
+//    }
+
+    // 특정가게의 리뷰조회 페이지 이동 - 전체조회
+    @GetMapping("/owner/store/{storeIdx}/reviews")
+    public String goReviewPage2(@PathVariable String storeIdx, Model model){
         model.addAttribute("storeIdx",storeIdx);
 
-        List<Map<String, Object>> reviewList = storeReviewService.getReviewList(Long.valueOf(storeIdx));
+        List<Map<String, Object>> reviewList = storeReviewService.getReviewList(Long.valueOf(storeIdx), null);
         model.addAttribute("reviewList", reviewList);
 
         Map<String, Integer> countMap = storeReviewService.getReviewCountNum(Long.valueOf(storeIdx));
@@ -35,6 +45,25 @@ public class storeReviewController {
     public String goMacroReviewPage(@PathVariable String storeIdx){
         return "/review/review_macro_main";
     }
+
+
+
+    @GetMapping("/owner/store/{storeIdxVal}/reviews/{selectedRadio}/{startDate}/{endDate}")
+    public String goReviewPage33(@PathVariable("selectedRadio") String selectedRadio,
+                                 @PathVariable("storeIdxVal") String storeIdxVal,
+                                 @PathVariable(required = false) String startDate,
+                                 @PathVariable(required = false) String endDate, Model model){
+
+        List<Map<String, Object>> reviewList = storeReviewService.getReviewListNew(selectedRadio, storeIdxVal, startDate, endDate);
+        model.addAttribute("reviewList", reviewList);
+
+        Map<String, Integer> countMap = storeReviewService.getReviewCountNum(Long.valueOf(storeIdxVal));
+        model.addAttribute("countMap", countMap);
+        model.addAttribute("storeIdx",storeIdxVal);
+        return "/review/store_review_main";
+    }
+
+
 
 
 }
