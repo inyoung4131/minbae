@@ -9,23 +9,43 @@
 </head>
 <body>
 <div>
-    <a href="/"><-</a>
-    {{categoryKo}}
+    <span><a href="/"><-</a></span>
+    <span style="margin-left: 18rem"><a href="#" class="link-dark">{{categoryKo}}</a></span>
 </div>
 
 <div>
-    <a href="/user/category/click/돈가스|회|일식/JAPANESEFOOD">돈가스|회|일식</a>
-    <a href="/user/category/click/치킨/CHICKEN">치킨</a>
-    <a href="/user/category/click/중국집/CHINESEFOOD">중국집</a>
-    <a href="/user/category/click/분식/BUNSIK">분식</a>
-    <a href="/user/category/click/피자/PIZZA">피자</a>
-    <a href="/user/category/click/카페|디저트/DESSERT">카페|디저트</a>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active link-dark" aria-current="page" href="/user/category/click/돈가스|회|일식/JAPANESEFOOD">돈가스|회|일식</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link link-dark" href="/user/category/click/치킨/CHICKEN">치킨</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link link-dark" href="/user/category/click/중국집/CHINESEFOOD">중국집</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link link-dark" href="/user/category/click/분식/BUNSIK">분식</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link link-dark" href="/user/category/click/피자/PIZZA">피자</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link link-dark" href="/user/category/click/카페|디저트/DESSERT">카페|디저트</a>
+        </li>
+    </ul>
 </div>
 <hr>
-<div>
-    <a href="/user/store/{{categoryKo}}/{{categoryEn}}/order">주문많은순</a>
-    <a href="#">기본순</a>
-    <a href="/user/store/{{categoryKo}}/{{categoryEn}}/star">별점많은순</a>
-</div>
+<ul class="nav justify-content-center">
+    <li class="nav-item">
+        <a class="nav-link active link-secondary" aria-current="page" href="/user/store/{{categoryKo}}/{{categoryEn}}/order">주문많은순</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link link-secondary" href="#">기본순</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link link-secondary" href="/user/store/{{categoryKo}}/{{categoryEn}}/star">별점많은순</a>
+    </li>
+</ul>
 </body>
 </html>

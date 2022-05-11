@@ -9,11 +9,14 @@
 </head>
 <body>
     {{>layout/main/main_header}}
+    <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="찾는 맛집 이름이 뭐예요?" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
 
     {{>user/main_banner}}
+    <hr>
     {{>user/main_category}}
-
-    {{>user/shopping_visible}}
 
     {{>layout/main/main_footer}}
 </body>

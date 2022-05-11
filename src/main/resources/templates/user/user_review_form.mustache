@@ -16,14 +16,14 @@
             display: block;
             width: 600px;
             margin: 5vh auto;
-            height: 90vh;
+            height: 60vh;
             border: 1px solid #dbdbdb;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
         }
         .insert .file-list {
-            height: 200px;
+            height: 50px;
             overflow: auto;
             border: 1px solid #989898;
             padding: 10px;
@@ -38,12 +38,60 @@
             margin-left: 5px;
         }
 
-        /*<!--img-->*/
-        /*#c_img{*/
-        /*    width: 10px;*/
-        /*    height: 10px;*/
-        /*    }*/
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            font-size: 2.25rem;
+            line-height: 2.5rem;
+            justify-content: space-around;
+            padding: 0 0.2em;
+            text-align: center;
+            width: 5em;
+        }
 
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+            -webkit-text-stroke-width: 2.3px;
+            -webkit-text-stroke-color: #2b2a29;
+            cursor: pointer;
+        }
+
+        .star-rating :checked ~ label {
+            -webkit-text-fill-color: gold;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            -webkit-text-fill-color: #fff58c;
+        }
+
+        /*.star {*/
+        /*    position: relative;*/
+        /*    font-size: 2rem;*/
+        /*    color: #ddd;*/
+        /*}*/
+
+        /*.star input {*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    position: absolute;*/
+        /*    left: 0;*/
+        /*    opacity: 0;*/
+        /*    cursor: pointer;*/
+        /*}*/
+
+        /*.star span {*/
+        /*    width: 0;*/
+        /*    position: absolute;*/
+        /*    left: 0;*/
+        /*    color: red;*/
+        /*    overflow: hidden;*/
+        /*    pointer-events: none;*/
+        /*}*/
     </style>
 
     <script>
@@ -131,116 +179,98 @@
             function deleteFile(num) {
                 document.querySelector("#file" + num).remove();
                 filesArr[num].is_delete = true;
+                document.querySelector("input[type=file]").value = '';
 
             }
 
-            /* 폼 전송 */
-            // function submitForm() {
-            //     // 폼데이터 담기
-            //     var form = document.querySelector("form");
-            //     var formData = new FormData(form);
-            //     for (var i = 0; i < filesArr.length; i++) {
-            //
-            //         // 삭제되지 않은 파일만 폼데이터에 담기
-            //         if (!filesArr[i].is_delete) {
-            //             formData.append("attach_file", filesArr[i]);
-            //         }
-            //     }
-            //
-            //     $.ajax({
-            //         method: 'POST',
-            //         url: '/user/review/create',
-            //         dataType: 'json',
-            //         data: formData,
-            //         async: true,
-            //         timeout: 30000,
-            //         cache: false,
-            //         headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
-            //         success: function () {
-            //             alert("파일업로드 성공");
-            //         },
-            //         error: function (xhr, desc, err) {
-            //             alert('에러가 발생 하였습니다.');
-            //             return;
-            //         }
-            //     })
-            // }
+            const drawStar = (target) => {
+                document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
+            }
 
             function submit() {
 
-                let formData = new FormData();
-                formData.append('store_idx', document.getElementById('store_idx').value);
-                formData.append('trade_history_idx', document.getElementById('trade_history_idx').value);
-                formData.append('user_idx', 1); //세션스토리지에서 user_idx 가지고 와야 됨
-                formData.append('review_comment', document.getElementById('review_comment').value);
-                // formData.append('upload',document.getElementById('upload').files[0]);
-                formData.append('review_star', $("input[name='review_star']:checked").val());
+                let review_comment = document.getElementById('review_comment').value;
+                if(!$('input:radio[name=rating]').is(':checked') || review_comment == ""){
+                    alert("작성란을 확인해 주세요.");
+                } else {
+                    let get_login = window.sessionStorage.getItem("memberData");
+                    let login = JSON.parse(get_login);
+                    let user_idx = login.memberData.userIdx;
 
-                for (var i = 0; i < filesArr.length; i++) {
-                    // 삭제되지 않은 파일만 폼데이터에 담기
-                    if (!filesArr[i].is_delete) {
-                        formData.append("upload", filesArr[i]);
+                    let formData = new FormData();
+                    formData.append('store_idx', document.getElementById('store_idx').value);
+                    formData.append('trade_history_idx', document.getElementById('trade_history_idx').value);
+                    formData.append('user_idx', user_idx);
+                    formData.append('review_comment', review_comment);
+                    // formData.append('upload',document.getElementById('upload').files[0]);
+                    formData.append('review_star', document.querySelector("input[name='rating']:checked").value);
+
+                    for (var i = 0; i < filesArr.length; i++) {
+                        // 삭제되지 않은 파일만 폼데이터에 담기
+                        if (!filesArr[i].is_delete) {
+                            formData.append("upload", filesArr[i]);
+                        }
                     }
+
+                    fetch('/user/review/create', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if(data.status == 'SUCCESS'){
+                            alert('리뷰가 등록되었습니다.');
+                            location.href = document.referrer;
+                        }
+                    });
                 }
-
-                fetch('/user/review/create', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    if(data.status == 'SUCCESS'){
-                        alert('리뷰가 등록되었습니다.');
-                        location.href = document.referrer;
-                    }
-                });
             }
-
     </script>
 
 </head>
 <body>
-
+{{>layout/main/main_header}}
     <div class="insert">
-<!--        <form method="POST" onsubmit="return false;" enctype="multipart/form-data">-->
-            <input type="hidden" id="store_idx" value="{{store_idx}}"/>
-            <input type="hidden" id="trade_history_idx" value="{{trade_history_idx}}"/>
-            <div>
-                <input type="text" id="review_comment">
-            </div>
-            <div>
-                <input type="radio" id="star1" name="review_star" value="1">1
-                <input type="radio" id="star2" name="review_star" value="2">2
-                <input type="radio" id="star3" name="review_star" value="3">3
-                <input type="radio" id="star4" name="review_star" value="4">4
-                <input type="radio" id="star5" name="review_star" value="5">5
-            </div>
-            <input type="file" id="upload" onchange="addFile(this);" multiple />
-            <div class="file-list">
-<!--                <div id="multiple-container"></div>-->
-            </div>
-            <button onclick="submit()">완료</button>
-<!--        </form>-->
-<!--        <button type="button" onclick="submitForm()">전송</button>-->
+        <input type="hidden" id="store_idx" value="{{store_idx}}"/>
+        <input type="hidden" id="trade_history_idx" value="{{trade_history_idx}}"/>
+
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="upload" onchange="addFile(this);" multiple>
+            <label class="input-group-text" for="upload">Upload</label>
+        </div>
+
+        <div class="file-list">
+        </div>
+
+        <div class="star-rating space-x-4 mx-auto">
+            <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+            <label for="5-stars" class="star pr-4">★</label>
+            <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+            <label for="4-stars" class="star">★</label>
+            <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+            <label for="3-stars" class="star">★</label>
+            <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+            <label for="2-stars" class="star">★</label>
+            <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+            <label for="1-star" class="star">★</label>
+        </div>
+
+<!--        <span class="star">-->
+<!--          ★★★★★-->
+<!--          <span>★★★★★</span>-->
+<!--          <input type="range" oninput="drawStar(this)" value="0" step="1" min="0" max="10" id="star">-->
+<!--        </span>-->
+
+        <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="review_comment" style="height: 100px" required></textarea>
+        </div>
+
+        <div style="text-align: center">
+            <button type="button" class="btn btn-outline-secondary" onclick="submit()">완료</button>
+        </div>
     </div>
 
-<!--        <input type="hidden" id="store_idx" value="1"/>-->
-<!--        <div>-->
-<!--            <input type="text" id="review_comment">-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <input type="radio" id="star1" name="review_star" value="1">1-->
-<!--            <input type="radio" id="star2" name="review_star" value="2">2-->
-<!--            <input type="radio" id="star3" name="review_star" value="3">3-->
-<!--            <input type="radio" id="star4" name="review_star" value="4">4-->
-<!--            <input type="radio" id="star5" name="review_star" value="5">5-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <input type="file" id="upload" multiple>-->
-<!--        </div>-->
-<!--    <button onclick="submit()">완료</button>-->
-
-
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+{{>layout/main/main_footer}}
 </body>
 </html>

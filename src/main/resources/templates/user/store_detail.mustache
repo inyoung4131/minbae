@@ -10,6 +10,7 @@
     <title>Document</title>
 </head>
 <body>
+{{>layout/main/main_header}}
     {{#type}}
         <div><a href="/user/store/{{categoryKo}}/{{selectStore.store_category}}/{{type}}"><-</a></div>
     {{/type}}
@@ -18,6 +19,7 @@
     {{/type}}
     <div id="top">
         <div>가게 대표 이미지 : {{selectStore.store_detail_info_img}}</div>
+        <hr>
         <ul>
             <li>{{selectStore.store_name}}</li>
             <li>
@@ -63,25 +65,52 @@
             </div>
             <hr>
             <div id="menuList">
-                <h2>대표 메뉴</h2>
+                <h4>대표 메뉴</h4>
                 {{#kingMenu}}
-                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}">
-                        <ul>
-                            <li>메뉴 이미지 : {{menu_img}}</li>
-                            <li>{{menu_name}}</li>
-                            <li>{{menu_price}}</li>
-                        </ul>
+                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}" class="link-secondary">
+                        <div class="card mb-3" style="max-width: 750px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="C:\이젠\upload\" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{menu_name}}</h5>
+                                        <p class="card-text"><small class="text-muted">
+                                            {{menu_price}}원</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </a>
+<!--                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}">-->
+<!--                        <ul>-->
+<!--                            <li>메뉴 이미지 : {{menu_img}}</li>-->
+<!--                            <li>{{menu_name}}</li>-->
+<!--                            <li>{{menu_price}}</li>-->
+<!--                        </ul>-->
+<!--                    </a>-->
                 {{/kingMenu}}
 
-                <h2>메뉴 소개</h2>
+                <h4>메뉴 소개</h4>
                 {{#menuList}}
-                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}">
-                        <ul>
-                            <li>메뉴 이미지 : {{menu_img}}</li>
-                            <li>{{menu_name}}</li>
-                            <li>{{menu_price}}</li>
-                        </ul>
+                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}" class="link-secondary">
+                        <div class="card mb-3" style="max-width: 750px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="C:\이젠\upload\" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{menu_name}}</h5>
+                                        <p class="card-text"><small class="text-muted">
+                                            {{menu_price}}원</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </a>
                 {{/menuList}}
             </div>
@@ -107,13 +136,14 @@
                     사장님 한마디 : {{selectStore.store_detail_review_text}}
                 </div>
             </div>
+            <hr>
+            <input type="hidden" id="store_idx" value="{{selectStore.store_idx}}">
             <div id="reviewList">
-
             </div>
         </div>
     </div>
-    <hr>
     {{>user/shopping_visible}}
+{{>layout/main/main_footer}}
 </body>
 <script>
 
@@ -148,6 +178,36 @@
         document.getElementById('menuTapList').style.display = 'none';
         document.getElementById('infoTapList').style.display = 'none';
         document.getElementById('reviewTapList').style.display = 'block';
+
+        //해당 가게 리뷰 리스트 불러오기
+         let store_idx = document.getElementById('store_idx').value;
+
+        fetch(`/user/store/detail/review/${store_idx}`)
+        .then((response) => response.json())
+        .then((datas) => {
+            datas.data.forEach( (data, idx) => {
+                let api_date = data.review_write_date;
+                let timestamp = api_date;
+                let date = new Date(timestamp);
+                let review_write_date = date.toLocaleDateString();
+
+                let sd_review_List = '';
+                sd_review_List += `<div>닉네임:${data.user_nickname}</div>
+                                        <div>별점:${data.review_star}</div>
+                                        <div>작성 날짜:${review_write_date}</div>
+                                        <div>리뷰:${data.review_comment}</div>`
+                if(data.review_reply != null){
+                    sd_review_List += `<div>사장님 답변:${data.review_reply}</div>
+                                        <hr>`
+                }else{
+                    sd_review_List += `<hr>`
+                }
+                let div_sd_review_List = document.createElement('div');
+                div_sd_review_List.innerHTML = sd_review_List;
+                document.getElementById('reviewList').appendChild(div_sd_review_List);
+            })
+        })
+
     })
 
 </script>

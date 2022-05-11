@@ -40,4 +40,5 @@ public interface UserMapper {
     Map<String, Object> reviewState(Long trade_history_idx);
 
 
+    List<Map<String, Object>> storeDetailReview(Long store_idx);
 }

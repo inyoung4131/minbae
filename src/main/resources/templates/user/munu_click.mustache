@@ -11,8 +11,8 @@
     <script src="/js/menu_click.js?v=131" defer></script>
 </head>
 <body>
+{{>layout/main/main_header}}
     {{#storeMenuIdx}}
-
     <div>
         <a href="javascript:a_back();" class="link-secondary"><-</a>
     </div>
@@ -48,8 +48,6 @@
         </div>
     </div>
     {{/storeMenuIdx}}
-    <div id="result_alert">
-
-    </div>
+{{>layout/main/main_footer}}
 </body>
 </html>

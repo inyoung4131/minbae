@@ -20,6 +20,7 @@
     </script>
 </head>
 <body>
+{{>layout/main/main_header}}
     <a href="javascript:a_back();" class="link-secondary"><-</a>
     <script>
 
@@ -170,7 +171,7 @@
         document.body.appendChild(div_expected);
 
         //주문 버튼 생성
-        let order_button = `<button type="button" id="order_button" class="btn btn-primary mx-auto d-block">
+        let order_button = `<button type="button" id="order_button" class="btn btn-primary mx-auto d-block" onclick="location.href='/user/order/page'">
                               <span class="badge bg-secondary">${realFinalQuantity}</span> ${realFinalPrice + parseInt(deliverPrice)}원 배달 주문하기
                             </button>`
 
@@ -178,7 +179,7 @@
         div_bt_realFinalPrice.innerHTML = order_button;
         document.body.appendChild(div_bt_realFinalPrice);
     </script>
-
+{{>layout/main/main_footer}}
 </body>
 </html>
 

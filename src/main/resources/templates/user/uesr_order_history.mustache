@@ -9,7 +9,13 @@
 <!--    <script src="/js/user_order_history.js?v=5" defer></script>-->
     <script>
         window.onload = () => {
-            fetch("/user/order/history/get/1")   //세션스토리지에서 user_idx 값 가져와서 넣어줘
+
+            let get_login = window.sessionStorage.getItem("memberData");
+            let login = JSON.parse(get_login);
+            let user_idx = login.memberData.userIdx;
+            // console.log(user_idx);
+
+            fetch(`/user/order/history/get/${user_idx}`)
             .then((response) => response.json())
             .then((datas) => {
                 datas.data.forEach( (data, idx) => {
@@ -31,7 +37,7 @@
                     div_historyList.innerHTML = historyList;
                     document.body.appendChild(div_historyList);
 
-                    fetch(`/user/review/state/${data.trade_history_idx}`)   //세션스토리지에서 user_idx 값 가져와서 넣어줘
+                    fetch(`/user/review/state/${data.trade_history_idx}`)
                     .then((response) => response.json())
                     .then((datas) => {
                         if(datas.data === null){
@@ -51,6 +57,7 @@
     </script>
 </head>
 <body>
+{{>layout/myPage/my_page_header}}
     <div><a href="/user/myPage"><-</a></div>
     <hr>
 </body>

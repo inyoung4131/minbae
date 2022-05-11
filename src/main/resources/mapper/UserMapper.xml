@@ -166,4 +166,11 @@
         where r.trade_history_idx = #{trade_history_idx};
     </select>
 
+    <select id="storeDetailReview" resultType="hashMap">
+        select *
+        from review
+                 inner join user u on review.user_idx = u.user_idx
+        where store_idx = #{store_idx};
+    </select>
+
 </mapper>

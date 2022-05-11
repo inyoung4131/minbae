@@ -6,6 +6,7 @@ import com.minbae.user.exception.UserCommException;
 import com.minbae.user.exception.comm.UserExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -163,6 +164,13 @@ public class UserService {
         Map<String, Object> reviewState = userMapper.reviewState(trade_history_idx);
 
         return reviewState;
+    }
+
+    public List<Map<String, Object>> storeDetailReview(Long store_idx) {
+
+        List<Map<String, Object>> sd_review_list = userMapper.storeDetailReview(store_idx);
+
+        return sd_review_list;
     }
 
 

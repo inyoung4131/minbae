@@ -22,15 +22,6 @@
         }
     </style>
     <script>
-        window.onload = () => {
-            let get_login = window.sessionStorage.getItem("memberData");
-            let login = JSON.parse(get_login);
-            let user_idx = login.memberData.userIdx;
-            if(user_idx != null){
-                document.getElementById('loginPage').style.display = 'block';
-                document.getElementById('logoutPage').style.display = 'none';
-            }
-        }
         const logout = () => {
             sessionStorage.clear();
             location.href = "/";
@@ -53,7 +44,7 @@
                     <div class="nav-link" id="detailAddr">우리집</div>
                 </li>
             </ul>
-            <div id="loginPage" style="display: none;" >
+            <div id="loginPage" >
                 <span class="nav-item" style="float: left">
                     <a class="nav-link active link-light" aria-current="page" href="#">알림</a>
                 </span>
@@ -64,18 +55,10 @@
                     <a class="nav-link active link-light" aria-current="page" href="javascript:logout()">로그아웃</a>
                 </span>
             </div>
-            <div id="logoutPage" style="display: block">
-                <span class="nav-item" style="float: left">
-                    <a class="nav-link active link-light" aria-current="page" href="/user/login/form">로그인</a>
-                </span>
-                <span class="nav-item" style="float: left">
-                    <a class="nav-link active link-light" aria-current="page" href="#">회원가입</a>
-                </span>
-            </div>
 
         </div>
     </div>
 </nav>
-    {{>user/user_addr_change}}
+{{>user/user_addr_change}}
 
 <hr>

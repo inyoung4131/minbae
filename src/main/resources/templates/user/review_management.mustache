@@ -30,6 +30,7 @@
     </script>
 </head>
 <body>
+{{>layout/myPage/my_page_header}}
     <div><a href="javascript:history.back()"></a></div>
     <h3>내가 쓴 총 리뷰 {{reviewCnt.reviewCnt}}개</h3>
     <hr>
@@ -68,5 +69,6 @@
     </div>
     <hr>
     {{/reviewList}}
+{{>layout/myPage/my_page_footer}}
 </body>
 </html>
