@@ -1,7 +1,42 @@
-{{>store/common/store_header}}
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <style>
+        #customHeaderColor {
+            background-color: #2AC1BC !important;
+        }
+        h1, h2, h3, header, nav{
+            font-family: 'Do Hyeon', sans-serif;
+        }
+        #customHeaderColor a {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+<header class="navbar navbar-dark sticky-top bg-info flex-md-nowrap p-3 shadow" id="customHeaderColor">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-dark" id="customATag" href="#">민족의 배달 사장님 광장</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-nav">
+        <div class="nav-item text-nowrap" id="login-logout-section">
+
+        </div>
+    </div>
+</header>
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
     <div>
-        <h2 class="h2">우리 가게 등록</h2>
+        <h2 class="h2">우리가게 신규등록</h2>
     </div>
     <form class="row g-3">
             <div class="col-12">
@@ -26,29 +61,29 @@
             </div>
             <!--addr start-->
             <div class="col-2">
-                <input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기">
-                <input type="text" id="sample4_postcode" value="우편번호">
+                <input type="button" class="btn btn-outline-primary mb-2" onclick="sample4_execDaumPostcode()" value="주소 찾기">
+                <input type="text" class="form-control" id="sample4_postcode" value="우편번호" readonly>
             </div>
-            <div class="col-5">
+            <div class="col-12">
                 <label for="inputStoreBasicAddr" class="form-label">가게 도로명 주소</label>
                 <input type="text" class="form-control" id="inputStoreBasicAddr" placeholder="주소찾기를 눌러주세요.">
-            </div>
-            <div class="col-5">
+
                 <label for="inputStoreDetailAddr" class="form-label">가게 상세 주소</label>
                 <input type="text" class="form-control" id="inputStoreDetailAddr" placeholder="가게 상세 주소를 기입해주세요.">
             </div>
             <!--addr end-->
+            <!--hidden values-->
+            <input type="hidden" id="ownerIdx" value="{{ownerIdx}}">
+            <input type="hidden" id="sample4_jibunAddress" value="" readonly placeholder="지번주소"><span id="guide" style="color:#999;display:none"></span>
+            <input type="hidden" id="lat" value="" readonly>
+            <input type="hidden" id="lng" value="" readonly>
 
-            <input type="text" id="ownerIdx" value="{{ownerIdx}}">
-            <input type="text" id="sample4_jibunAddress" value="" readonly placeholder="지번주소"><span id="guide" style="color:#999;display:none"></span>
-            <input type="text" id="lat" value="" readonly>
-            <input type="text" id="lng" value="" readonly>
-
-        <div class="col-2">
-            <input type="button" value="생성 취소취소">
-            <input type="button" value="가게 생성 완료" id="create-btn">
+        <div class="col-6">
+            <input type="button" class="btn btn-outline-warning" value="가게 목록 돌아가기" onclick="location.href='/owner/selectStore/{{ownerIdx}}'">
+            <input type="button" class="btn btn-outline-primary" value="가게 생성 완료" id="create-btn">
         </div>
 
+        <!--store 생성 JS-->
         <script>
             const createStoreBtn = document.querySelector('#create-btn');
             createStoreBtn.addEventListener('click', function (){
@@ -79,10 +114,11 @@
                 }).then(response => {
                     const msg = (response.ok) ? "생성 성공" : "생성 실패!!";
                     alert(msg);
-                    location.href="";
+                    location.href=`/owner/selectStore/${store.ownerIdx.ownerIdx}`;
                 });
             });
         </script>
+
         <!--Store addr search JS-->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -150,5 +186,66 @@
         </script>
     </form>
 </main>
-{{>store/common/store_footer}}
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!--create login & logout btn-->
+<script>
+    const fooLogout = () => {
+        window.sessionStorage.clear();
+        alert('sessionStoreage clear success');
+        location.href="/owner/store/main";
+    }
+
+    const fooLogin = () => {
+        location.href="/loginForm/owner";
+    }
+
+    window.onload = () => {
+        // 꺼내볼 수 없나?
+        const loadedToDos = window.sessionStorage.getItem("memberData");
+        let ownerIdx = 0;
+        if (loadedToDos != null) {
+            const parsedToDos = JSON.parse(loadedToDos);
+            /* login_form.mustache에서 로그인시
+            window.sessionStorage.setItem("memberData", JSON.stringify(loginval.memberData)); 하여 sessionStorage 에 저장하였다.
+            즉, json -> string 으로 변환하여 저장.
+            이를 다시 json 객체로 변환하여 꺼내왔다??
+            */
+            console.log("객체>"+loadedToDos);
+            console.log(parsedToDos.memberData.ownerIdx);
+            console.log(parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx);
+            ownerIdx = parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx;
+        }
+
+
+        const parentDiv = document.getElementById('login-logout-section');
+        if(window.sessionStorage.getItem("token")){
+            /*로그아웃 버튼 생성*/
+            const logoutBtn = document.createElement('button');
+            logoutBtn.setAttribute('class' , 'btn btn-outline-primary me-2');
+            logoutBtn.onclick = fooLogout;
+            logoutBtn.innerHTML = '로그아웃';
+            parentDiv.appendChild(logoutBtn);
+
+            /*시작하기*/
+            const startBtn = document.getElementById('getStartNow');
+            startBtn.setAttribute('href', `/owner/selectStore/${ownerIdx}`);
+        }else{
+            /*로그인 버튼 생성*/
+            const loginBtn = document.createElement('button');
+            loginBtn.setAttribute('class' , 'btn btn-outline-primary me-2');
+            loginBtn.onclick = fooLogin;
+            loginBtn.innerHTML = '로그인';
+            parentDiv.appendChild(loginBtn);
+
+            /*시작하기*/
+            const startBtn = document.getElementById('getStartNow');
+            startBtn.onclick = () => {
+                alert('로그인을 해주세요!');
+            }
+        }
+
+    }
+</script>
+</html>
 

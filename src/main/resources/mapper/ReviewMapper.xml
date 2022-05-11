@@ -12,6 +12,36 @@
         where r.store_idx = #{storeIdx};
     </select>
 
+    <select id="findNoReplyReviewListByStoreIdx" resultType="hashmap">
+        select
+            r.*, u.user_nickname
+        from review r
+            left join user u on u.user_idx = r.user_idx
+        where
+            r.store_idx = #{storeIdx}
+            and r.review_reply is null;
+    </select>
+
+    <select id="findReviewListByStoreIdxAndDate" resultType="hashmap">
+        select
+            r.*, u.user_nickname
+        from review r
+                 left join user u on u.user_idx = r.user_idx
+        where r.review_write_date between #{startDate} and #{endDate}
+            and r.store_idx = #{storeIdxVal};
+    </select>
+
+    <select id="findNoReplyReviewListByStoreIdxAndDate" resultType="hashmap">
+        select
+            r.*, u.user_nickname
+        from review r
+            left join user u on u.user_idx = r.user_idx
+        where
+            r.review_write_date between #{startDate} and #{endDate}
+            and r.store_idx = #{storeIdxVal}
+            and r.review_reply is null;
+    </select>
+
     <select id="findByReviewIdx" resultType="com.minbae.review.dto.StoreReviewDto">
         select
             *
@@ -39,7 +69,17 @@
         from
             review
         where
-            store_idx = #{storeIdx}
+            store_idx =#{storeIdx}
+    </select>
+
+    <select id="getReviewCountAndStarAvg" resultType="com.minbae.review.dto.ReviewCountAndAvgStar">
+        select store_idx
+             ,COUNT(store_idx) cou
+        ,avg(review_star) avger_star
+        from review
+        where store_idx=${storeIdx}
+        group by store_idx
+
     </select>
 
     <select id="countNotReplyReviewByStoreIdx" resultType="integer">

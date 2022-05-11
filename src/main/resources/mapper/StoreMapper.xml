@@ -4,5 +4,22 @@
 
 <mapper namespace="com.minbae.store.dao.StoreMapper">
 
+    <select id="findStandardList" resultType="hashMap">
+        select s.store_idx
+        ,s.store_name
+        ,sd.store_detail_minimum_price
+        ,sd.store_detail_info_img
+        ,IFNULL(
+        min(st_distance_sphere(POINT(f.flag_lng,f.flag_lat),st_geomfromtext('POINT(${userlng} ${userlat})')))
+        , st_distance_sphere(POINT(store_lng ,store_lat),st_geomfromtext('POINT(${userlng} ${userlat})'))
+        ) AS dist
+        ,count(s.store_idx) as cou
+        from store s left join flag f on s.store_idx = f.store_idx left join store_detail sd on sd.store_idx = s.store_idx
+        where s.store_category LIKE "${category}"
+        group by s.store_idx
+        having (dist&lt;10000)
+        order by cou desc,dist
+        limit ${page},${page2}
+    </select>
 
 </mapper>
