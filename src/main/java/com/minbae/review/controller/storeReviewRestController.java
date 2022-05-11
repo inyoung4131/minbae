@@ -6,10 +6,13 @@ import com.minbae.review.service.StoreReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -43,5 +46,7 @@ public class storeReviewRestController {
         map.put("resultNum", resultNum);
         return map;
     }
+
+
 
 }

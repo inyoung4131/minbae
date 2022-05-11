@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -27,7 +28,7 @@ public class MenuRestController {
     // 특정 사장님 신규 메뉴 등록
     @PostMapping(value = "/create/menu", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Menu> createMenu(@RequestPart(value = "key") MenuSaveRequestDto requestDto,
-                                           @RequestPart(value = "file",required = false) MultipartFile file){
+                                           @RequestPart(value = "file",required = false) MultipartFile file) throws IOException {
 
         Menu savedResult = menuService.createMenu(requestDto, file);
         return (savedResult != null) ?

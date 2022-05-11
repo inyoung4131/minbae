@@ -63,7 +63,7 @@
         // 꺼내볼 수 없나?
         const loadedToDos = window.sessionStorage.getItem("memberData");
         let ownerIdx = 0;
-        if (loadedToDos !== null) {
+        if (loadedToDos != null) {
             const parsedToDos = JSON.parse(loadedToDos);
             /* login_form.mustache에서 로그인시
             window.sessionStorage.setItem("memberData", JSON.stringify(loginval.memberData)); 하여 sessionStorage 에 저장하였다.
@@ -88,7 +88,7 @@
 
             /*시작하기*/
             const startBtn = document.getElementById('getStartNow');
-            startBtn.setAttribute('href', `/owne/storeList/${ownerIdx}`);
+            startBtn.setAttribute('href', `/owner/selectStore/${ownerIdx}`);
         }else{
             /*로그인 버튼 생성*/
             const loginBtn = document.createElement('button');
@@ -106,4 +106,5 @@
 
     }
 </script>
+
 </html>

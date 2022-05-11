@@ -34,10 +34,10 @@ public class StoreService {
     }
 
     // 신규 가게 추가 - after
-    @Transactional
-    public Store create(StoreSaveRequestDto storeSaveRequestDto){
-        return storeRepository.save(storeSaveRequestDto.toEntity());
-    }
+//    @Transactional
+//    public Store create(StoreSaveRequestDto storeSaveRequestDto){
+//        return storeRepository.save(storeSaveRequestDto.toEntity());
+//    }
 
     // 신규 가게 추가 - after - 2
     @Transactional

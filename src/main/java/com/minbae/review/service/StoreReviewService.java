@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,16 @@ public class StoreReviewService {
     private final StoreRepository storeRepository;
 
     // 특정 가게의 전체리뷰 조회
-    public List<Map<String, Object>> getReviewList(Long storeIdx) {
-        List<Map<String, Object>> reviewListByStoreIdx = reviewMapper.findReviewListByStoreIdx(storeIdx);
+    public List<Map<String, Object>> getReviewList(Long storeIdx, String allOrNoReply) {
+
+        List<Map<String, Object>> reviewListByStoreIdx = new ArrayList<>();
+
+        if(allOrNoReply == null || allOrNoReply.equals("all")){
+            reviewListByStoreIdx = reviewMapper.findReviewListByStoreIdx(storeIdx);
+        }else if(allOrNoReply.equals("noreply")){
+            reviewListByStoreIdx = reviewMapper.findNoReplyReviewListByStoreIdx(storeIdx);
+        }
+
         if(reviewListByStoreIdx == null){
             new IllegalArgumentException("존재하지 않는 가게 입니다.");
         }
@@ -80,5 +89,33 @@ public class StoreReviewService {
         Integer resultNum = reviewMapper.updateStoreReply(updateDto);
         return resultNum;
 
+    }
+
+
+    /*집에서 새로만든거 test용 */
+    public List<Map<String, Object>> getReviewListNew(String selectedRadio, String storeIdxVal, String startDate, String endDate) {
+        List<Map<String, Object>> reviewListByStoreIdx = new ArrayList<>();
+        if(selectedRadio == null || selectedRadio.equals("all")){
+            if(startDate == null || startDate.equals("null")){
+                System.out.println("1번째 쿼리 실행");
+                reviewListByStoreIdx = reviewMapper.findReviewListByStoreIdx(Long.valueOf(storeIdxVal));
+            }else{
+                System.out.println("2번째 쿼리 실행");
+                reviewListByStoreIdx = reviewMapper.findReviewListByStoreIdxAndDate(Long.valueOf(storeIdxVal), startDate, endDate);
+            }
+        }else if(selectedRadio.equals("noreply")){
+            if(startDate == null || startDate.equals("null")){
+                System.out.println("3번째 쿼리 실행");
+                reviewListByStoreIdx = reviewMapper.findNoReplyReviewListByStoreIdx(Long.valueOf(storeIdxVal));
+            }else{
+                System.out.println("4번째 쿼리 실행");
+                reviewListByStoreIdx = reviewMapper.findNoReplyReviewListByStoreIdxAndDate(Long.valueOf(storeIdxVal), startDate, endDate);
+            }
+        }
+
+        if(reviewListByStoreIdx == null){
+            new IllegalArgumentException("해당 조건에 알맞는 리뷰가 없습니다.");
+        }
+        return reviewListByStoreIdx;
     }
 }

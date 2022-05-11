@@ -41,6 +41,7 @@
 
         </form>
     </div>
+    <input type="hidden" value="{{storeIdx}}" id="hiddenStoreIdx">
 </main>
 {{>store/common/store_footer}}
 
@@ -63,7 +64,7 @@
                 menuPrice: $('#inputMenuPrice').val(),
                 menuKingMenu: $('input:radio[name=flexRadioDefault]:checked').val(),
                 storeIdx:{
-                    storeIdx: "5"
+                    storeIdx: $('#hiddenStoreIdx').val()
                 }
             };
             let form = $('#menuForm')[0];

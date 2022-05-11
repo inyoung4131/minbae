@@ -161,7 +161,7 @@
                     }
                     alert('이미지 삭제 성공');
                     const addUrl = document.querySelector('#edit-store-idx').value;
-                    location.href=`/owne/menu/${addUrl}`;
+                    location.href=`/owner/menu/${addUrl}`;
                 });
             });
 
@@ -200,7 +200,7 @@
 
             }).done(function () {
                 alert("메뉴 수정 성공");
-                location.href="/owne/menu/"+updateData.storeIdx.storeIdx;
+                location.href="/owner/menu/"+updateData.storeIdx.storeIdx;
             }).fail(function (error) {
                 alert(JSON.stringify(error));
                 alert("메뉴 수정 실패");

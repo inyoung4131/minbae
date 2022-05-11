@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
     <style>
         #customHeaderColor {
             background-color: #2AC1BC !important;
@@ -16,11 +18,17 @@
         h1, h2, h3, header, nav{
             font-family: 'Do Hyeon', sans-serif;
         }
+        #customHeaderColor a {
+            font-size: 2rem;
+        }
+        #sidebarMenu{
+            font-size: 1.25rem;
+        }
     </style>
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-info flex-md-nowrap p-3 shadow" id="customHeaderColor">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-dark" id="customATag" href="#">민족의 배달 사장님 광장</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-dark" id="customATag" href="/owner/store/main">민족의 배달 사장님 광장</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,43 +45,42 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
+                        <a class="nav-link" href="#" id="first-item-href">
                             <span data-feather="home"></span>
-                            우리 가게 관리
+                            관리 가게 선택
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file"></span>
-                            우리 가게 정보 수정
+                        <a class="nav-link" href="#" id="second-item-href">
+                            가게 정보 관리
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="#" id="third-item-href">
                             <span data-feather="shopping-cart"></span>
+                            메뉴 관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="fourth-item-href">
+                            <span data-feather="users"></span>
                             메뉴 신규 등록
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="users"></span>
-                            메뉴
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="#" id="fifth-item-href">
                             <span data-feather="bar-chart-2"></span>
-                            리뷰관리
+                            리뷰 관리
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="#" id="sixth-item-href">
                             <span data-feather="layers"></span>
-                            리뷰 매크로답변 설정
+                            주문 관리
                         </a>
                     </li>
                 </ul>
-
+                <script src="/js/owner/set_menu.js" defer></script>
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     <span>Saved reports</span>
                     <a class="link-secondary" href="#" aria-label="Add a new report">

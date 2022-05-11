@@ -20,14 +20,14 @@ public class StoreDetailRestController {
 
     private final StoreDetailService storeDetailService;
 
-    // 특정 가게 세부 정보 수정
-    @PatchMapping("/api/storeDetailInfo/update/{storeDetailIdx}")
-    public ResponseEntity<StoreDetail> update(@PathVariable Long storeDetailIdx, @RequestBody StoreDetailUpdateRequestDto storeDetailUpdateRequestDto){
-        StoreDetail updatedStoreDetail = storeDetailService.update(storeDetailIdx, storeDetailUpdateRequestDto);
-        return (updatedStoreDetail != null) ?
-                ResponseEntity.status(HttpStatus.CREATED).body(updatedStoreDetail)
-                : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
+    // 특정 가게 세부 정보 수정 -  아마 안쓰이는거 같은데 확실 ㄴ 나중에 지울게여
+//    @PatchMapping("/api/storeDetailInfo/update/{storeDetailIdx}")
+//    public ResponseEntity<StoreDetail> update(@PathVariable Long storeDetailIdx, @RequestBody StoreDetailUpdateRequestDto storeDetailUpdateRequestDto){
+//        StoreDetail updatedStoreDetail = storeDetailService.update(storeDetailIdx, storeDetailUpdateRequestDto);
+//        return (updatedStoreDetail != null) ?
+//                ResponseEntity.status(HttpStatus.CREATED).body(updatedStoreDetail)
+//                : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//    }
 
     // 특정 가게 세부 정보 생성
     @PostMapping("/api/storeDetail/create")

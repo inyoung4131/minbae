@@ -29,9 +29,17 @@ public class MenuService {
     }
 
     // 메뉴 생성
-    public Menu createMenu(MenuSaveRequestDto requestDto, MultipartFile file) {
-        copyInto(requestDto.getStoreIdx().getStoreIdx(),file);
-        requestDto.setMenuImage(file.getOriginalFilename());
+    public Menu createMenu(MenuSaveRequestDto requestDto, MultipartFile file) throws IOException {
+        if(file == null || file.getBytes().length == 0) {
+            requestDto.setMenuImage(null);
+        }else{
+            copyInto(requestDto.getStoreIdx().getStoreIdx(), file);
+            requestDto.setMenuImage(file.getOriginalFilename());
+        }
+        // 메뉴 순번 세팅
+        Integer highestSunbun = menuMapper.findHighestSunbunByStoreIDx(requestDto.getStoreIdx().getStoreIdx());
+        requestDto.setMenuSunbun(highestSunbun+1);
+
         Menu savedResult = requestDto.toEntity();
         return menuRepository.save(savedResult);
     }
