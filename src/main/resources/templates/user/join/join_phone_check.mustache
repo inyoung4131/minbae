@@ -1,0 +1,194 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            width: 45em;
+            margin: 0 auto;
+        }
+
+        #header_div {
+            margin-top: 25px;
+            margin-bottom: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 27px;
+        }
+
+        .text_input {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .text_input:focus {
+            outline: none;
+        }
+
+        .text_input {
+            width: 720px;
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        .text_div {
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        #auth_button {
+            width: 720px;
+            height: 100px;
+            font-size: 22px;
+            background-color: white;
+            border: 1px solid gray;
+            color: gray;
+            margin-bottom: 30px;
+        }
+    </style>
+
+</head>
+<body>
+<div id="header_div">
+    <a href="/join/user"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" id="back"></a> 회원가입
+    <div id="next_div">다음</div>
+</div>
+<div>
+    <div class="text_div">휴대전화</div>
+    <div><input type="text" class="text_input" id="text_input_tel" placeholder="010-0000-0000" maxlength="13"></div>
+</div>
+
+<div>
+    <input type="button" value="인증번호 받기" id="auth_button" disabled>
+</div>
+<div id="auth_div">
+    <div>
+        <div class="text_div">인증번호</div>
+        <div><input type="text" class="text_input"></div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $('#next_div').on('click', function () {
+        location.href = "/join/user/email?tel=" + $('#text_input_tel').val().replaceAll('-', '')
+    });
+
+    $('#auth_div').hide();
+    $('#text_input_tel').on('keydown', function () {
+        if (document.getElementById('text_input_tel').value.length == 3 || document.getElementById('text_input_tel').value.length == 8) {
+            document.getElementById('text_input_tel').value += "-";
+        }
+        ;
+        if (document.getElementById('text_input_tel').value.length == 12) {
+            changeStatus();
+        }
+    });
+
+    function changeStatus() {
+        if (document.getElementById('text_input_tel').value.startsWith("010")) {
+            document.getElementById('auth_button').style.color = 'black';
+            $("#auth_button").attr("disabled", false);
+        }
+    };
+    $('#auth_button').on('click', function () {
+        $('#auth_button').hide();
+        $('#auth_div').show();
+        asdfg();
+    });
+
+
+    var method = "POST";
+    var space = " ";
+    var newLine = "\n";
+    var secretKey = "BQycyHZWZ5ejz0MOqAIhBo0qKI0FO4dBFsnAapNf";
+    var serviceId = "ncp:sms:kr:285641559784:minbae";
+    var accessKey = "jUaOu7qg8xzRJLmsr8eb";
+    var url = `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`;
+    var timestamp = Date.now().toString();
+    var uri = `/sms/v2/services/${serviceId}/messages`;
+    var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
+    hmac.update(method);
+    hmac.update(space);
+    hmac.update(uri);
+    hmac.update(newLine);
+    hmac.update(timestamp);
+    hmac.update(newLine);
+    hmac.update(accessKey);
+    var hash = hmac.finalize();
+    var signature = hash.toString(CryptoJS.enc.Base64);
+
+    const tel = $('#tel').val();
+
+    const verifyCode = Math.floor(Math.random() * (999999 - 100000)) + 100000;
+
+    function asdfg() {
+        fetch(url, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                'x-ncp-apigw-timestamp': timestamp,
+                'x-ncp-iam-access-key': accessKey,
+                'x-ncp-apigw-signature-v2': signature
+            },
+            body: JSON.stringify({
+                type: 'SMS',
+                from: '01035584131',
+                content: `[인영테스트중] 인증번호 [${verifyCode}]를 입력해주세요.`,
+                messages: [
+                    {
+                        to: `01035584131`
+                    }
+                ]
+            })
+        }).then(response => response.json())
+                .then(data => alert(data))
+                .catch((error) => {
+                    console.error('실패:', error);
+                });
+
+        // $.ajax({
+        //     type: "POST",
+        //     url: url,
+        //     headers: {
+        //         'Content-Type': 'application/json; charset=utf-8',
+        //         'x-ncp-apigw-timestamp': timestamp,
+        //         'x-ncp-iam-access-key': accessKey,
+        //         'x-ncp-apigw-signature-v2': signature
+        //     },
+        //     body: {
+        //         type: 'SMS',
+        //         from: '01035584131',
+        //         content: `[인영테스트중] 인증번호 [${verifyCode}]를 입력해주세요.`,
+        //         messages: [
+        //             {
+        //                 to: `01035584131`
+        //             }
+        //         ]
+        //     },
+        //     success: function () {
+        //         alert(1);
+        //     },
+        //     error: function () {
+        //         alert(2);
+        //     },
+        //     complete: function () {
+        //         alert(3);
+        //     }
+        // });
+    }
+
+</script>
+</body>
+</html>
+

@@ -1,5 +1,6 @@
 package com.minbae.user.controller;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,4 +34,14 @@ public class YangsUserController {
     }
     @GetMapping("/test")
     public String test(){return "user/join/join_main";}
+    @GetMapping("/join/user")
+    public String joinUser(){return "user/join/join_agreement";}
+
+    @GetMapping("/join/user/phone")
+    public String joinUserPhoneCheck(){return "user/join/join_phone_check";}
+    @GetMapping("/join/user/email")
+    public String joinUserEmailCheck(@Param("tel") String tel,Model model){
+        model.addAttribute("tel",tel);
+        return "user/join/join_email_check";
+    }
 }

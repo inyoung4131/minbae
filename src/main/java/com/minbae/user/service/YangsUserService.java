@@ -5,8 +5,10 @@ import com.minbae.review.dto.ReviewCountAndAvgStar;
 import com.minbae.store.dao.StoreMapper;
 import com.minbae.store.entity.Store;
 import com.minbae.store.repository.StoreRepository;
+import com.minbae.user.comm.UserApiStatus;
 import com.minbae.user.dao.UserMapper;
 import com.minbae.user.dto.UserAddrChangeDto;
+import com.minbae.user.dto.UserJoinDto;
 import com.minbae.user.dto.UserResponseStoreListDto;
 import com.minbae.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,14 @@ public class YangsUserService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReviewMapper reviewMapper;
+
+    public boolean join(UserJoinDto userJoinDto){
+        return userRepository.save(userJoinDto.toEntity()).getUserEmail()==null?false:true;
+    }
+
+    public UserApiStatus userEmailCheck(String userEmail){
+        return userRepository.findByUserEmail(userEmail)==null?UserApiStatus.SUCCESS:UserApiStatus.FAIL;
+    }
 
     public long userAddrChange(UserAddrChangeDto userAddrChangeDto){
         userRepository.findByUserIdx(userAddrChangeDto.toEntity());

@@ -31,18 +31,18 @@ public class AdminService {
         if(role.equals("user")) {
             userInfo = userRepository.findByUserEmailAndUserPwd(email,pwd);
             if(userInfo!=null){
-                token=jwtTokenProvider.createToken(email,userInfo.getUserIdx());
+                token=jwtTokenProvider.createToken(role,email,userInfo.getUserIdx());
             }
         }
         else if(role.equals("deliver")){
             deliverInfo = deliverRepository.findByDeliverEmailAndDeliverPwd(email,pwd);
             if(deliverInfo!=null){
-                token=jwtTokenProvider.createToken(email,deliverInfo.getDeliverIdx());
+                token=jwtTokenProvider.createToken(role,email,deliverInfo.getDeliverIdx());
             }
         }else if(role.equals("owner")){
             ownerInfo = ownerRepository.findByOwnerEmailAndOwnerPwd(email,pwd);
             if(ownerInfo!=null){
-                token=jwtTokenProvider.createToken(email,ownerInfo.getOwnerIdx());
+                token=jwtTokenProvider.createToken(role,email,ownerInfo.getOwnerIdx());
             }
         }
         return token;

@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequiredArgsConstructor
 @RestController
 @Api(tags = "A. Login api", description = "로그인 관련 api")
@@ -22,5 +24,6 @@ public class AdminController {
     public ApiResponse login(@PathVariable String role,String email,String pwd) {
         return new ApiResponse(ApiStatus.SUCCESS, adminService.login(role,email,pwd),adminService.getMemberInfo(role,email,pwd));
     }
+    
 
 }
