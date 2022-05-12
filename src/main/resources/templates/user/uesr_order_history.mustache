@@ -7,23 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 <!--    <script src="/js/user_order_history.js?v=5" defer></script>-->
-    <script>
-        window.onload = () => {
 
-            let get_login = window.sessionStorage.getItem("memberData");
-            let login = JSON.parse(get_login);
-            let user_idx = login.memberData.userIdx;
-            // console.log(user_idx);
+</head>
+<body>
+{{>layout/myPage/my_page_header}}
+    <div><a href="/user/myPage"><-</a></div>
+    <hr>
+</body>
+<script>
+    window.onload = () => {
 
-            fetch(`/user/order/history/get/${user_idx}`)
-            .then((response) => response.json())
-            .then((datas) => {
-                datas.data.forEach( (data, idx) => {
-                    // console.log(data.trade_history_idx);
-                    let historyList = '';
-                    historyList += `<div>`;
-                    historyList += `<input type="hidden" id="trade_history_idx${idx}" value="${data.trade_history_idx}">`
-                    historyList += `<div>주문 날짜:${data.order_date}</div>
+        let get_login = window.sessionStorage.getItem("memberData");
+        let login = JSON.parse(get_login);
+        let user_idx = login.memberData.userIdx;
+        // console.log(user_idx);
+
+        fetch(`/user/order/history/get/${user_idx}`)
+                .then((response) => response.json())
+                .then((datas) => {
+                    datas.data.forEach( (data, idx) => {
+                        // console.log(data.trade_history_idx);
+                        let historyList = '';
+                        historyList += `<div>`;
+                        historyList += `<input type="hidden" id="trade_history_idx${idx}" value="${data.trade_history_idx}">`
+                        historyList += `<div>주문 날짜:${data.order_date}</div>
                                     <div>가게 이미지:${data.store_detail_info_img}</div>
                                     <div>가게 이름:${data.store_name}</div>
                                     <div>총 주문 수량:${data.totalCount}</div>
@@ -33,32 +40,26 @@
                                     </div>
                                     <hr>
                                     </div>`
-                    let div_historyList = document.createElement('div');
-                    div_historyList.innerHTML = historyList;
-                    document.body.appendChild(div_historyList);
+                        let div_historyList = document.createElement('div');
+                        div_historyList.innerHTML = historyList;
+                        document.body.appendChild(div_historyList);
 
-                    fetch(`/user/review/state/${data.trade_history_idx}`)
-                    .then((response) => response.json())
-                    .then((datas) => {
-                        if(datas.data === null){
-                            document.getElementById(`reviewCreate${idx}`).style.display = 'block';
-                        }
+                        fetch(`/user/review/state/${data.trade_history_idx}`)
+                                .then((response) => response.json())
+                                .then((datas) => {
+                                    if(datas.data === null){
+                                        document.getElementById(`reviewCreate${idx}`).style.display = 'block';
+                                    }
+                                })
                     })
-                })
-            });
-        }
+                });
+    }
 
-        const reviewCreate = (store_idx, trade_history_idx) => {
-            console.log(trade_history_idx);
-            window.location.href = `/user/review/form/${store_idx}/${trade_history_idx}`;
+    const reviewCreate = (store_idx, trade_history_idx) => {
+        console.log(trade_history_idx);
+        window.location.href = `/user/review/form/${store_idx}/${trade_history_idx}`;
 
-        }
+    }
 
-    </script>
-</head>
-<body>
-{{>layout/myPage/my_page_header}}
-    <div><a href="/user/myPage"><-</a></div>
-    <hr>
-</body>
+</script>
 </html>
