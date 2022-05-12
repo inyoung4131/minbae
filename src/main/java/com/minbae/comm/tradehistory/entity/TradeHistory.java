@@ -8,6 +8,7 @@ import com.minbae.storedetail.entity.StoreDetail;
 import com.minbae.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ public class TradeHistory {
     @Column(nullable = false,name="order_deliver_price")
     private int orderDeliverPrice;
 
+    @ColumnDefault("0")
     @Column(nullable = false,name="order_state")
     private String orderState;
 

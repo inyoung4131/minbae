@@ -18,7 +18,5 @@ public class Coupon {
     private String couponName;
     @Column(nullable = false,name="coupon_discount")
     private int couponDiscount;
-    @Column(nullable = false,name="coupon_usable_price")
-    private int couponUsablePrice;
 
 }

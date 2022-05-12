@@ -1,12 +1,20 @@
 package com.minbae.user.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minbae.user.dao.UserMapper;
 import com.minbae.user.dto.UserReviewDTO;
 import com.minbae.user.exception.UserCommException;
 import com.minbae.user.exception.comm.UserExceptionType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -14,6 +22,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -172,6 +181,70 @@ public class UserService {
 
         return sd_review_list;
     }
+
+    public int payment(Map<String, Object> map) throws JsonProcessingException {
+        /**결제 정보 조회*/
+        System.out.println(map);
+
+        // imp_uid, merchant_uid 추출
+        String imp_uid = map.get("imp_uid").toString();
+        String merchant_uid = map.get("merchant_uid").toString();
+
+        //rest api 키, rest api secret -> data
+        Map<String, Object> iamportRequest = new HashMap<>();
+        iamportRequest.put("imp_key", "7055545585085380");
+        iamportRequest.put("imp_secret", "34bb5ea753524e201d83a0cbb71875ab9b3bffc9e9a0ef1fd91d9c567ed93977ed68752db8e959a0");
+
+        /*액세스 토큰(access token) 발급 받기*/
+        //headers
+        HttpHeaders token_httpHeaders = new HttpHeaders();
+        token_httpHeaders.add("Content-Type", "application/json");
+
+        //data, headers
+        HttpEntity token_httpEntity = new HttpEntity(iamportRequest, token_httpHeaders);
+
+        //restTemplate을 통해 요청 토큰 발급 요청
+        RestTemplate restTemplate = new RestTemplate();
+
+        //post로 요청, getToken에 json 문자열로 받아와짐
+        ResponseEntity<String> getToken = restTemplate.postForEntity("https://api.iamport.kr/users/getToken", token_httpEntity, String.class);
+//        System.out.println(getToken);
+
+        ObjectMapper mapper = new ObjectMapper();
+        //json 문자열로 받아와진 getToken을 jsonNode로 생성
+        JsonNode root = mapper.readTree(getToken.getBody());
+        //response의 access_token으로 접근해서 인증 토큰 가져오기
+        JsonNode token = root.path("response").path("access_token");
+//        System.out.println("token -> " + token); -> "712f575bcf73a066a66c103551f4da5facd0d052"로 출력
+
+        /*imp_uid로 아임포트 서버에서 결제 정보 조회*/
+        // 인증 토큰 Authorization header에 추가
+        HttpHeaders info_httpHeaders = new HttpHeaders();
+        info_httpHeaders.add("Authorization", token.toString().replaceAll("\"", ""));
+        //get방식이라 body 없이 headers만 추가
+        HttpEntity info_httpEntity = new HttpEntity(null, info_httpHeaders);
+
+        //결제정보 조회 요청
+        ResponseEntity<String> payment_info = restTemplate.exchange("https://api.iamport.kr/payments/" + imp_uid, HttpMethod.GET, info_httpEntity, String.class);
+        System.out.println("payment_info >> " + payment_info);
+
+        ObjectMapper payment_info_mapper = new ObjectMapper();
+        //json 문자열로 받아와진 payment_info_mapper을 jsonNode로 생성
+        JsonNode payment_info_root = payment_info_mapper.readTree(payment_info.getBody());
+        //결제 정보에 있는 amount 추출
+        JsonNode info_amount = payment_info_root.path("response").path("amount");
+
+        /**결제되어야 할 금액과 실제 결제된 금액을 비교*/
+        int amount = 100;
+        if(Integer.parseInt(info_amount.toString()) == amount) {
+            // TODO: 성공 response
+            return 0;
+        } else {
+            // TODO: error response
+            return 0;
+        }
+    }
+
 
 
 //    public void copyInto(List<MultipartFile> upload) throws IOException {
