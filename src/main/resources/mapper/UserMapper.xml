@@ -54,11 +54,10 @@
 
     <select id="findStoreByCategoryStar" resultType="hashMap">
         select
-            truncate(avg(r.review_star), 1) starAvg, s.*, sd.*
+            truncate(avg(review_star), 1) starAvg, s.*, sd.*
         from review
                  left join store s on s.store_idx = review.store_idx
                  left join store_detail sd on s.store_idx = sd.store_idx
-                 left join review r on s.store_idx = r.store_idx
         where s.store_category = #{categoryEn}
         group by s.store_idx
         order by starAvg desc
@@ -173,4 +172,59 @@
         where store_idx = #{store_idx};
     </select>
 
+    <select id="get_user_info" resultType="hashMap">
+        select
+            *
+        from user
+        where user_idx = #{user_idx}
+    </select>
+
+    <insert id="trade_history_deliver_insert">
+        INSERT INTO
+            trade_history (`order_date`, `order_deliver_price`, `order_payment`, `order_price`, `store_idx`, `user_idx`)
+        VALUES (
+                   sysdate(),
+                   #{order_deliver_price},
+                   #{order_payment},
+                   #{order_price},
+                   #{store_idx},
+                   #{user_idx}
+               )
+    </insert>
+
+    <insert id="trade_history_take_out_insert">
+        INSERT INTO
+            trade_history (`order_date`, `order_payment`, `order_price`, `store_idx`, `user_idx`)
+        VALUES (
+                   sysdate(),
+                   #{order_payment},
+                   #{order_price},
+                   #{store_idx},
+                   #{user_idx}
+               )
+    </insert>
+
+    <select id="get_last_trade_history_idx" resultType="Integer">
+        SELECT
+            trade_history_idx
+        FROM trade_history
+        ORDER BY trade_history_idx DESC LIMIT 1
+    </select>
+
+    <insert id="trade_history_detail_insert">
+        INSERT INTO
+            trade_history_detail (`count`, `menu_idx`, `trade_history_idx`)
+        VALUES (
+                   #{count},
+                   #{menu_idx},
+                   #{trade_history_idx}
+               )
+    </insert>
+
+    <select id="minimum_price" resultType="String">
+        select
+            store_detail_minimum_price
+        from store_detail
+        where store_idx = #{store_idx}
+    </select>
 </mapper>

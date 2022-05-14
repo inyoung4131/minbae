@@ -41,4 +41,16 @@ public interface UserMapper {
 
 
     List<Map<String, Object>> storeDetailReview(Long store_idx);
+
+    Map<String, Object> get_user_info(Long user_idx);
+
+    int trade_history_deliver_insert(Map<String, Object> map);
+
+    int trade_history_take_out_insert(Map<String, Object> map);
+
+    Integer get_last_trade_history_idx();
+
+    int trade_history_detail_insert(String count, String menu_idx, Integer trade_history_idx);
+
+    String minimum_price(Long store_idx);
 }
