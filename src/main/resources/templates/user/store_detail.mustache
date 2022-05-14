@@ -17,8 +17,9 @@
     {{^type}}
         <div><a href="/user/category/click/{{categoryKo}}/{{selectStore.store_category}}"><-</a></div>
     {{/type}}
+    <hr>
     <div id="top">
-        <div>가게 대표 이미지 : {{selectStore.store_detail_info_img}}</div>
+        <img src="{{selectStore.store_detail_info_img}}" class="img-fluid">
         <hr>
         <ul>
             <li>{{selectStore.store_name}}</li>
@@ -35,9 +36,15 @@
     </div>
     <hr>
     <div id="middle">
-        <div>
-            <span id="deliverTap">배달 주문</span> | <span id="visitTap">포장/방문주문</span>
-        </div>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#" id="deliverTap">배달 주문</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="visitTap">포장/방문주문</a>
+            </li>
+        </ul>
+        <hr>
         <ul id="deliveryOrder" style="display: block">
             <li>최소 주문 금액 : {{selectStore.store_detail_minimum_price}}</li>
             <li>결제 방법 : 바로 결제, 만나서 결제</li>
@@ -55,9 +62,17 @@
     </div>
     <hr>
     <div id="under">
-        <div>
-            <span id="menuTap">메뉴</span> | <span id="infoTap">정보</span> | <span id="reviewTap">리뷰</span>
-        </div>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#" id="menuTap">메뉴</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="infoTap">정보</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="reviewTap">리뷰</a>
+            </li>
+        </ul>
         <hr>
         <div id="menuTapList" style="display: block">
             <div id="menuText">
@@ -84,13 +99,6 @@
                             </div>
                         </div>
                     </a>
-<!--                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}">-->
-<!--                        <ul>-->
-<!--                            <li>메뉴 이미지 : {{menu_img}}</li>-->
-<!--                            <li>{{menu_name}}</li>-->
-<!--                            <li>{{menu_price}}</li>-->
-<!--                        </ul>-->
-<!--                    </a>-->
                 {{/kingMenu}}
 
                 <h4>메뉴 소개</h4>
@@ -192,16 +200,79 @@
                 let review_write_date = date.toLocaleDateString();
 
                 let sd_review_List = '';
-                sd_review_List += `<div>닉네임:${data.user_nickname}</div>
-                                        <div>별점:${data.review_star}</div>
-                                        <div>작성 날짜:${review_write_date}</div>
-                                        <div>리뷰:${data.review_comment}</div>`
+                if(data.review_img1 != null){
+                    sd_review_List += `<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                            <div class="carousel-inner">`
+                    sd_review_List += `<div class="carousel-item active">
+                                          <img src="${data.review_img1}" class="d-block w-100" alt="...">
+                                       </div>`
+                    if(data.review_img2 != null){
+                        sd_review_List += `<div class="carousel-item active">
+                                              <img src="${data.review_img2}" class="d-block w-100" alt="...">
+                                           </div>`
+                        if(data.review_img3 != null){
+                            sd_review_List += `<div class="carousel-item active">
+                                              <img src="${data.review_img3}" class="d-block w-100" alt="...">
+                                           </div>`
+                        }
+                    }
+                    sd_review_List += `</div>
+                                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                      </button>
+                                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                      </button>
+                                    </div>`
+                }
+
+                sd_review_List += `<div class="mb-3 row">
+                                    <label for="staticEmail" class="col-sm-2 col-form-label">닉네임</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="${data.user_nickname}">
+                                    </div>
+                                  </div>`
+                sd_review_List += `<div class="mb-3 row">
+                                    <label for="staticEmail" class="col-sm-2 col-form-label">별점</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="${data.review_star}">
+                                    </div>
+                                  </div>`
+                sd_review_List += `<div class="mb-3 row">
+                                    <label for="staticEmail" class="col-sm-2 col-form-label">작성 날짜</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="${review_write_date}">
+                                    </div>
+                                  </div>`
+                sd_review_List += `<div class="mb-3 row">
+                                    <label for="staticEmail" class="col-sm-2 col-form-label">리뷰</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="${data.review_comment}">
+                                    </div>
+                                  </div>`
                 if(data.review_reply != null){
-                    sd_review_List += `<div>사장님 답변:${data.review_reply}</div>
-                                        <hr>`
+                    sd_review_List += `<div class="mb-3 row">
+                                        <label for="staticEmail" class="col-sm-2 col-form-label">사장님 답변</label>
+                                        <div class="col-sm-10">
+                                          <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="${data.review_reply}">
+                                        </div>
+                                      </div>
+                                      <hr>`
                 }else{
                     sd_review_List += `<hr>`
                 }
+                // sd_review_List += `<div>닉네임:${data.user_nickname}</div>
+                //                         <div>별점:${data.review_star}</div>
+                //                         <div>작성 날짜:${review_write_date}</div>
+                //                         <div>리뷰:${data.review_comment}</div>`
+                // if(data.review_reply != null){
+                //     sd_review_List += `<div>사장님 답변:${data.review_reply}</div>
+                //                         <hr>`
+                // }else{
+                //     sd_review_List += `<hr>`
+                // }
                 let div_sd_review_List = document.createElement('div');
                 div_sd_review_List.innerHTML = sd_review_List;
                 document.getElementById('reviewList').appendChild(div_sd_review_List);

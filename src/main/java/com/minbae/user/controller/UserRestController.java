@@ -94,8 +94,18 @@ public class UserRestController {
 
         int result = userService.payment(map);
 
-        return (map != null) ?
-                new UserApiResponse(UserApiStatus.SUCCESS, map) :
+        return (result > 0) ?
+                new UserApiResponse(UserApiStatus.SUCCESS, result) :
+                new UserApiResponse(UserApiStatus.FAIL, result);
+    }
+
+    @GetMapping("/store/minimum/price/{store_idx}")
+    public UserApiResponse minimum_price(@PathVariable("store_idx") Long store_idx){
+        String minimum_price = userService.minimum_price(store_idx);
+        System.out.println(minimum_price);
+
+        return (minimum_price != null) ?
+                new UserApiResponse(UserApiStatus.SUCCESS, minimum_price) :
                 new UserApiResponse(UserApiStatus.FAIL, null);
     }
 

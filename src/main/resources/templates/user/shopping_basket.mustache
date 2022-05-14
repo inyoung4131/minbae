@@ -48,15 +48,15 @@
             shoppingList += `<div id='menu_img${i}'>${data[8]}</div>`;
             shoppingList += `<div>
                                 <label style="font-size: small">*가격 : </label>
-                                <span id='menu_price${i}' style="font-size: small">${data[4]}원</span>
+                                <span id='menu_price${i}' style="font-size: small">${data[4]}</span>
                             </div>`;
             shoppingList += `<div id='total_price${i}'>${data[7]}원</div>`;
 
             //수량 버튼 생성
             shoppingList += `<div id='total_quantity${i}'>`;
-            shoppingList += `<input type='button' onclick='count("plus", ${i})' value='+'/>`
+            shoppingList += `<button type="button" class="btn btn-outline-secondary" onclick='count("plus", ${i})'>+</button>`
             shoppingList += `<span id='quantity${i}'>${data[6]}</span>`
-            shoppingList += `<input type='button' onclick='count("minus", ${i})' value='-'/>`
+            shoppingList += `<button type="button" class="btn btn-outline-secondary" onclick='count("minus", ${i})'>-</button>`
             shoppingList += '</div>';
             shoppingList += '<hr>';
 
@@ -137,7 +137,7 @@
         document.body.appendChild(div_more);
 
         //배달 방법
-        let select = `<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+        let select = `<select class="form-select form-select-sm" aria-label=".form-select-sm example" onchange="select_deliver_or_take_out()" id="select_deliver_or_take_out">
                             <option value="deliver" selected>배달로 받을게요</option>
                             <option value="take_out">포장해서 직접 가져갈게요</option>
                       </select>
@@ -146,12 +146,12 @@
         div_select.innerHTML = select;
         document.body.appendChild(div_select);
 
-        //총 주문 금액
+        //총 주문 금액, 배달팁
         let bottom_totalPrice = `<div>
                                     <span class="float-left" >총 주문 금액</span><br>
                                     <span class="float-right" id="bottom_totalPrice">${realFinalPrice}원</span>
                                  </div><br>
-                                 <div>
+                                 <div id='id_deliverPrice'>
                                     <span class="float-left">배달팁</span><br>
                                     <span class="float-right">${deliverPrice}원</span>
                                  </div>
@@ -169,14 +169,54 @@
         div_expected.innerHTML = expected_price;
         document.body.appendChild(div_expected);
 
+        //user_idx 가져오기
+        let get_login = sessionStorage.getItem("memberData");
+        let login = JSON.parse(get_login);
+        let user_idx = login.memberData.userIdx;
+
+        //배달 or 포장
+        let deliver_or_take_out = $("#select_deliver_or_take_out option:selected").val();
+        const select_deliver_or_take_out = () => {
+            deliver_or_take_out = $("#select_deliver_or_take_out option:selected").val();
+
+            //포장인지 배달인지 세션스토리지에 저장 -> 주문 페이지에서 사용
+            sessionStorage.setItem('deliver_or_take_out', deliver_or_take_out);
+
+            //포장일 경우 배달팁 안 보이게
+            if(deliver_or_take_out == 'take_out'){
+                document.getElementById('id_deliverPrice').style.display = 'none';
+                document.getElementById('expected_price').innerText = `${realFinalPrice}원`;
+                document.getElementById('b_price').innerText = `${realFinalPrice}원 배달 주문하기`;
+            }else{
+                document.getElementById('id_deliverPrice').style.display = 'block';
+                document.getElementById('expected_price').innerText = `${realFinalPrice + parseInt(deliverPrice)}원`;
+                document.getElementById('b_price').innerText = `${realFinalPrice + parseInt(deliverPrice)}원 배달 주문하기`;
+            }
+        }
+        //포장인지 배달인지 세션스토리지에 저장 -> 주문 페이지에서 사용
+        sessionStorage.setItem('deliver_or_take_out', deliver_or_take_out);
+
         //주문 버튼 생성
-        let order_button = `<button type="button" id="order_button" class="btn btn-primary mx-auto d-block" onclick="location.href='/user/order/page'">
-                              <span class="badge bg-secondary">${realFinalQuantity}</span> ${realFinalPrice + parseInt(deliverPrice)}원 배달 주문하기
+        let order_button = `<button type="button" id="order_button" class="btn btn-primary mx-auto d-block" onclick="b_order()">
+                              <span class="badge bg-secondary">${realFinalQuantity}</span> <span id="b_price">${realFinalPrice + parseInt(deliverPrice)}원 배달 주문하기</span>
                             </button>`
 
         let div_bt_realFinalPrice = document.createElement('div');
         div_bt_realFinalPrice.innerHTML = order_button;
         document.body.appendChild(div_bt_realFinalPrice);
+
+        //최조 주문 금액 유효성 검사 & 주문 페이지 이동
+        const b_order = () => {
+            fetch(`/user/store/minimum/price/${datas[0][0]}`)
+            .then((response) => response.json())
+            .then((data) => {
+                if(realFinalPrice < data.data){
+                    alert(`${data.data}원부터 주문할 수 있어요.`)
+                }else{
+                    location.href=`/user/order/page/${user_idx}`;
+                }
+            });
+        }
     </script>
 {{>layout/main/main_footer}}
 </body>
