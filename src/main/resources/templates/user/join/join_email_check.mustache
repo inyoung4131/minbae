@@ -202,7 +202,11 @@
                 userTel:`{{tel}}`
             })
         }).then(response => response.json())
-                .then(data => {alert(data.status)});
+                .then(data => {
+                   window.sessionStorage.setItem("token",data.data);
+                   window.sessionStorage.setItem("user-data",data.memberData);
+                   location.href="/";
+                });
     }
 
 </script>

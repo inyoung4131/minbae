@@ -71,7 +71,8 @@
 <div id="auth_div">
     <div>
         <div class="text_div">인증번호</div>
-        <div><input type="text" class="text_input"></div>
+        <div><input type="text" class="text_input" id="auth_text"></div>
+        <div id="auth_result_text"></div>
     </div>
 </div>
 
@@ -79,6 +80,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
+
+    let authNum;
+    $('#auth_text').on('keyup', function () {
+        if (document.getElementById('auth_text').value == authNum) {
+            document.getElementById('auth_result_text').innerText="인증이 완료되었습니다";
+            document.getElementById('auth_result_text').style.color='blue';
+        }else{
+            document.getElementById('auth_result_text').innerText="인증번호가 일치하지 않습니다.";
+            document.getElementById('auth_result_text').style.color='red';
+        }
+
+    });
+
     $('#next_div').on('click', function () {
         location.href = "/join/user/email?tel=" + $('#text_input_tel').val().replaceAll('-', '')
     });
@@ -103,89 +117,15 @@
     $('#auth_button').on('click', function () {
         $('#auth_button').hide();
         $('#auth_div').show();
-        asdfg();
+        phoneNumberCheck();
     });
 
-
-    var method = "POST";
-    var space = " ";
-    var newLine = "\n";
-    var secretKey = "BQycyHZWZ5ejz0MOqAIhBo0qKI0FO4dBFsnAapNf";
-    var serviceId = "ncp:sms:kr:285641559784:minbae";
-    var accessKey = "jUaOu7qg8xzRJLmsr8eb";
-    var url = `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`;
-    var timestamp = Date.now().toString();
-    var uri = `/sms/v2/services/${serviceId}/messages`;
-    var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
-    hmac.update(method);
-    hmac.update(space);
-    hmac.update(uri);
-    hmac.update(newLine);
-    hmac.update(timestamp);
-    hmac.update(newLine);
-    hmac.update(accessKey);
-    var hash = hmac.finalize();
-    var signature = hash.toString(CryptoJS.enc.Base64);
-
-    const tel = $('#tel').val();
-
-    const verifyCode = Math.floor(Math.random() * (999999 - 100000)) + 100000;
-
-    function asdfg() {
-        fetch(url, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'x-ncp-apigw-timestamp': timestamp,
-                'x-ncp-iam-access-key': accessKey,
-                'x-ncp-apigw-signature-v2': signature
-            },
-            body: JSON.stringify({
-                type: 'SMS',
-                from: '01035584131',
-                content: `[인영테스트중] 인증번호 [${verifyCode}]를 입력해주세요.`,
-                messages: [
-                    {
-                        to: `01035584131`
-                    }
-                ]
-            })
-        }).then(response => response.json())
-                .then(data => alert(data))
-                .catch((error) => {
-                    console.error('실패:', error);
-                });
-
-        // $.ajax({
-        //     type: "POST",
-        //     url: url,
-        //     headers: {
-        //         'Content-Type': 'application/json; charset=utf-8',
-        //         'x-ncp-apigw-timestamp': timestamp,
-        //         'x-ncp-iam-access-key': accessKey,
-        //         'x-ncp-apigw-signature-v2': signature
-        //     },
-        //     body: {
-        //         type: 'SMS',
-        //         from: '01035584131',
-        //         content: `[인영테스트중] 인증번호 [${verifyCode}]를 입력해주세요.`,
-        //         messages: [
-        //             {
-        //                 to: `01035584131`
-        //             }
-        //         ]
-        //     },
-        //     success: function () {
-        //         alert(1);
-        //     },
-        //     error: function () {
-        //         alert(2);
-        //     },
-        //     complete: function () {
-        //         alert(3);
-        //     }
-        // });
+    function phoneNumberCheck() {
+        fetch("/join/user/sms?tel="+document.getElementById('text_input_tel').value.replaceAll("-",""),)
+                .then(response => response.json())
+                .then(data => {
+                    authNum=data;
+                })
     }
 
 </script>

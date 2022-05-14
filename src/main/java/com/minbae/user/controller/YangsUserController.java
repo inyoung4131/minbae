@@ -32,8 +32,7 @@ public class YangsUserController {
         model.setViewName("user/addr/main_page_addr_change_view_page_search_result");
         return model;
     }
-    @GetMapping("/test")
-    public String test(){return "user/join/join_main";}
+
     @GetMapping("/join/user")
     public String joinUser(){return "user/join/join_agreement";}
 

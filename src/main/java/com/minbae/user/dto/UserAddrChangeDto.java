@@ -9,10 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Getter
 public class UserAddrChangeDto {
 
-    @Getter
-    private long userIdx;
+    private Long userIdx;
 
     private String userBasicAddr;
 

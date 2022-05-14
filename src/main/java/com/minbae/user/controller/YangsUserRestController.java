@@ -24,7 +24,7 @@ public class YangsUserRestController {
     private final AdminService adminService;
 
     @PutMapping("/user/main/addr/change")
-    public long userAddrChange(UserAddrChangeDto userAddrChangeDto){
+    public long userAddrChange(@RequestBody UserAddrChangeDto userAddrChangeDto){
         return yangsUserService.userAddrChange(userAddrChangeDto);
     }
 
@@ -48,7 +48,6 @@ public class YangsUserRestController {
 
     @PostMapping("/join/user/complete")
     public ApiResponse userJoinAndLogin(@RequestBody UserJoinDto userJoinDto){
-        System.out.println("컨트롤러-----------------"+userJoinDto.getUserBasicAddr());
         if(yangsUserService.join(userJoinDto)) {
             return new ApiResponse(ApiStatus.SUCCESS
                     , adminService.login("user", userJoinDto.getUserEmail(), userJoinDto.getUserPwd())
@@ -56,6 +55,11 @@ public class YangsUserRestController {
         }else{
             return new ApiResponse(ApiStatus.FAIL, null, null);
         }
+    }
+
+    @GetMapping("/join/user/sms")
+    public String smsAuth(@Param("tel") String tel){
+        return yangsUserService.sendSms(tel);
     }
 
 }

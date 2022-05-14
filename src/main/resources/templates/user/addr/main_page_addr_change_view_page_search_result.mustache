@@ -88,7 +88,7 @@
                             , "category": category
                             , "alias": $('#alias').val()
                         };
-                mem.push(arr);
+                mem.unshift(arr);
                 mem = JSON.stringify(mem);
                 window.localStorage.setItem("used_addr", mem);
                 location.href = "/user/main/addr/main";
@@ -111,10 +111,11 @@
                             , "category": category
                             , "alias": $('#alias').val()
                         };
-                mem.push(arr);
+                mem.unshift(arr);
                 mem = JSON.stringify(mem);
                 window.localStorage.setItem("used_addr", mem);
                 setUserLatLng();
+                location.href = "/user/main/addr/main";
                 // 아직. 로그인 다 하고.
                 // if (window.sessionStorage.getItem("memberData") != null) {
                 //     var data={
