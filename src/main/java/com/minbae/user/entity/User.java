@@ -32,19 +32,19 @@ public class User {
     @Column(nullable = false,name="user_email")
     private String userEmail;
 
-    @Column(nullable = false,name="user_pwd")
+    @Column(nullable = true,name="user_pwd")
     private String userPwd;
 
     @Column(nullable = false,name="user_nickname")
     private String userNickname;
 
-    @Column(nullable = false,name="user_basic_addr")
+    @Column(nullable = true,name="user_basic_addr")
     private String userBasicAddr;
 
-    @Column(nullable = false,name="user_detail_addr")
+    @Column(nullable = true,name="user_detail_addr")
     private String userDetailAddr;
 
-    @Column(nullable = false,name="user_tel")
+    @Column(nullable = true,name="user_tel")
     private String userTel;
 
     @Column(nullable = false,name="user_social")

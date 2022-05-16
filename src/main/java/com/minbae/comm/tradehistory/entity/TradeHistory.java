@@ -37,6 +37,7 @@ public class TradeHistory {
     @Column(nullable = false,name="order_price")
     private int orderPrice;
 
+    @ColumnDefault("0")
     @Column(nullable = false,name="order_deliver_price")
     private int orderDeliverPrice;
 

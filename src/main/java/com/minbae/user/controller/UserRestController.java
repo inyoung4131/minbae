@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -92,12 +93,46 @@ public class UserRestController {
     @PostMapping("/payment")
     public UserApiResponse payment(@RequestBody Map<String, Object> map) throws Exception{
 
-        int result = userService.payment(map);
+        Map<String, Integer> result = userService.payment(map);
 
-        return (map != null) ?
-                new UserApiResponse(UserApiStatus.SUCCESS, map) :
-                new UserApiResponse(UserApiStatus.FAIL, null);
+        return (result.get("dbInsertResult") > 0) ?
+                new UserApiResponse(UserApiStatus.SUCCESS, result.get("trade_history_idx")) :
+                new UserApiResponse(UserApiStatus.FAIL, result);
     }
+
+    @GetMapping("/store/minimum/price/{store_idx}")
+    public UserApiResponse minimum_price(@PathVariable("store_idx") Long store_idx){
+        String minimum_price = userService.minimum_price(store_idx);
+
+        return new UserApiResponse(minimum_price != null ? UserApiStatus.SUCCESS : UserApiStatus.FAIL, minimum_price);
+
+    }
+
+    //주문 현황 값 받는
+    @GetMapping("order/state/{user_idx}")
+    public UserApiResponse order_state(@PathVariable Integer user_idx){
+
+        List<Map<String, String>> order_store = userService.get_order_store(user_idx);
+
+        return new UserApiResponse(order_store != null ? UserApiStatus.SUCCESS : UserApiStatus.FAIL, order_store);
+    }
+
+    //카카오 로그인
+//    @PostMapping("/login")
+//    public UserApiResponse login(@RequestBody Map<String, Object> param) {
+//        System.out.println(param);
+//        return new UserApiResponse(UserApiStatus.SUCCESS, userService.kakaoLogin(param));
+//    }
+
+//    @GetMapping("/trade_history_idx")
+//    public UserApiResponse tradeHistoryIdx(){
+//        int trade_history_idx = userService.trade_history_idx();
+//        System.out.println(trade_history_idx);
+//
+//        return  (trade_history_idx != 0) ?
+//                new UserApiResponse(UserApiStatus.SUCCESS, trade_history_idx) :
+//                new UserApiResponse(UserApiStatus.FAIL, null);
+//    }
 
 //    //주문 많은 순, 별점 많은 순
 //    @GetMapping("/store/{category}/{type}")

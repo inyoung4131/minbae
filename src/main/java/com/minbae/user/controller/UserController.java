@@ -46,7 +46,6 @@ public class UserController {
         ModelAndView mav = new ModelAndView();
         List<Map<String, Object>> store_list = userService.getStoreByCategoryOrderAndStar(categoryEn, type);
 
-
         mav.addObject("store_list", store_list);
         mav.addObject("categoryKo", categoryKo);
         mav.addObject("categoryEn", categoryEn);
@@ -64,6 +63,7 @@ public class UserController {
 
         //해당 가게 상세 정보
         Map<String, Object> selectStore = userService.findStoreById(store_idx);
+        System.out.println("selectStore -> " + selectStore);
 
         //해당 가게 리뷰 개수(사장, 손님)
         Map<String, Object> selectStoreReview = userService.findReviewByCount(store_idx);
@@ -164,11 +164,22 @@ public class UserController {
     }
 
     //결제 페이지 이동
-    @GetMapping("/order/page")
-    public ModelAndView orderPage(){
+    @GetMapping("/order/page/{user_idx}")
+    public ModelAndView orderPage(@PathVariable("user_idx") Long user_idx){
 
         ModelAndView mav = new ModelAndView();
+        Map<String, Object> user_info = userService.get_user_info(user_idx);
+
+        mav.addObject("user_info", user_info);
         mav.setViewName("user/user_order_page");
         return mav;
     }
+
+    //주문 현황 페이지
+    @GetMapping("/order/detail")
+    public String orderDetail(){
+
+        return "user/user_order_detail";
+    }
+
 }
