@@ -23,13 +23,20 @@
     </style>
     <script>
         window.onload = () => {
-            let get_login = window.sessionStorage.getItem("memberData");
+            let get_login = sessionStorage.getItem("memberData");
             let login = JSON.parse(get_login);
-            let user_idx = login.memberData.userIdx;
-            if(user_idx != null){
+            let userIdx = login?.memberData?.userIdx;   //자체 로그인
+            // let user_idx = login?.userIdx;             //카카오 로그인
+
+            if(userIdx != null){
                 document.getElementById('loginPage').style.display = 'block';
                 document.getElementById('logoutPage').style.display = 'none';
             }
+
+            // if(user_idx != null || userIdx != null){
+            //     document.getElementById('loginPage').style.display = 'block';
+            //     document.getElementById('logoutPage').style.display = 'none';
+            // }
         }
         const logout = () => {
             sessionStorage.clear();
@@ -54,9 +61,9 @@
                 </li>
             </ul>
             <div id="loginPage" style="display: none;" >
-                <span class="nav-item" style="float: left">
-                    <a class="nav-link active link-light" aria-current="page" href="#">알림</a>
-                </span>
+<!--                <span class="nav-item" style="float: left">-->
+<!--                    <a class="nav-link active link-light" aria-current="page" href="/user/order/detail">주문 현황</a>-->
+<!--                </span>-->
                 <span class="nav-item" style="float: left">
                     <a class="nav-link active link-light" aria-current="page" href="/user/myPage">마이페이지</a>
                 </span>

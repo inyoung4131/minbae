@@ -3,6 +3,7 @@ package com.minbae.user.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.minbae.sso.jwt.JwtTokenProvider;
 import com.minbae.user.dao.UserMapper;
 import com.minbae.user.dto.UserReviewDTO;
 import com.minbae.user.exception.UserCommException;
@@ -34,6 +35,7 @@ import java.util.stream.Stream;
 public class UserService {
 
     private final UserMapper userMapper;
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**주문 많은 순 리스트*/
     public List<Map<String, Object>> getStoreByCategoryOrderAndStar(String category, String type) {
@@ -184,7 +186,7 @@ public class UserService {
     }
 
     //trade_history, trade_history_detail 테이블에 값 넣는 메소드
-    public int trade_history_insert(Map<String, Object> map){
+    public Map<String, Integer> trade_history_insert(Map<String, Object> map){
         //trade_history에 값 넣기
         int trade_history_result = 0;
         if(map.get("order_deliver_or_take_out").toString().equals("deliver")){
@@ -192,7 +194,6 @@ public class UserService {
         }else {
             trade_history_result = userMapper.trade_history_take_out_insert(map);
         }
-        System.out.println("trade_history_result -> " + trade_history_result);
         //trade_history 마지막에 추가된 idx 값 추출
         Integer trade_history_idx = userMapper.get_last_trade_history_idx();
 
@@ -205,14 +206,19 @@ public class UserService {
             trade_history_detail_result += userMapper.trade_history_detail_insert(count[i], menu_idx[i], trade_history_idx);
         }
 
-        return trade_history_result + trade_history_detail_result;
+        //디비 저장 결과값과 trade_history_idx값
+        int dbInsertResult = trade_history_result + trade_history_detail_result;
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("dbInsertResult", dbInsertResult);
+        resultMap.put("trade_history_idx", trade_history_idx);
+        return resultMap;
     }
 
-    public int payment(Map<String, Object> map) throws JsonProcessingException {
+    public Map<String, Integer> payment(Map<String, Object> map) throws JsonProcessingException {
 
         System.out.println(map);
 
-        if(map.get("order_payment").toString().equals("card")) {
+        if(map.get("order_payment").toString().equals("card")) {    //카드일 때
             /**결제 정보 조회*/
             // imp_uid, merchant_uid 추출
             String imp_uid = map.get("imp_uid").toString();
@@ -262,16 +268,16 @@ public class UserService {
             //결제 정보에 있는 amount 추출
             JsonNode info_amount = payment_info_root.path("response").path("amount");
 
-            /**결제되어야 할 금액과 실제 결제된 금액을 비교*/
+            /**결제되어야 할 금액과 실제 결제된 금액을 비교 후 디비에 값 저장*/
             String order_price = map.get("order_price").toString();
             if(Integer.parseInt(info_amount.toString()) == Integer.parseInt(order_price)) {
-                //trade 테이블들에 값 넣기
+                //trade 테이블들에 값 넣기 메소드 호출
                 return trade_history_insert(map);
             } else {
                 throw new UserCommException(UserExceptionType.inconsistency);
             }
-        }else{
-            //trade 테이블들에 값 넣기
+        }else{  //현금일 때
+            //trade 테이블들에 값 넣기 메소드 호출
             return trade_history_insert(map);
         }
     }
@@ -287,6 +293,36 @@ public class UserService {
         String minimum_price = userMapper.minimum_price(store_idx);
         return minimum_price;
     }
+
+    public List<Map<String, String>> get_order_store(Integer user_idx) {
+        List<Map<String, String>> order_store = userMapper.get_order_store(user_idx);
+
+        return order_store;
+    }
+
+    //카카오 로그인
+//    public Map<String, Object> kakaoLogin(Map<String, Object> param) {
+//        // 카카오 회원 체크
+//        Map<String, Object> kakaoUser = userMapper.kakaoLogin(param);
+//        System.out.println(kakaoUser);
+//
+//        // 없으면 insert
+//        if(kakaoUser == null) {
+//            userMapper.insertKakaoUser(param);
+//            kakaoUser = userMapper.kakaoLogin(param);
+//        }
+//
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("accessToken", jwtTokenProvider.createToken(kakaoUser.get("user_email").toString(), Long.parseLong(kakaoUser.get("userIdx").toString())));
+//        result.put("memberData", kakaoUser);
+//        return result;
+//    }
+
+//    public int trade_history_idx() {
+//        int trade_history_idx = userMapper.get_last_trade_history_idx();
+//
+//        return trade_history_idx;
+//    }
 
 
 //    public void copyInto(List<MultipartFile> upload) throws IOException {

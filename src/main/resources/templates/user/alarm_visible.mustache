@@ -1,0 +1,28 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    let get_login = JSON.parse(sessionStorage.getItem("memberData"));
+    let user_idx = get_login.memberData.userIdx;
+
+    //소켓 연결
+    let socket = new SockJS('http://localhost:9090/chat');
+    let stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        //응답 받기
+        stompClient.subscribe(`/topic/user/${user_idx}`, function (greeting) {
+            let j_parse = JSON.parse(greeting.body);
+            let accept_Or_not = j_parse.accept_Or_not;
+            if(accept_Or_not){
+                let alarm = document.getElementById('alarm');
+                alarm.style.display = 'block';
+
+            }
+        });
+    });
+</script>
+<div class="alert alert-warning alert-dismissible fade show" role="alert" id="alarm" style="display: none" onclick="javascript:location.href = `/user/order/detail`">
+    <strong>주문하신 음식의 현재 진행 상황이 도착했어요!</strong>(주문 현황 페이지로 이동)
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>

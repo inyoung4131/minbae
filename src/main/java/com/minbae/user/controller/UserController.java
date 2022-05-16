@@ -174,4 +174,12 @@ public class UserController {
         mav.setViewName("user/user_order_page");
         return mav;
     }
+
+    //주문 현황 페이지
+    @GetMapping("/order/detail")
+    public String orderDetail(){
+
+        return "user/user_order_detail";
+    }
+
 }

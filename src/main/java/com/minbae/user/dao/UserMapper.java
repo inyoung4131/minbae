@@ -53,4 +53,9 @@ public interface UserMapper {
     int trade_history_detail_insert(String count, String menu_idx, Integer trade_history_idx);
 
     String minimum_price(Long store_idx);
+
+    List<Map<String, String>> get_order_store(Integer user_idx);
+
+    Map<String, Object> kakaoLogin(Map<String, Object> param);
+    int insertKakaoUser(Map<String, Object> param);
 }
