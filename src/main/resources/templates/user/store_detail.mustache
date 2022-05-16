@@ -54,8 +54,10 @@
             <li>최소주문금액 : 없음</li>
             <li>이용 방법 : 매장, 포장</li>
             <li>
-                위치 안내 : {{selectStore.store_basic_addr}} {{selectStore.store_detail_addr}}
-                            지도 들어가야 함
+                <div>
+                    위치 안내 : {{selectStore.store_basic_addr}} {{selectStore.store_detail_addr}}
+                </div>
+<!--                <div id="map" style="width:100%;height:350px;"></div>-->
             </li>
             <li>결제 방법 : 바로 결제</li>
         </ul>
@@ -282,4 +284,15 @@
     })
 
 </script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 사용하세요"></script>
+<!--<script>-->
+<!--    var mapContainer = document.getElementById('map'), // 지도를 표시할 div-->
+<!--            mapOption = {-->
+<!--                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표-->
+<!--                level: 3 // 지도의 확대 레벨-->
+<!--            };-->
+
+<!--    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다-->
+<!--    var map = new kakao.maps.Map(mapContainer, mapOption);-->
+<!--</script>-->
 </html>
