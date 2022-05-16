@@ -18,15 +18,15 @@ public class StoreStompController {
     // 주문자 -> 가게
     @MessageMapping("/store/{storeIdx}")
     public void greeting(UserToStoreMessage message, @DestinationVariable("storeIdx") String storeIdx) throws Exception {
-        //System.out.println("컨트롤러 storeIdx>>"+storeIdx+"메시지 내용>>"+(message.getMessage()));
-        Thread.sleep(500); // simulated delay
+        System.out.println("컨트롤러 storeIdx>>"+storeIdx+"메시지 내용>>"+(message));
+        //Thread.sleep(100); // simulated delay
         simpMessagingTemplate.convertAndSend("/topic/store/"+storeIdx, message);
     }
 
     // 가게 -> 주문자 (수락/거절)
     @MessageMapping("/user/{userIdx}")
     public void ordering(StoreToUserMessage message,  @DestinationVariable("userIdx") String userIdx) throws Exception{
-        Thread.sleep(500);
+        //Thread.sleep(500);
         simpMessagingTemplate.convertAndSend("/topic/user/"+userIdx, message);
         tradeHistoryService.changeOrderState(message);
     }
@@ -34,7 +34,7 @@ public class StoreStompController {
     // 가게 -> 기사
     @MessageMapping("/deliver")
     public void requestDelivering(StoreToDeliverMessage message) throws Exception{
-        Thread.sleep(500);
+        //Thread.sleep(500);
         simpMessagingTemplate.convertAndSend("/topic/deliver", message);
     }
 
