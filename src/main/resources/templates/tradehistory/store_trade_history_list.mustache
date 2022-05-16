@@ -172,13 +172,13 @@
     const fooStompToUserDeny = (event) => {
         alert("유저에게 전송할 거절메시지:"+'거절');
         stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '거절', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
-        // 패치
+
     };
     /** send requestStomp to deliver */
     const fooStompToDeliver = (event) => {
         alert("기사에게 전송할 요청메시지:"+'message:배정요청 tradehistoryidx'+event.target.getAttribute('value'));
         stompClient.send("/app/deliver", {}, JSON.stringify({'message': '배정요청', 'tradeHistoryIdx':event.target.getAttribute('value')})); // tradeHistoryIdx도 전송해야함
-        // 패치
+
     }
     /** connect STOMP */
     const connect = () => {
