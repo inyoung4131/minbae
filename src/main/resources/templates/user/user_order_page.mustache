@@ -209,7 +209,7 @@
                             sessionStorage.removeItem('item');
                             sessionStorage.removeItem('deliver_or_take_out');
                             alert('결제가 완료되었습니다.');
-                            location.href = `/user/order/detail/${user_idx}`;
+                            location.href = `/user/order/detail`;
                         }else{
                             alert('db에 값이 안 들어감.');
                         }
@@ -255,7 +255,7 @@
                     sessionStorage.removeItem('item');
                     sessionStorage.removeItem('deliver_or_take_out');
                     alert('주문이 완료되었습니다.');
-                    location.href = `/user/order/detail/${user_idx}`;
+                    location.href = `/user/order/detail`;
                 }
             });
         }
