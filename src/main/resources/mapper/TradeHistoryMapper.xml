@@ -13,4 +13,9 @@
         order by t.trade_history_idx desc;
     </select>
 
+    <update id="updateOrderState">
+        update trade_history set order_state = #{orderState}
+        where trade_history_idx = #{tradehistoryidx};
+    </update>
+
 </mapper>

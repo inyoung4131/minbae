@@ -9,10 +9,10 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
-<!--    <link href="/js/user_stomp/main.css" rel="stylesheet">-->
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+    <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">-->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
+    <!--    <link href="/js/user_stomp/main.css" rel="stylesheet">-->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
@@ -24,47 +24,47 @@
 </style>
 
 <body>
-    <input type="hidden" id="user_idx" value="{{user_info.user_idx}}">
-    <input type="hidden" id="user_email" value="{{user_info.user_email}}">
-    <input type="hidden" id="user_nickname" value="{{user_info.user_nickname}}">
+<input type="hidden" id="user_idx" value="{{user_info.user_idx}}">
+<input type="hidden" id="user_email" value="{{user_info.user_email}}">
+<input type="hidden" id="user_nickname" value="{{user_info.user_nickname}}">
 
-    <h3 id="title">주문하기</h3>
-    <hr>
-    <div id="deliver_view">
-        <div><label>우리집</label>:<label id="user_addr">{{user_info.user_basic_addr}}</label></div>
-        <div><label>상세주소</label><input type="text" id="user_addr_detail" value="{{user_info.user_detail_addr}}"></div>
-    </div>
+<h3 id="title">주문하기</h3>
+<hr>
+<div id="deliver_view">
+    <div><label>우리집</label>:<label id="user_addr">{{user_info.user_basic_addr}}</label></div>
+    <div><label>상세주소</label><input type="text" id="user_addr_detail" value="{{user_info.user_detail_addr}}"></div>
+</div>
 
-    <div><label>전화번호</label>:<label id="user_tel">{{user_info.user_tel}}</label></div>
-    <hr>
-    <div><label>메뉴</label>:<label id="menu_print"></label></div>
-    <div><label>총 수량</label>:<label id="quantity_print"></label></div>
-    <hr>
+<div><label>전화번호</label>:<label id="user_tel">{{user_info.user_tel}}</label></div>
+<hr>
+<div><label>메뉴</label>:<label id="menu_print"></label></div>
+<div><label>총 수량</label>:<label id="quantity_print"></label></div>
+<hr>
+<div>
+    <div>결제 수단</div>
+    <select class="form-select" aria-label="Default select example" onchange="payment()" id="payment">
+        <option value="card" selected>카드/신용카드</option>
+        <option value="cash">만나서 현금 결제</option>
+    </select>
+</div>
+<hr>
+<div>
+    <h5>결제 금액</h5>
     <div>
-        <div>결제 수단</div>
-        <select class="form-select" aria-label="Default select example" onchange="payment()" id="payment">
-            <option value="card" selected>카드/신용카드</option>
-            <option value="cash">만나서 현금 결제</option>
-        </select>
+        <label> 주문 금액 </label>:<lable id="totalPrice"></lable>
+    </div>
+    <div id="deliver_price">
+        <label> 배달팁 </label>:<label id="deliverPrice"></label>
     </div>
     <hr>
-    <div>
-        <h5>결제 금액</h5>
-        <div>
-            <label> 주문 금액 </label>:<lable id="totalPrice"></lable>
-        </div>
-        <div id="deliver_price">
-            <label> 배달팁 </label>:<label id="deliverPrice"></label>
-        </div>
-        <hr>
-    </div>
-    <div>
-        <label> 총 결제금액 </label>:<label id="realTotalPrice"></label>
-    </div>
-    <div style="text-align: center">
-        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='/user/shopping/list'">돌아가기</button>
-        <button type="button" class="btn btn-primary btn-sm" onclick="requestPay()" id="b_order">결제하기</button>
-    </div>
+</div>
+<div>
+    <label> 총 결제금액 </label>:<label id="realTotalPrice"></label>
+</div>
+<div style="text-align: center">
+    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='/user/shopping/list'">돌아가기</button>
+    <button type="button" class="btn btn-primary btn-sm" onclick="requestPay()" id="b_order">결제하기</button>
+</div>
 {{>layout/main/main_footer}}
 </body>
 <script>

@@ -26,7 +26,7 @@ public class StoreStompController {
     // 가게 -> 주문자 (수락/거절)
     @MessageMapping("/user/{userIdx}")
     public void ordering(StoreToUserMessage message,  @DestinationVariable("userIdx") String userIdx) throws Exception{
-        Thread.sleep(500);
+        //Thread.sleep(500);
         simpMessagingTemplate.convertAndSend("/topic/user/"+userIdx, message);
         tradeHistoryService.changeOrderState(message);
     }
@@ -34,7 +34,7 @@ public class StoreStompController {
     // 가게 -> 기사
     @MessageMapping("/deliver")
     public void requestDelivering(StoreToDeliverMessage message) throws Exception{
-        Thread.sleep(500);
+        //Thread.sleep(500);
         simpMessagingTemplate.convertAndSend("/topic/deliver", message);
     }
 

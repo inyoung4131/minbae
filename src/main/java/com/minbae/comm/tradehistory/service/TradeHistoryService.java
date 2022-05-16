@@ -22,10 +22,16 @@ public class TradeHistoryService {
 
     public void changeOrderState(StoreToUserMessage message) {
         System.out.println("TradeHistoryService에 들어온 message(수락/거절)>>"+message.getMessage());
+        Integer resultNum = 0;
         if(message.getMessage().equals("수락")){
-            tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 1);
+            resultNum = tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 1);
         }else{
-            tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 4);
+            resultNum = tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 4);
         }
+
+        if(resultNum < 1){
+            throw new IllegalArgumentException("TradeHistoryService.java order_state 변경 실패!");
+        }
+
     }
 }
