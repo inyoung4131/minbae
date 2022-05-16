@@ -10,7 +10,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-
+    <!--drag list jquery-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <style>
         #customHeaderColor {
             background-color: #2AC1BC !important;
@@ -23,6 +26,22 @@
         }
         #sidebarMenu{
             font-size: 1.25rem;
+        }
+        #sortable {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 60%;
+        }
+        #sortable li {
+            margin: 0 3px 6px 3px;
+            padding-left: 1.5em;
+            font-size: 1.4em;
+            height: 50px;
+            border-radius: 10px 10px;
+        }
+        #sortable li span {
+            margin-left: -1.3em;
         }
     </style>
 </head>
@@ -85,60 +104,18 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
             <div>
-                <h1>가게 명 : {{storeEntity.storeName}}</h1>
-                <h2 class="h2">우리 가게 메뉴 리스트</h2>
+                <h1>가게 명 : </h1>
+                <h2 class="h2">우리 가게 메뉴 순서 변경</h2>
             </div>
-            <button class="btn btn-primary" onclick="location.href=`/owner/menuSunbun/{{storeEntity.storeIdx}}`">메뉴 순서 변경</button>
+            <button onclick="window.location = document.referrer; ">돌아가기</button>
+            <div>
+                <ul id="sortable">
 
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <table class="table caption-top table-hover">
-                        <caption>List of menu</caption>
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">메뉴명</th>
-                            <th scope="col">가격</th>
-                            <th scope="col">메뉴이미지</th>
-                            <th scope="col">대표|일반</th>
-                            <th scope="col">관리</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {{#menuList}}
-                            <tr id="menu-{{menuIdx}}">
-                                <th scope="row">{{menuIdx}}</th>
-                                <td>{{menuName}}</td>
-                                <td>{{menuPrice}}</td>
-                                {{#menuImg}}
-                                    <td><img src="/image/{{menuImg}}"></td>
-                                {{/menuImg}}
-                                {{^menuImg}}
-                                    <td>이미지 없음</td>
-                                {{/menuImg}}
-
-                                <td class="kingMenuValue">{{menuKingMenu}}</td>
-                                <td>
-                                    <!-- 모달트리거 -->
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-sm btn-outline-primary"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#menu-edit-modal"
-                                            data-bs-menuidx="{{menuIdx}}"
-                                            data-bs-menuname="{{menuName}}"
-                                            data-bs-menuprice="{{menuPrice}}"
-                                            data-bs-menuimg="{{#menuImg}}{{menuImg}}{{/menuImg}}{{^menuImg}}{{/menuImg}}"
-                                            data-bs-menukingmenu="{{menuKingMenu}}"
-                                            data-bs-storeidx="{{storeEntity.storeIdx}}">메뉴정보수정-모달</button>
-                                    <button class="btn btn-outline-danger" id="menuDelete" data-menu-idx="{{menuIdx}}">메뉴삭제</button>
-                                </td>
-                            </tr>
-                            {{/menuList}}
-                        </tbody>
-                    </table>
+                </ul>
             </div>
+            <button onclick="fooSubmitSunbun()" class="btn btn-primary">순서적용</button>
         </main>
-{{>menu/menu_update_modal}}
-</div>
+    </div>
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -177,11 +154,61 @@
                 kv.innerHTML = "일반메뉴";
             }
         };
-    }
+    };
+
+    const fooSubmitSunbun = () => {
+
+        let sunbunArray = [];
+        let lists = document.querySelectorAll('.ui-state-default');
+        lists.forEach(list => {
+            sunbunArray.push(list.getAttribute('value'));
+        });
+        //console.log(JSON.stringify(sunbunArray));
+        const storeIdx = window.sessionStorage.getItem('storeIdx');
+        fetch(`/owner/menuList/sunbunPatch/${storeIdx}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(sunbunArray)
+        }).then(response => response.json())
+                .then(res => {
+                    if(res == 1) {
+                        alert('수정성공');
+                    }else {
+                        alert('수정실패');
+                    };
+                    location.reload();
+                });
+    };
 
     window.onload = () => {
         // 꺼내보자
         //console.log(JSON.stringify(window.sessionStorage.getItem("memberData")));
+        const storeIdxVal = window.sessionStorage.getItem('storeIdx');
+        fetch(`/owner/menuList/sunbun/${storeIdxVal}`)
+                .then((response) => response.json())
+                .then((res) => {
+                    res.forEach( (data) => {
+                        let menu_idx = `${data.menuIdx}`;
+                        let menuList = '';
+                        menuList += `<li class="ui-state-default" value="${menu_idx}"><span class="ui-icon ui-icon-arrowthick-2-n-s""></span>Item 식별번호 : ${data.menuIdx} | 순서: ${data.menuSunbun}순위</li>`;
+                        let divMenuList = document.createElement('div');
+                        divMenuList.innerHTML = menuList;
+                        document.getElementById('sortable').appendChild(divMenuList);
+                    });
+                });
+
+        // sortable ?
+        $( function() {
+            $( "#sortable" ).sortable();
+        } );
+        function reorder() {
+            $(".itemBox").each(function(i, box) {
+                $(box).find(".itemNum").html(i + 1);
+            });
+        };
+
 
         const parentDiv = document.getElementById('login-logout-section');
         if(window.sessionStorage.getItem("token")){
@@ -201,34 +228,6 @@
 
         set_menu();
         set_menu_kingmenu_value();
-
     }
 </script>
 </html>
-
-<!-- delete menu-->
-<script>
-    const btns = document.querySelectorAll('#menuDelete');
-    btns.forEach( btn => {
-        btn.addEventListener("click", (event) => {
-            if(confirm('정말 해당 메뉴를 삭제하시겠습니까?') == false){
-                return;
-            }
-            const menuDeleteBtn = event.target;
-            const menuIdx = menuDeleteBtn.getAttribute("data-menu-idx");
-            // 삭제 API 호출 및 처리
-            const url = `/owner/delete/menu/${menuIdx}`;
-            fetch(url, {
-                method: "DELETE"
-            }).then(response => {
-                if (!response.ok) {
-                    alert("메뉴 삭제 실패..!");
-                    return;
-                }
-                alert("메뉴 삭제 성공")
-                const target = document.querySelector(`#menu-${menuIdx}`);
-                target.remove();
-            });
-        });
-    });
-</script>

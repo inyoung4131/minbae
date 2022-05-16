@@ -25,10 +25,15 @@ public class MenuService {
 
     // 특정 가게의 메뉴목록 조회
     public List<Menu> getStoreMenuList(Long storeIdx) {
-        return menuRepository.findAllByStoreIdx(storeIdx);
+        return menuRepository.findAllByStoreIdxOrderByMenuSunbunAsc(storeIdx);
+    }
+
+    public List<Menu> getStoreMenuListOrderSunbun(Long storeIdx) {
+        return menuMapper.findAllByStoreIdxOrderSunbun(storeIdx);
     }
 
     // 메뉴 생성
+    @Transactional
     public Menu createMenu(MenuSaveRequestDto requestDto, MultipartFile file) throws IOException {
         if(file == null || file.getBytes().length == 0) {
             requestDto.setMenuImage(null);
@@ -38,8 +43,11 @@ public class MenuService {
         }
         // 메뉴 순번 세팅
         Integer highestSunbun = menuMapper.findHighestSunbunByStoreIDx(requestDto.getStoreIdx().getStoreIdx());
-        requestDto.setMenuSunbun(highestSunbun+1);
-
+        if(highestSunbun==null){ // 어떠한 메뉴도 없기에 null 나옴
+            requestDto.setMenuSunbun(0);
+        }else {
+            requestDto.setMenuSunbun(highestSunbun + 1);
+        }
         Menu savedResult = requestDto.toEntity();
         return menuRepository.save(savedResult);
     }
@@ -129,5 +137,20 @@ public class MenuService {
         // DB 삭제
         menuRepository.delete(target);
         return target;
+    }
+
+    @Transactional
+    public Integer changeMenuSunbun(String storeIdx, List<String> sunbunList) {
+        Integer listSize = sunbunList.size();
+        Integer resultNum = 0;
+        // 0번째 인덱스 값 = 메뉴idx = 순번0
+        for(int i = 0; i<listSize; i++){
+            //System.out.println(i+"번째 인덱스 값 = 메뉴idx"+sunbunList.get(i)+"= 순번"+i);
+            resultNum = menuMapper.updateSunbun(i, sunbunList.get(i));
+            if(resultNum < 1){
+                return null;
+            }
+        }
+        return resultNum;
     }
 }

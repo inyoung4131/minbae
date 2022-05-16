@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.minbae.owner.dao.OwnerMapper">
+
+    <select id="findByKakaoEmailAndKakoPwd" resultType="hashmap">
+        select * from owner where owner_email = #{email} and owner_pwd = #{pwd}
+    </select>
+
+    <insert id="insertKakaoOwner">
+        insert into owner(owner_email, owner_nickname, owner_pwd) values (#{email}, #{nickname}, #{pwd});
+    </insert>
+
+
+</mapper>

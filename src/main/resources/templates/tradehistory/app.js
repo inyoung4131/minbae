@@ -1,5 +1,4 @@
 var stompClient = null;
-var userIdx = null; // 여기에 두면 될까..
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -15,15 +14,13 @@ function setConnected(connected) {
 
 function connect() {
     var socket = new SockJS('/chat');
-    stompClient = Stomp.over(socket);
+    stompClient = Stomp.over(socket); // stomp가 SockJS위에서 돌아간다.
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        const storeIdx = window.sessionStorage.getItem("storeIdx");
-        stompClient.subscribe(`/topic/store/${storeIdx}`, function (greeting) {
-            console.log(JSON.parse(greeting.body).name);
-            userIdx = JSON.parse(greeting.body).name; // 추가
-            showGreeting(JSON.parse(greeting.body).name);
+        stompClient.subscribe('/topic/user/1', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).content);
+            alert('connect + subscribe success');
         });
     });
 }
@@ -37,7 +34,7 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/user/"+userIdx, {}, JSON.stringify({'name': $("#name").val()}));
+    stompClient.send("/app/store/2", {}, JSON.stringify({'message': $("#name").val()}));
 }
 
 function showGreeting(message) {
@@ -49,7 +46,7 @@ $(function () {
         e.preventDefault();
     });
     $( "#connect" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); }); // 로그아웃 되거나, 다른 가게를 선택 시
+    $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
 });
 

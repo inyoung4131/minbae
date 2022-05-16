@@ -21,4 +21,19 @@
         where store_idx = #{storeIdx};
     </select>
 
+    <select id="findAllByStoreIdxOrderSunbun" resultType="com.minbae.menu.entity.Menu">
+        select
+               *
+        from menu
+        where store_idx = #{storeIdx}
+        order by menu_sunbun asc;
+    </select>
+
+    <update id="updateSunbun">
+        update
+            menu
+        set menu_sunbun = #{sunbun}
+        where menu_idx = #{menuIdx};
+    </update>
+
 </mapper>

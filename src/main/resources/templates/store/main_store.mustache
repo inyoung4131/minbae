@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <!--카카오 소셜 로그인-->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <style>
         #customHeaderColor {
             background-color: #2AC1BC !important;
@@ -70,9 +72,9 @@
             즉, json -> string 으로 변환하여 저장.
             이를 다시 json 객체로 변환하여 꺼내왔다??
             */
-            console.log("객체>"+loadedToDos);
-            console.log(parsedToDos.memberData.ownerIdx);
-            console.log(parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx);
+            // console.log("객체>"+loadedToDos);
+            // console.log(parsedToDos.memberData.ownerIdx);
+            // console.log(parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx);
             ownerIdx = parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx;
         }
 
