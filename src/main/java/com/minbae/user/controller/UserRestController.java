@@ -117,6 +117,14 @@ public class UserRestController {
         return new UserApiResponse(order_store != null ? UserApiStatus.SUCCESS : UserApiStatus.FAIL, order_store);
     }
 
+    @GetMapping("/store/{store_idx}")
+    public UserApiResponse store_location(@PathVariable Integer store_idx){
+        System.out.println();
+        Map<String, Integer> store_location = userService.get_store_lication(store_idx);
+        System.out.println(store_location);
+        return new UserApiResponse(store_location != null ? UserApiStatus.SUCCESS : UserApiStatus.FAIL, store_location);
+    }
+
     //카카오 로그인
 //    @PostMapping("/login")
 //    public UserApiResponse login(@RequestBody Map<String, Object> param) {

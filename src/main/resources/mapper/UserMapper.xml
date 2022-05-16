@@ -237,6 +237,13 @@
         order by th.order_date desc
     </select>
 
+    <select id="get_store_lication" resultType="hashMap">
+        select
+            store_lat, store_lng
+        from store
+        where store_idx = #{store_idx};
+    </select>
+
 <!--    <select id="kakaoLogin" resultType="hashmap">-->
 <!--        SELECT-->
 <!--            user_idx userIdx, user_nickname userNickname, user_email-->

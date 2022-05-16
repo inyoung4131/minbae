@@ -58,4 +58,6 @@ public interface UserMapper {
 
     Map<String, Object> kakaoLogin(Map<String, Object> param);
     int insertKakaoUser(Map<String, Object> param);
+
+    Map<String, Integer> get_store_lication(Integer store_idx);
 }

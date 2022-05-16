@@ -300,6 +300,12 @@ public class UserService {
         return order_store;
     }
 
+    public Map<String, Integer> get_store_lication(Integer store_idx) {
+        Map<String, Integer> store_location = userMapper.get_store_lication(store_idx);
+
+        return store_location;
+    }
+
     //카카오 로그인
 //    public Map<String, Object> kakaoLogin(Map<String, Object> param) {
 //        // 카카오 회원 체크

@@ -87,48 +87,48 @@
             </div>
         </nav>
 
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
-    <div>
-        <h2 class="h2">우리가게 주문관리 페이지</h2>
-    </div>
-    <table class="table table-striped table-hover" id="table_id">
-        <thead>
-            <tr>
-                <th scope="col">#주문번호</th>
-                <th scope="col">주문일시</th>
-                <th scope="col">주문결제금액</th>
-                <th scope="col">결제수단</th>
-                <th scope="col">배달주소</th> <!--사용자테이블-->
-                <th scope="col">배정기사</th> <!--식별번호 말고 기사정보 가져오려면 또 조인해야함-->
-                <th scope="col">고객전화번호</th> <!--사용자테이블-->
-                <th scope="col">배송상태</th>
-                <th scope="col">설정</th>
-            </tr>
-        </thead>
-        <tbody>
-        {{#tradeList}}
-            <tr>
-                <th scope="row">{{tradeHistoryIdx}}</th>  <!--주문식별번호-->
-                <td>{{orderDate}}</td>
-                <td>{{orderPrice}}</td>
-                <td>{{orderPayment}}</td>
-                <td>{{userBasicAddr}}{{userDetailAddr}}</td>
-                <td>{{#deliverIdx}}{{deliverIdx}}{{/deliverIdx}}{{^deliverIdx}}미배정{{/deliverIdx}}</td>
-                <td>{{userTel}}</td>
-                <td id="orderState">{{orderState}}</td>
-                <td id="optionBtn">
-                    <!--JS create element-->
-                </td>
-                <input type="hidden" id="userIdxInput" value="{{userIdx}}"></input>
-                <input type="hidden" id="tradeHistoryIdxInput" value="{{tradeHistoryIdx}}"></input>
-                <input type="hidden" id="deliverIdxInput" value="{{#deliverIdx}}{{deliverIdx}}{{/deliverIdx}}{{^deliverIdx}}미배정{{/deliverIdx}}"></input>
-            </tr>
-        {{/tradeList}}
-        </tbody>
-    </table>
-</main>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+            <div>
+                <h2 class="h2">우리가게 주문관리 페이지</h2>
+            </div>
+            <table class="table table-striped table-hover" id="table_id">
+                <thead>
+                <tr>
+                    <th scope="col">#주문번호</th>
+                    <th scope="col">주문일시</th>
+                    <th scope="col">주문결제금액</th>
+                    <th scope="col">결제수단</th>
+                    <th scope="col">배달주소</th> <!--사용자테이블-->
+                    <th scope="col">배정기사</th> <!--식별번호 말고 기사정보 가져오려면 또 조인해야함-->
+                    <th scope="col">고객전화번호</th> <!--사용자테이블-->
+                    <th scope="col">배송상태</th>
+                    <th scope="col">설정</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#tradeList}}
+                    <tr>
+                        <th scope="row">{{tradeHistoryIdx}}</th>  <!--주문식별번호-->
+                        <td>{{orderDate}}</td>
+                        <td>{{orderPrice}}</td>
+                        <td>{{orderPayment}}</td>
+                        <td>{{userBasicAddr}}{{userDetailAddr}}</td>
+                        <td>{{#deliverIdx}}{{deliverIdx}}{{/deliverIdx}}{{^deliverIdx}}미배정{{/deliverIdx}}</td>
+                        <td>{{userTel}}</td>
+                        <td id="orderState">{{orderState}}</td>
+                        <td id="optionBtn">
+                            <!--JS create element-->
+                        </td>
+                        <input type="hidden" id="userIdxInput" value="{{userIdx}}"></input>
+                        <input type="hidden" id="tradeHistoryIdxInput" value="{{tradeHistoryIdx}}"></input>
+                        <input type="hidden" id="deliverIdxInput" value="{{#deliverIdx}}{{deliverIdx}}{{/deliverIdx}}{{^deliverIdx}}미배정{{/deliverIdx}}"></input>
+                    </tr>
+                {{/tradeList}}
+                </tbody>
+            </table>
+        </main>
 
-</div>
+    </div>
 </div>
 </body>
 </html>
@@ -187,9 +187,9 @@
             const storeIdx = window.sessionStorage.getItem("storeIdx");
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/store/'+storeIdx, function (greeting) {
-                console.log(JSON.parse(greeting.body).message);
+                console.log(JSON.parse(greeting.body).u_trade_history_idx);
                 alert('메시지 도착');
-                userIdx = JSON.parse(greeting.body).message;
+                userIdx = JSON.parse(greeting.body).u_trade_history_idx;
                 location.reload();
             });
         });
@@ -207,7 +207,7 @@
         const hiddenUserIdxs = document.querySelectorAll('#userIdxInput');
         let hiddenUserIdxArray = [];
         hiddenUserIdxs.forEach( hiddenUserIdx => {
-           hiddenUserIdxArray.push(hiddenUserIdx.getAttribute('value'));
+            hiddenUserIdxArray.push(hiddenUserIdx.getAttribute('value'));
         });
         // 각 input hidden 값들(tradeHistoryIdxInput) 가져오기
         const hiddenTradeHistoryIdxs = document.querySelectorAll('#tradeHistoryIdxInput');
@@ -220,7 +220,7 @@
         const tds = document.querySelectorAll('#orderState');
         let qoduf = [];
         tds.forEach( td => {
-                qoduf.push(td.textContent)
+            qoduf.push(td.textContent)
         });
         // td 옆의 각 설정버튼 생성영역 가져오기
         const optionDiv = document.querySelectorAll('#optionBtn');
