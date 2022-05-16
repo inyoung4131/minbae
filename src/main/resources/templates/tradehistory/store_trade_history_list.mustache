@@ -166,6 +166,7 @@
         alert(event.target.getAttribute('value')+"idx 유저에게 전송할 수락메시지:"+'수락');
         stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '수락', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
         // 패치..굳이 패치 필요없이 send받는 컨트롤러에서 service 호출해서 처리해도 될거 같음.
+        alert('전송완료');
     };
     /** send DenyStomp to user */
     const fooStompToUserDeny = (event) => {
