@@ -209,7 +209,9 @@
                             sessionStorage.removeItem('item');
                             sessionStorage.removeItem('deliver_or_take_out');
                             alert('결제가 완료되었습니다.');
-                            location.href = `/user/order/detail`;
+                            setTimeout(function() {
+                                location.href = `/user/order/detail`;
+                            }, 3000);
                         }else{
                             alert('db에 값이 안 들어감.');
                         }
@@ -242,7 +244,7 @@
                     let stompClient = Stomp.over(socket);
                     stompClient.connect({}, function (frame) {
                         //응답 보내기
-                        alert(shoppingList[0][0])
+                        console.log('Connected: ' + frame);
                         stompClient.send(`/app/store/${shoppingList[0][0]}`,
                                 {},
                                 JSON.stringify({
@@ -253,7 +255,9 @@
                     sessionStorage.removeItem('item');
                     sessionStorage.removeItem('deliver_or_take_out');
                     alert('주문이 완료되었습니다.');
-                    location.href = `/user/order/detail`;
+                    setTimeout(function() {
+                        location.href = `/user/order/detail`;
+                    }, 3000);
                 }
             });
         }
