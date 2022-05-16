@@ -1,9 +1,9 @@
-package com.minbae.comm.uesrStomp;
+package com.minbae.comm.stomp.store;
 
 import lombok.Data;
 
 @Data
-public class HelloMessage {
+public class UserToStoreMessage {
 
 	//user가 결제 완료 후 가게에 보낼 메시지
 	private String u_trade_history_idx;
