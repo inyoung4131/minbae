@@ -8,6 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>Document</title>
+    <style>
+        #top img{
+            width: 100%;
+            height: 15rem;
+        }
+    </style>
 </head>
 <body>
 {{>layout/main/main_header}}
@@ -19,7 +25,7 @@
     {{/type}}
     <hr>
     <div id="top">
-        <img src="{{selectStore.store_detail_info_img}}" class="img-fluid">
+        <img src="/user/image/{{selectStore.store_detail_info_img}}" class="img-fluid">
         <hr>
         <ul>
             <li>{{selectStore.store_name}}</li>
@@ -88,7 +94,7 @@
                         <div class="card mb-3" style="max-width: 750px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="C:\이젠\upload\" class="img-fluid rounded-start" alt="...">
+                                    <img src="C:\\이젠\\upload\\{{menu_img}}" class="img-fluid rounded-start" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -109,7 +115,7 @@
                         <div class="card mb-3" style="max-width: 750px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="C:\이젠\upload\" class="img-fluid rounded-start" alt="...">
+                                    <img src="C:\\이젠\\upload\\{{menu_img}}" class="img-fluid rounded-start" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -206,15 +212,15 @@
                     sd_review_List += `<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                             <div class="carousel-inner">`
                             sd_review_List += `<div class="carousel-item active">
-                                                  <img src="${data.review_img1}" class="d-block w-100" alt="...">
+                                                  <img src="C:\\이젠\\upload\\${data.review_img1}" class="d-block w-100" alt="...">
                                                </div>`
                     if(data.review_img2 != null){
                             sd_review_List += `<div class="carousel-item active">
-                                                  <img src="${data.review_img2}" class="d-block w-100" alt="...">
+                                                  <img src="C:\\이젠\\upload\\${data.review_img2}" class="d-block w-100" alt="...">
                                                </div>`
                         if(data.review_img3 != null){
                             sd_review_List += `<div class="carousel-item active">
-                                                    <img src="${data.review_img3}" class="d-block w-100" alt="...">
+                                                    <img src="C:/이젠/upload/${data.review_img3}" class="d-block w-100" alt="...">
                                                </div>`
                         }
                     }
