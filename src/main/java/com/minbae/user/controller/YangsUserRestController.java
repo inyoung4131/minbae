@@ -27,8 +27,6 @@ public class YangsUserRestController {
     public long userAddrChange(@RequestBody UserAddrChangeDto userAddrChangeDto){
         return yangsUserService.userAddrChange(userAddrChangeDto);
     }
-
-
     @GetMapping("/user/category/standard")
     public List<Map<String, Object>> getStoreByCategoryAndStandard(Model model
             , @RequestParam("paging") int paging, @RequestParam("category") String category
