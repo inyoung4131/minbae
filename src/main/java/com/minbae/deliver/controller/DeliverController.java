@@ -2,11 +2,13 @@ package com.minbae.deliver.controller;
 
 import com.minbae.deliver.dto.DeliverSessionDto;
 import com.minbae.deliver.repository.DeliverSessionRepository;
+import com.minbae.deliver.service.DeliverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpAttributesContextHolder;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,8 @@ import java.util.Map;
 public class DeliverController {
 
     private final DeliverSessionRepository deliverSessionRepository;
+    private final DeliverService deliverService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping("/test/del")
     public String asdfasfd() {
@@ -39,14 +43,22 @@ public class DeliverController {
     //자신의 방 개설
     @MessageMapping("/chat/create")
     public void createRoom(@RequestParam("id") String id) {
-        System.out.println(SimpAttributesContextHolder.currentAttributes().getSessionId());
         deliverSessionRepository.createChatRoomDTO(id);
     }
 
-
-    @MessageMapping("/chat/assign")
-    public void deliverAssign(@RequestParam("id") String id) {
-        System.out.println(SimpAttributesContextHolder.currentAttributes().getSessionId());
+    //기사 latlng 변경
+    @MessageMapping("/chat/refresh")
+    public void refresh(@RequestParam("id") String id,@RequestParam("lat") double lat,@RequestParam("lng") double lng){
+        System.out.println("refresh"+id);
+        System.out.println("refresh"+lat);
+        System.out.println("refresh"+lng);
+        deliverSessionRepository.refresh(id,lat,lng);
+        simpMessagingTemplate.convertAndSend("/deliver/room"+id,"{lat:"+lat+",lng:"+lng+"}");
     }
 
+    //기사 찾아서 메세지 보내기
+    @MessageMapping("/chat/assign")
+    public void deliverAssign(double storeLat,double storeLng) {
+        deliverService.assginDeliver(storeLat,storeLng);
+    }
 }

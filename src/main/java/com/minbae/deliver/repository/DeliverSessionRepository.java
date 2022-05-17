@@ -27,6 +27,13 @@ public class DeliverSessionRepository {
         return chatRoomDTOMap.get(id);
     }
 
+    public void refresh(String id,double lat,double lng){
+        DeliverSessionDto dto = findRoomById(id);
+        dto.setLat(lat);
+        dto.setLng(lng);
+        chatRoomDTOMap.put(id,dto);
+    }
+
     public DeliverSessionDto createChatRoomDTO(String id){
         DeliverSessionDto sessionDto = DeliverSessionDto.create(id);
         chatRoomDTOMap.put(sessionDto.getId(), sessionDto);
