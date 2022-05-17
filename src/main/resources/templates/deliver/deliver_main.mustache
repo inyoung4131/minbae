@@ -39,9 +39,9 @@
         isStomp = true;
         socket = client;
         socket.connect({}, function (frame) {
-            socket.send('/app/chat/create', {}, JSON.stringify({id:1}));
+            socket.send('/app/chat/create', {}, JSON.stringify({"id":1}));
             socket.subscribe('/deliver/room/'+1,{});
-            socket.send('/app/chat/refresh',{},JSON.stringify({id:1,lat:Number(135.1),lng:Number(35.1)}));
+            socket.send('/app/chat/refresh',{},JSON.stringify({"id":1,"lat":Number(135.1),"lng":Number(35.1)}));
         });
     }
 </script>

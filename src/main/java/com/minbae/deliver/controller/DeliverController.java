@@ -48,7 +48,7 @@ public class DeliverController {
 
     //기사 latlng 변경
     @MessageMapping("/chat/refresh")
-    public void refresh(@RequestParam("id") String id,@RequestParam("lat") double lat,@RequestParam("lng") double lng){
+    public void refresh(@RequestParam("id") String id,@RequestParam("lat") Double lat,@RequestParam("lng") Double lng){
         System.out.println("refresh"+id);
         System.out.println("refresh"+lat);
         System.out.println("refresh"+lng);
