@@ -150,7 +150,6 @@
                     const kakaoId = result?.id;
                     const kakaoEmail = result?.kakao_account?.email;
                     const kakaoNickName = result?.properties?.nickname;
-                    alert('kakaoNickName>>>>>>'+kakaoNickName);
                     const kakaoPwd = kakaoId;
 
                     const data = {
@@ -167,10 +166,8 @@
                         }
                     }).then(response => response.json())
                             .then(data => {
-                                console.log(JSON.stringify(data.memberData));
-                                console.log(data.data);
-                                alert('dd');
-
+                                //console.log(JSON.stringify(data.memberData));
+                                //console.log(data.data);
                                 window.sessionStorage.setItem("token", data.data);
                                 window.sessionStorage.setItem("memberData", JSON.stringify(data.memberData));
                                 $.ajax({

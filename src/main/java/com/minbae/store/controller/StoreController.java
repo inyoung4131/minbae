@@ -33,7 +33,7 @@ public class StoreController {
         return "store/create_store_new";
     }
 
-    // 특정 사장님의 가게 목록 조회
+    // 특정 사장님의 가게 목록 조회 // 이거 dead page 아닌가?
     @GetMapping("/owne/storeList/{ownerIdx}")
     public String index(@PathVariable Long ownerIdx, Model model){
         List<Store> storeList = storeService.index(ownerIdx);

@@ -25,12 +25,6 @@
                     <option value="JAPANESEFOOD">돈까스/회</option>
                 </select>
             </div>
-            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-            <script>
-                window.onload = ()  => {
-                    $('#inputStoreCategory').val('{{storeCategory}}').prop("selected",true);
-                }
-            </script>
             <div class="col-12">
                 <label for="inputStoreTel" class="form-label">가게 전화번호</label>
                 <input type="text" class="form-control" id="inputStoreTel" value="{{storeTel}}">
@@ -54,6 +48,7 @@
             <input type="hidden" id="sample4_jibunAddress" value="" readonly><span id="guide" style="color:#999;display:none"></span>
             <input type="hidden" id="lat" value="{{storeLat}}" readonly>
             <input type="hidden" id="lng" value="{{storeLng}}" readonly>
+            <input type="hidden" id="store_category" value="{{storeCategory}}" readonly>
 
         {{/storeInfo}}
         <div class="col-6">
@@ -129,7 +124,67 @@
 </main>
 
 
-{{>store/common/store_footer}}
+</div>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- create login & logout button -->
+<script>
+    const fooLogout = () => {
+        window.sessionStorage.clear();
+        alert('sessionStoreage clear success');
+        location.href="/owner/store/main";
+    }
+
+    const fooLogin = () => {
+        location.href="/loginForm/owner";
+    }
+
+    /** set left menuBar href */
+    const set_menu = () => {
+        const storeIdxVal = window.sessionStorage.getItem('storeIdx');
+        const ownerIdxVal = JSON.parse(window.sessionStorage.getItem("memberData"));
+        let ownerIdx = ownerIdxVal.memberData.ownerIdx;
+        document.getElementById('first-item-href').setAttribute('href', '/owner/selectStore/' +ownerIdx);
+        document.getElementById('second-item-href').setAttribute('href', '/owner/storeInfo/' +storeIdxVal);
+        document.getElementById('third-item-href').setAttribute('href', '/owner/menu/'+storeIdxVal);
+        document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);
+        document.getElementById('fifth-item-href').setAttribute('href', '/owner/store/'+storeIdxVal+'/reviews');
+        document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/'+storeIdxVal);
+    };
+
+    const set_category_selected = () => {
+        let store_category = document.getElementById('store_category').value;
+        $('#inputStoreCategory').val(`${store_category}`).prop("selected",true);
+    };
+
+    window.onload = () => {
+        // 꺼내보자
+        //console.log(JSON.stringify(window.sessionStorage.getItem("memberData")));
+
+        const parentDiv = document.getElementById('login-logout-section');
+        if(window.sessionStorage.getItem("token")){
+            const logoutBtn = document.createElement('button');
+            logoutBtn.setAttribute('class' , 'btn btn-outline-primary me-2');
+            logoutBtn.onclick = fooLogout;
+            logoutBtn.innerHTML = '로그아웃';
+            parentDiv.appendChild(logoutBtn);
+
+        }else{
+            const loginBtn = document.createElement('button');
+            loginBtn.setAttribute('class' , 'btn btn-outline-primary me-2');
+            loginBtn.onclick = fooLogin;
+            loginBtn.innerHTML = '로그인';
+            parentDiv.appendChild(loginBtn);
+        }
+
+        set_menu();
+        set_category_selected();
+    }
+</script>
+</html>
+
 
 <!--Store info update JS-->
 <script>
@@ -300,7 +355,7 @@
                 }
                 alert('가게 삭제 성공');
                 let ownerIdxValue = document.querySelector("#ownerIdx").value;
-                location.href="/owne/storeList/"+ownerIdxValue;
+                location.href="/owner/selectStore/"+ownerIdxValue;
             });
         });
 </script>

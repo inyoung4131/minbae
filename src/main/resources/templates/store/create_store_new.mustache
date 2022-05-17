@@ -104,7 +104,6 @@
 
                 // fetch
                 const url = "/api/store/create";
-                alert(store.storeIdx);
                 fetch(url, {
                     method: "POST",
                     body: JSON.stringify(store),
@@ -203,6 +202,8 @@
     window.onload = () => {
         // 꺼내볼 수 없나?
         const loadedToDos = window.sessionStorage.getItem("memberData");
+        //alert("loadedToDos>>"+loadedToDos);
+
         let ownerIdx = 0;
         if (loadedToDos != null) {
             const parsedToDos = JSON.parse(loadedToDos);

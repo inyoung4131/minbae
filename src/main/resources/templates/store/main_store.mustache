@@ -15,6 +15,9 @@
         #customHeaderColor {
             background-color: #2AC1BC !important;
         }
+        #customHeaderColor a {
+            font-size: 2rem;
+        }
         body{
             font-family: 'Do Hyeon', sans-serif;
         }
@@ -54,7 +57,12 @@
     const fooLogout = () => {
         window.sessionStorage.clear();
         alert('sessionStoreage clear success');
-        location.href="/owner/store/main";
+        function kakaoLogout() {
+            Kakao.init('인증키');
+            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://localhost:9090/owner/store/main';
+            alert('로그아웃 성공');
+        };
+        kakaoLogout();
     }
 
     const fooLogin = () => {

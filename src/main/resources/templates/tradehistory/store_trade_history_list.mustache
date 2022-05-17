@@ -91,7 +91,7 @@
             <div>
                 <h2 class="h2">우리가게 주문관리 페이지</h2>
             </div>
-            <table class="table table-striped table-hover" id="table_id">
+            <table class="table table-striped table-hover text-center" id="table_id">
                 <thead>
                 <tr>
                     <th scope="col">#주문번호</th>
@@ -121,6 +121,7 @@
                         </td>
                         <input type="hidden" id="userIdxInput" value="{{userIdx}}"></input>
                         <input type="hidden" id="tradeHistoryIdxInput" value="{{tradeHistoryIdx}}"></input>
+                        <input type="hidden" id="orderDeliverPriceInput" value="{{orderDeliverPrice}}"></input>
                         <input type="hidden" id="deliverIdxInput" value="{{#deliverIdx}}{{deliverIdx}}{{/deliverIdx}}{{^deliverIdx}}미배정{{/deliverIdx}}"></input>
                     </tr>
                 {{/tradeList}}
@@ -150,17 +151,6 @@
         location.href="/loginForm/owner";
     };
 
-    /** fetch PATCH Request change order_state */
-    const fooPatchOrderState = () => {
-        const storeIdx = window.sessionStorage.getItem("storeIdx");
-        let url = `/owner/store/${storeIdx}/tradehistory/${tradeHistory}`;
-        fetch(url, {
-
-        }).then(response => {
-
-        })
-    };
-
     /** send AcceptStomp to user */
     const fooStompToUserAccept = (event) => {
         alert(event.target.getAttribute('value')+"idx 유저에게 전송할 수락메시지:"+'수락');
@@ -172,13 +162,14 @@
     const fooStompToUserDeny = (event) => {
         alert("유저에게 전송할 거절메시지:"+'거절');
         stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '거절', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
-
+        location.reload();
     };
     /** send requestStomp to deliver */
     const fooStompToDeliver = (event) => {
         alert("기사에게 전송할 요청메시지:"+'message:배정요청 tradehistoryidx'+event.target.getAttribute('value'));
         stompClient.send("/app/deliver", {}, JSON.stringify({'message': '배정요청', 'tradeHistoryIdx':event.target.getAttribute('value')})); // tradeHistoryIdx도 전송해야함
-
+        alert('요청완료');
+        location.reload();
     }
     /** connect STOMP */
     const connect = () => {
@@ -216,6 +207,12 @@
         hiddenTradeHistoryIdxs.forEach( hiddenTradeHistoryIdx => {
             hiddenTradeHistoryIdxArray.push(hiddenTradeHistoryIdx.getAttribute('value'));
         });
+        // 각 input hidden 값들(orderDeliverPriceInput) 가져오기
+        const hiddenOrderDeliverPrices = document.querySelectorAll('#orderDeliverPriceInput');
+        let hiddenOrderDeliverPriceArray = [];
+        hiddenOrderDeliverPrices.forEach( hiddenOrderDeliverPrice => {
+            hiddenOrderDeliverPriceArray.push(hiddenOrderDeliverPrice.getAttribute('value'));
+        });
 
         // 각 td들의 값 가져오기
         const tds = document.querySelectorAll('#orderState');
@@ -250,14 +247,27 @@
                 optionDivBae[i].append(acceptBtn);
                 optionDivBae[i].append(denyBtn);
             }else if(qoduf[i]==1) { // 주문 수락 후, 기사배정 전
-                let sendDeliverBtn = document.createElement('button');
-                sendDeliverBtn.setAttribute('class', 'btn btn-primary');
-                sendDeliverBtn.setAttribute('value', hiddenTradeHistoryIdxArray[i]);
-                sendDeliverBtn.onclick = fooStompToDeliver;
-                sendDeliverBtn.innerHTML = '기사배정요청';
-                optionDivBae[i].append(sendDeliverBtn);
-            }else if(qoduf[i]==2){
+                // 방문포장의 경우 : OrderDeliverPrice = 0 -> 배정요청 아님
+                if(hiddenOrderDeliverPriceArray[i] == 0){
+                    let takeOutBtn = document.createElement('button');
+                    takeOutBtn.setAttribute('class', 'btn btn-success');
+                    takeOutBtn.innerHTML = '방문포장';
+                    optionDivBae[i].append(takeOutBtn);
+                }else {
+                    let sendDeliverBtn = document.createElement('button');
+                    sendDeliverBtn.setAttribute('class', 'btn btn-primary');
+                    sendDeliverBtn.setAttribute('value', hiddenTradeHistoryIdxArray[i]);
+                    sendDeliverBtn.onclick = fooStompToDeliver;
+                    sendDeliverBtn.innerHTML = '기사배정요청';
+                    optionDivBae[i].append(sendDeliverBtn);
+                }
+            }else if(qoduf[i]==2){ // 기사 배정 완료, 배달 중
 
+            }else if(qoduf[i]==3){ // 배달 완료
+                let completeBtn = document.createElement('button');
+                completeBtn.setAttribute('class', 'btn btn-secondary');
+                completeBtn.innerHTML = '배달/픽업 완료';
+                optionDivBae[i].append(completeBtn);
             }
         }
 
