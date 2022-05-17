@@ -8,6 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <title>Document</title>
+    <style>
+        #top img{
+            width: 100%;
+            height: 15rem;
+        }
+    </style>
 </head>
 <body>
 {{>layout/main/main_header}}
@@ -19,7 +25,7 @@
     {{/type}}
     <hr>
     <div id="top">
-        <img src="{{selectStore.store_detail_info_img}}" class="img-fluid">
+        <img src="/user/image/{{selectStore.store_detail_info_img}}" class="img-fluid">
         <hr>
         <ul>
             <li>{{selectStore.store_name}}</li>
@@ -88,7 +94,7 @@
                         <div class="card mb-3" style="max-width: 750px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="C:\이젠\upload\" class="img-fluid rounded-start" alt="...">
+                                    <img src="C:\\이젠\\upload\\{{menu_img}}" class="img-fluid rounded-start" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -109,7 +115,7 @@
                         <div class="card mb-3" style="max-width: 750px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="C:\이젠\upload\" class="img-fluid rounded-start" alt="...">
+                                    <img src="C:\\이젠\\upload\\{{menu_img}}" class="img-fluid rounded-start" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -206,15 +212,15 @@
                     sd_review_List += `<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                             <div class="carousel-inner">`
                             sd_review_List += `<div class="carousel-item active">
-                                                  <img src="${data.review_img1}" class="d-block w-100" alt="...">
+                                                  <img src="C:\\이젠\\upload\\${data.review_img1}" class="d-block w-100" alt="...">
                                                </div>`
                     if(data.review_img2 != null){
                             sd_review_List += `<div class="carousel-item active">
-                                                  <img src="${data.review_img2}" class="d-block w-100" alt="...">
+                                                  <img src="C:\\이젠\\upload\\${data.review_img2}" class="d-block w-100" alt="...">
                                                </div>`
                         if(data.review_img3 != null){
                             sd_review_List += `<div class="carousel-item active">
-                                                    <img src="${data.review_img3}" class="d-block w-100" alt="...">
+                                                    <img src="C:/이젠/upload/${data.review_img3}" class="d-block w-100" alt="...">
                                                </div>`
                         }
                     }
@@ -288,20 +294,51 @@
 <script>
     let store_idx = document.getElementById('store_idx').value;
     fetch(`/user/store/${store_idx}`)
-    .then((response) => response.json())
-    .then((datas) => {
-        console.log('lat -> ' + datas.data.store_lng)
-        let lat = datas.data.store_lat;
-        let lng = datas.data.store_lng;
+            .then((response) => response.json())
+            .then((datas) => {
+                console.log('lat -> ' + datas.data.store_lng)
+                let lat = datas.data.store_lat;
+                let lng = datas.data.store_lng;
 
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                mapOption = {
-                    center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
-                    level: 5 // 지도의 확대 레벨
-                };
+                let mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                        mapOption = {
+                            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                            level: 3 // 지도의 확대 레벨
+                        };
 
-        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-        var map = new kakao.maps.Map(mapContainer, mapOption);
-    });
+                let map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+                let locPosition = new kakao.maps.LatLng(lat, lng), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+                        message = '<div style="padding:5px;">가게</div>'; // 인포윈도우에 표시될 내용입니다
+
+                // 마커와 인포윈도우를 표시합니다
+                displayMarker(locPosition, message);
+
+                // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+                function displayMarker(locPosition, message) {
+
+                    // 마커를 생성합니다
+                    let marker = new kakao.maps.Marker({
+                        map: map,
+                        position: locPosition
+                    });
+
+                    let iwContent = message, // 인포윈도우에 표시할 내용
+                            iwRemoveable = true;
+
+                    // 인포윈도우를 생성합니다
+                    let infowindow = new kakao.maps.InfoWindow({
+                        content : iwContent,
+                        removable : iwRemoveable
+                    });
+
+                    // 인포윈도우를 마커위에 표시합니다
+                    infowindow.open(map, marker);
+
+                    // 지도 중심좌표를 접속위치로 변경합니다
+                    map.setCenter(locPosition);
+                }
+            });
+
 </script>
 </html>

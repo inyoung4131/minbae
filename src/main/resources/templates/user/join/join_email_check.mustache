@@ -1,0 +1,215 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            background-color: rgba(42, 193, 188);
+        }
+
+        fieldset {
+            margin: auto;
+            width: 45em;
+            height: 100%;
+            background-color: white;
+            border: none;
+        }
+        #header_div {
+            margin-top: 25px;
+            margin-bottom: 70px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 27px;
+        }
+        #next_div{
+            color:gray;
+        }
+        .text_input {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .text_input:focus {
+            outline: none;
+        }
+
+        .text_input {
+            width: 720px;
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+        .password {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .password {
+            outline: none;
+        }
+
+        .password {
+            width: 720px;
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+        .each_head_div {
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<fieldset>
+    <div id="header_div">
+        <a href="/join/user/phone"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" id="back"></a> 회원가입
+        <div id="next_div" onclick="joinComplete()">완료</div>
+    </div>
+
+    <div id="email_div">
+        <div id="email_head_div" class="each_head_div">이메일</div>
+        <div id="email_input_div"><input type="text" id="username" class="text_input"></div>
+        <div id="email_text_div"></div>
+    </div>
+    <div>
+        <div class="each_head_div">닉네임</div>
+        <div><input type="text" id="nickname" class="text_input"></div>
+    </div>
+
+    <div>
+        <div class="each_head_div">비밀번호</div>
+        <div><input type="password" id="password" class="password"></div>
+        <div id="password_status_div" class="password_status"></div>
+    </div>
+
+
+    <div id="password_check_div">
+        <div class="each_head_div">비밀번호 확인</div>
+        <div><input type="password" id="password_check" class="password"></div>
+        <div id="password_check_status_div" class="password_status"></div>
+    </div>
+</fieldset>
+<script>
+    function joinComplete(){
+        if(emailStatus&&passwordStatus){
+            joinAndLogin();
+        }
+    }
+    let emailStatus = false;
+    let passwordStatus = false;
+    const eightTotwenty = "8자리 ~ 20자리 이내로 입력해주세요.";
+    const notspace = "비밀번호는 공백 없이 입력해주세요.";
+    const useNumSpecial = "영문,숫자, 특수문자를 혼합하여 입력해주세요.";
+    const goodpassword = "사용 할 수 있는 비밀번호 입니다.";
+    document.getElementById('password_check_div').style.display = "none";
+    document.getElementById('password').onkeyup = function () {
+        passwordavail();
+    };
+
+    document.getElementById('password_check').onkeyup = function () {
+        passwordCheck();
+    };
+
+    document.getElementById('username').onkeyup = function () {
+        fetch("/user/join/check/email?username=" + document.getElementById('username').value)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status == "SUCCESS") {
+                        document.getElementById('email_text_div').innerText = "사용 할 수 있는 이메일 입니다";
+                        document.getElementById('email_text_div').style.color = "blue";
+                        emailStatus = true;
+                        validateAll();
+                    } else {
+                        document.getElementById('email_text_div').innerText = "사용 할 수 없는 이메일 입니다";
+                        document.getElementById('email_text_div').style.color = "red";
+                        emailStatus = false;
+                        validateAll();
+                    }
+                });
+    }
+    function validateAll(){
+        if(emailStatus&&passwordStatus){
+            document.getElementById('next_div').style.color = "rgba(42, 193, 188)";
+        }else{
+            document.getElementById('next_div').style.color = "gray";
+        }
+    }
+
+    function passwordavail() {
+        document.getElementById('password_check_div').style.display = "none";
+        document.getElementById('password_status_div').style.color = 'red';
+        var pw = document.getElementById('password').value;
+        var num = pw.search(/[0-9]/g);
+        var eng = pw.search(/[a-z]/ig);
+        var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+        if (pw.length < 8 || pw.length > 20) {
+            document.getElementById('password_status_div').innerText = eightTotwenty;
+            return false;
+        } else if (pw.search(/\s/) != -1) {
+            document.getElementById('password_status_div').innerText = notspace;
+            return false;
+        } else if (num < 0 || eng < 0 || spe < 0) {
+            document.getElementById('password_status_div').innerText = useNumSpecial;
+            return false;
+        } else {
+            passwordCheck();
+            validateAll();
+            document.getElementById('password_status_div').innerText = goodpassword;
+            document.getElementById('password_status_div').style.color = 'blue';
+            document.getElementById('password_check_div').style.display = "block";
+            return true;
+        }
+    }
+
+    function passwordCheck() {
+        if (document.getElementById('password').value == document.getElementById('password_check').value) {
+            for (var i = 0; i < document.getElementsByClassName('password_status').length; i++) {
+                document.getElementsByClassName('password_status')[i].innerText = "비밀번호가 일치합니다.";
+                document.getElementsByClassName('password_status')[i].style.color = "blue";
+                validateAll();
+                passwordStatus=true;
+            }
+        } else {
+            document.getElementById('password_check_status_div').innerText = "비밀번호가 일치하지 않습니다.";
+            document.getElementById('password_check_status_div').style.color = "red";
+            validateAll();
+            passwordStatus=false;
+        }
+    }
+    function joinAndLogin(){
+        fetch("/join/user/complete",{
+            method:"post",
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body:JSON.stringify({
+                userBasicAddr:"1",
+                userDetailAddr:'1',
+                userEmail:document.getElementById('username').value,
+                userNickname:document.getElementById('nickname').value,
+                userPwd:document.getElementById('password').value,
+                userSocial:'1',
+                userTel:`{{tel}}`
+            })
+        }).then(response => response.json())
+                .then(data => {
+                   window.sessionStorage.setItem("token",data.data);
+                   window.sessionStorage.setItem("user-data",data.memberData);
+                   location.href="/";
+                });
+    }
+
+</script>
+
+</body>
+</html>

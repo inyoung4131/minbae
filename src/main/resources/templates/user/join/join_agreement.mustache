@@ -1,0 +1,254 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            width: 45em;
+            margin: 0 auto;
+        }
+
+        #header_div {
+            margin-top: 25px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        #exit_img {
+            display: inline-flex;
+            float: left;
+        }
+
+        #exit_img2 {
+            display: inline-flex;
+            float: right;
+            visibility: hidden;
+        }
+
+        #header_text_div {
+            font-size: 30px;
+            display: inline-block;
+        }
+
+        #header_div::after {
+
+            content: '';
+
+            display: block;
+
+            clear: both;
+        }
+
+        #intro_div {
+            font-weight: 600;
+            font-size: 30px;
+            margin-bottom: 45px;
+        }
+
+        .parent_agree_div {
+            font-size: 25px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
+        .parent_agree_div::after {
+
+            content: '';
+
+            display: block;
+
+            clear: both;
+        }
+
+        .child_agree_img {
+            display: inline-flex;
+            float: right;
+        }
+
+        hr {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            background-color: gray;
+        }
+
+        .agree_img {
+            width: 30px;
+        }
+
+        input[type=checkbox] {
+            display: none;
+        }
+
+        input[type=checkbox] + label {
+            padding-left: 45px;
+            background-repeat: no-repeat;
+            background-image: url('https://i.esdrop.com/d/f/3IfGDhTdT6/C0NvIT8Ht4.png');
+            background-size: 35px;
+        }
+
+        input[type=checkbox]:checked + label {
+            background-image: url('https://i.esdrop.com/d/f/3IfGDhTdT6/ThrejCcO8P.png');
+        }
+        #parent_than14_div{
+            margin-top: 30px;
+            margin-bottom: 70px;
+        }
+        #parent_than14_div input[type=checkbox] {
+            display: none;
+        }
+        #parent_than14_div input[type=checkbox] + label {
+            padding-left: 45px;
+            background-repeat: no-repeat;
+            background-image: url('https://i.esdrop.com/d/f/3IfGDhTdT6/cE6wvPfaVs.png');
+            background-size: 28px;
+        }
+        #parent_than14_div input[type=checkbox]:checked + label {
+            background-image: url('https://i.esdrop.com/d/f/3IfGDhTdT6/1ZyNy8kyic.png');
+        }
+
+        .than14_div{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 75px;
+            font-size: 25px;
+        }
+        #next_button{
+            background-color: rgba(42,193,188);
+            border:0px;
+            width:720px;
+            height:100px;
+            margin-bottom: 50px;
+            font-size: 20px;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+<div id="header_div">
+    <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/rxjDrukCXC.png" id="exit_img" width="60px" onclick="back()">
+    <div id="header_text_div"> 회원가입</div>
+    <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/rxjDrukCXC.png" id="exit_img2" width="60px">
+</div>
+
+<div id="intro_div">어서오세요<br>약관동의가 필요해요</div>
+
+
+<div class="parent_agree_div"><input type='checkbox' id="all_agree_checkbox" name='all_agree_checkbox' onclick="selectAll(this)"/><label
+        for="all_agree_checkbox">전체동의</label></div>
+
+
+<hr/>
+<div>
+    <div class="parent_agree_div">
+        <input type='checkbox' id="agree_checkbox1" name='agree_checkbox' onclick='checkSelectAll()'/><label for="agree_checkbox1">배민 이용약관 동의(필수)</label>
+        <div class="child_agree_img">
+            <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/mxYfPiHjHH.png" class="agree_img">
+        </div>
+    </div>
+    <div class="parent_agree_div">
+        <input type='checkbox' id="agree_checkbox2" name='agree_checkbox' onclick='checkSelectAll()'/><label for="agree_checkbox2">전자금융거래 이용약관 동의(필수)</label>
+        <div class="child_agree_img">
+            <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/mxYfPiHjHH.png" class="agree_img">
+        </div>
+    </div>
+    <div class="parent_agree_div">
+        <input type='checkbox' id="agree_checkbox3" name='agree_checkbox' onclick='checkSelectAll()'/><label for="agree_checkbox3">개인정보 수집 이용 동의 (필수)</label>
+        <div class="child_agree_img">
+            <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/mxYfPiHjHH.png" class="agree_img">
+        </div>
+    </div>
+    <div class="parent_agree_div">
+        <input type='checkbox' id="agree_checkbox4" name='agree_checkbox' onclick='checkSelectAll()'/><label for="agree_checkbox4">개인정보 수집 이용 동의 (선택)</label>
+        <div class="child_agree_img">
+            <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/mxYfPiHjHH.png" class="agree_img">
+        </div>
+    </div>
+    <div class="parent_agree_div">
+        <input type='checkbox' id="agree_checkbox5" name='agree_checkbox' onclick='checkSelectAll()'/><label for="agree_checkbox5">개인정보 제3자 제공 동의 (선택)</label>
+        <div class="child_agree_img">
+            <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/mxYfPiHjHH.png" class="agree_img">
+        </div>
+    </div>
+    <div class="parent_agree_div">
+        <input type='checkbox' id="agree_checkbox6" name='agree_checkbox' onclick='checkSelectAll()'/><label for="agree_checkbox6">마케팅 정보 메일,sms 수신동의 (선택)</label>
+        <div class="child_agree_img">
+            <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/mxYfPiHjHH.png" class="agree_img">
+        </div>
+    </div>
+</div>
+<hr>
+<div id="parent_than14_div">
+    <div class="than14_div"><input type='checkbox' id="higher_than14" name="than14_check" onclick="checkOnlyOne(this)"/><label for="higher_than14">만14세이상</label>
+        <div class="child_agree_img">
+            <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/46kMEqrtxo.png" class="than_14img" width="74px">
+        </div>
+    </div>
+    <div class="than14_div"><input type='checkbox' id="lower_than14_div" name="than14_check" onclick="checkOnlyOne(this)"/><label for="lower_than14_div">만14세이하</label>
+        <div class="child_agree_img">
+            <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/qcAIW5B8Ef.png" class="than14_img" width="74px">
+        </div>
+    </div>
+</div>
+
+<div>
+    <input type="button" value="다음으로" id="next_button" onclick="validate()">
+</div>
+<script>
+    function back(){
+        location.href="/";
+    }
+    function nextpage(){
+        location.href="/join/user/phone";
+    }
+    function validate(){
+        if(document.getElementById('agree_checkbox1').checked==true&&document.getElementById('agree_checkbox2').checked==true
+                &&document.getElementById('agree_checkbox3').checked==true){
+            nextpage();
+        }else{
+            alert('필수 약관에 동의 해 주세요');
+        }
+    }
+
+    function checkSelectAll()  {
+        const checkboxes
+                = document.querySelectorAll('input[name="agree_checkbox"]');
+        const checked
+                = document.querySelectorAll('input[name="agree_checkbox"]:checked');
+        const selectAll
+                = document.querySelector('input[name="all_agree_checkbox"]');
+
+        if(checkboxes.length === checked.length)  {
+            selectAll.checked = true;
+        }else {
+            selectAll.checked = false;
+        }
+
+    }
+    function selectAll(selectAll)  {
+        const checkboxes
+                = document.getElementsByName('agree_checkbox');
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = selectAll.checked;
+        })
+    }
+    function checkOnlyOne(element) {
+
+        const checkboxes
+                = document.getElementsByName("than14_check");
+
+        checkboxes.forEach((cb) => {
+            cb.checked = false;
+        })
+
+        element.checked = true;
+    }
+
+</script>
+
+</body>
+</html>

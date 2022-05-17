@@ -4,12 +4,19 @@ import com.minbae.user.exception.UserCommException;
 import com.minbae.user.exception.comm.UserExceptionType;
 import com.minbae.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -180,6 +187,15 @@ public class UserController {
     public String orderDetail(){
 
         return "user/user_order_detail";
+    }
+
+    //img
+    @GetMapping(value = "/image/{image_name}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> img_search(@PathVariable("image_name") String image_name) throws IOException {
+        InputStream imageStream = new FileInputStream("C:\\이젠\\upload\\" + image_name);
+        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+        imageStream.close();
+        return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
     }
 
 }
