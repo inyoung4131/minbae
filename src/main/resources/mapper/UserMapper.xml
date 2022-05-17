@@ -227,4 +227,40 @@
         from store_detail
         where store_idx = #{store_idx}
     </select>
+
+    <select id="get_order_store" resultType="hashMap">
+        select
+            s.store_name, th.order_date, th.order_state
+        from trade_history th
+        join store s on th.store_idx = s.store_idx
+        where th.user_idx = #{user_idx} and th.order_state != 3
+        order by th.order_date desc
+    </select>
+
+    <select id="get_store_lication" resultType="hashMap">
+        select
+            store_lat, store_lng
+        from store
+        where store_idx = #{store_idx};
+    </select>
+
+<!--    <select id="kakaoLogin" resultType="hashmap">-->
+<!--        SELECT-->
+<!--            user_idx userIdx, user_nickname userNickname, user_email-->
+<!--        FROM-->
+<!--            user-->
+<!--        WHERE-->
+<!--            user_email = #{id}-->
+<!--            AND-->
+<!--            user_social = #{type}-->
+<!--    </select>-->
+
+<!--    <insert id="insertKakaoUser">-->
+<!--        INSERT INTO-->
+<!--            user (user_email, user_social, user_nickName)-->
+<!--        VALUES (-->
+<!--                #{id}, #{type}, #{nickName}-->
+
+<!--               )-->
+<!--    </insert>-->
 </mapper>

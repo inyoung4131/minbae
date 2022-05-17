@@ -1,64 +1,174 @@
-{{>store/common/store_header}}
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <div>
-        <h1>가게 명 : {{storeEntity.storeName}}</h1>
-        <h2 class="h2">우리 가게 메뉴 리스트</h2>
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+    <style>
+        #customHeaderColor {
+            background-color: #2AC1BC !important;
+        }
+        h1, h2, h3, header, nav{
+            font-family: 'Do Hyeon', sans-serif;
+        }
+        #customHeaderColor a {
+            font-size: 2rem;
+        }
+        #sidebarMenu{
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+<header class="navbar navbar-dark sticky-top bg-info flex-md-nowrap p-3 shadow" id="customHeaderColor">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-dark" id="customATag" href="/owner/store/main">민족의 배달 사장님 광장</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-nav">
+        <div class="nav-item text-nowrap" id="login-logout-section">
+
+        </div>
     </div>
+</header>
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="first-item-href">
+                            <span data-feather="home"></span>
+                            관리 가게 선택
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="second-item-href">
+                            가게 정보 관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="third-item-href">
+                            <span data-feather="shopping-cart"></span>
+                            메뉴 관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="fourth-item-href">
+                            <span data-feather="users"></span>
+                            메뉴 신규 등록
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="fifth-item-href">
+                            <span data-feather="bar-chart-2"></span>
+                            리뷰 관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="sixth-item-href">
+                            <span data-feather="layers"></span>
+                            주문 관리
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-            <table class="table caption-top table-hover">
-                <caption>List of menu</caption>
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">메뉴명</th>
-                    <th scope="col">가격</th>
-                    <th scope="col">메뉴이미지</th>
-                    <th scope="col">대표|일반</th>
-                    <th scope="col">관리</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {{#menuList}}
-                    <tr id="menu-{{menuIdx}}">
-                        <th scope="row">{{menuIdx}}</th>
-                        <td>{{menuName}}</td>
-                        <td>{{menuPrice}}</td>
-                        {{#menuImg}}
-                            <td><img src="/image/{{menuImg}}"></td>
-                        {{/menuImg}}
-                        {{^menuImg}}
-                            <td>이미지 없음</td>
-                        {{/menuImg}}
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+            <div>
+                <h1>가게 명 : {{storeEntity.storeName}}</h1>
+                <h2 class="h2">우리 가게 메뉴 리스트</h2>
+            </div>
+            <button class="btn btn-primary" onclick="location.href=`/owner/menuSunbun/{{storeEntity.storeIdx}}`">메뉴 순서 변경</button>
 
-                        <td class="kingMenuValue">{{menuKingMenu}}</td>
-                        <td>
-                            <!-- 모달트리거 -->
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-sm btn-outline-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#menu-edit-modal"
-                                    data-bs-menuidx="{{menuIdx}}"
-                                    data-bs-menuname="{{menuName}}"
-                                    data-bs-menuprice="{{menuPrice}}"
-                                    data-bs-menuimg="{{#menuImg}}{{menuImg}}{{/menuImg}}{{^menuImg}}{{/menuImg}}"
-                                    data-bs-menukingmenu="{{menuKingMenu}}"
-                                    data-bs-storeidx="{{storeEntity.storeIdx}}">메뉴정보수정-모달</button>
-                            <button class="btn btn-outline-danger" id="menuDelete" data-menu-idx="{{menuIdx}}">메뉴삭제</button>
-                        </td>
-                    </tr>
-                    {{/menuList}}
-                </tbody>
-            </table>
-    </div>
-</main>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <table class="table caption-top table-hover">
+                        <caption>List of menu</caption>
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">메뉴명</th>
+                            <th scope="col">가격</th>
+                            <th scope="col">메뉴이미지</th>
+                            <th scope="col">대표|일반</th>
+                            <th scope="col">관리</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {{#menuList}}
+                            <tr id="menu-{{menuIdx}}">
+                                <th scope="row">{{menuIdx}}</th>
+                                <td>{{menuName}}</td>
+                                <td>{{menuPrice}}</td>
+                                {{#menuImg}}
+                                    <td><img src="/image/{{menuImg}}"></td>
+                                {{/menuImg}}
+                                {{^menuImg}}
+                                    <td>이미지 없음</td>
+                                {{/menuImg}}
+
+                                <td class="kingMenuValue">{{menuKingMenu}}</td>
+                                <td>
+                                    <!-- 모달트리거 -->
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#menu-edit-modal"
+                                            data-bs-menuidx="{{menuIdx}}"
+                                            data-bs-menuname="{{menuName}}"
+                                            data-bs-menuprice="{{menuPrice}}"
+                                            data-bs-menuimg="{{#menuImg}}{{menuImg}}{{/menuImg}}{{^menuImg}}{{/menuImg}}"
+                                            data-bs-menukingmenu="{{menuKingMenu}}"
+                                            data-bs-storeidx="{{storeEntity.storeIdx}}">메뉴정보수정-모달</button>
+                                    <button class="btn btn-outline-danger" id="menuDelete" data-menu-idx="{{menuIdx}}">메뉴삭제</button>
+                                </td>
+                            </tr>
+                            {{/menuList}}
+                        </tbody>
+                    </table>
+            </div>
+        </main>
 {{>menu/menu_update_modal}}
-{{>store/common/store_footer}}
-
-<!-- menu kingmenu value change : number to string -->
+</div>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- create login & logout button -->
 <script>
-    window.onload = ()  => {
+    const fooLogout = () => {
+        window.sessionStorage.clear();
+        alert('sessionStoreage clear success');
+        location.href="/owner/store/main";
+    }
+
+    const fooLogin = () => {
+        location.href="/loginForm/owner";
+    }
+
+    /** set left menuBar href */
+    const set_menu = () => {
+        const storeIdxVal = window.sessionStorage.getItem('storeIdx');
+        const ownerIdxVal = JSON.parse(window.sessionStorage.getItem("memberData"));
+        let ownerIdx = ownerIdxVal.memberData.ownerIdx;
+        document.getElementById('first-item-href').setAttribute('href', '/owner/selectStore/' +ownerIdx);
+        document.getElementById('second-item-href').setAttribute('href', '/owner/storeInfo/' +storeIdxVal);
+        document.getElementById('third-item-href').setAttribute('href', '/owner/menu/'+storeIdxVal);
+        document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);
+        document.getElementById('fifth-item-href').setAttribute('href', '/owner/store/'+storeIdxVal+'/reviews');
+        document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/'+storeIdxVal);
+    };
+
+    /** menu kingmenu value change : number to string */
+    const set_menu_kingmenu_value = () => {
         const kingValues = document.querySelectorAll(".kingMenuValue");
         for(const kv of kingValues){
             if(kv.innerHTML == 1){
@@ -67,8 +177,34 @@
                 kv.innerHTML = "일반메뉴";
             }
         };
-    };
+    }
+
+    window.onload = () => {
+        // 꺼내보자
+        //console.log(JSON.stringify(window.sessionStorage.getItem("memberData")));
+
+        const parentDiv = document.getElementById('login-logout-section');
+        if(window.sessionStorage.getItem("token")){
+            const logoutBtn = document.createElement('button');
+            logoutBtn.setAttribute('class' , 'btn btn-outline-primary me-2');
+            logoutBtn.onclick = fooLogout;
+            logoutBtn.innerHTML = '로그아웃';
+            parentDiv.appendChild(logoutBtn);
+
+        }else{
+            const loginBtn = document.createElement('button');
+            loginBtn.setAttribute('class' , 'btn btn-outline-primary me-2');
+            loginBtn.onclick = fooLogin;
+            loginBtn.innerHTML = '로그인';
+            parentDiv.appendChild(loginBtn);
+        }
+
+        set_menu();
+        set_menu_kingmenu_value();
+
+    }
 </script>
+</html>
 
 <!-- delete menu-->
 <script>
@@ -81,7 +217,7 @@
             const menuDeleteBtn = event.target;
             const menuIdx = menuDeleteBtn.getAttribute("data-menu-idx");
             // 삭제 API 호출 및 처리
-            const url = `/owne/delete/menu/${menuIdx}`;
+            const url = `/owner/delete/menu/${menuIdx}`;
             fetch(url, {
                 method: "DELETE"
             }).then(response => {

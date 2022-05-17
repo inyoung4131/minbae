@@ -36,10 +36,18 @@ public class MenuController {
         return "/menu/menu_list";
     }
 
+    @GetMapping("/owner/menuSunbun/{storeIdx}")
+    public String menuSunbunListPage(@PathVariable String storeIdx, Model model){
+        return "/menu/menu_list_sortable";
+    }
+
     // 특정 가게의 신규메뉴 등록 페이지 이동
     @GetMapping("/owner/menu/create/{storeIdx}")
     public String menuCreate(@PathVariable Long storeIdx, Model model){
+        String storeName = storeService.storeInfo(storeIdx).getStoreName();
         model.addAttribute("storeIdx",storeIdx);
+        model.addAttribute("storeName",storeName);
+
         return "/menu/menu_create_form";
     }
 

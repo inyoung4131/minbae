@@ -12,4 +12,5 @@ public interface TradeHistoryMapper {
     List<StoreTradeHistoryListDto> findTradeListByStoreIdx(String storeIdx);
 
 
+    Integer updateOrderState(String tradehistoryidx, int orderState);
 }

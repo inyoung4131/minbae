@@ -40,6 +40,8 @@ dependencies {
     implementation 'org.webjars:sockjs-client:1.0.2'
     implementation 'org.webjars:stomp-websocket:2.3.3'
 
+    // JSON GSON
+    implementation 'com.google.code.gson:gson:2.8.7'
 }
 
 tasks.named('test') {

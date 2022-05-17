@@ -17,9 +17,10 @@
         }
 
     </style>
+<!--    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>-->
 </head>
 <body class="text-center container">
-
+<!--<a id="kakao-login-btn"></a>-->
 <main class="form-signin mt-5 row justify-content-center">
     <div class="col-6">
         <form>
@@ -73,7 +74,10 @@
                 url: '/login/user',
                 data: data
             }).done(function (loginval) {
-                if (loginval.status.valueOf() == "SUCCESS") {
+                // const data = loginval?.memberData?.memberData;
+                // console.log(data)
+
+                if (loginval?.status === "SUCCESS") {
                     if(JSON.stringify(loginval.memberData) == '{}') {
                         alert('아이디나 비밀번호를 확인해 주세요.')
                     }else {
@@ -90,4 +94,54 @@
     };
     main.init();
 </script>
+<!--<script>-->
+<!--    Kakao.init('fd415bfe990421083c1a4135da20924a');-->
+<!--    console.log(Kakao.isInitialized());-->
+
+<!--    Kakao.Auth.createLoginButton({-->
+<!--        container: '#kakao-login-btn',-->
+<!--        success: function(authObj) {-->
+<!--            Kakao.API.request({-->
+<!--                url: '/v2/user/me',-->
+<!--                success: function(result) {-->
+<!--                    const kakaoId = result?.id;-->
+<!--                    const kakaoNickName = result?.properties?.nickname;-->
+
+<!--                    const data = {-->
+<!--                        'id' : kakaoId,-->
+<!--                        'nickName' : kakaoNickName,-->
+<!--                        'type' : 'kakao',-->
+<!--                    }-->
+
+<!--                    fetch('http://localhost:9090/user/login', {-->
+<!--                        method: "POST",-->
+<!--                        body: JSON.stringify(data),-->
+<!--                        headers: {-->
+<!--                            "Content-Type" : "application/json"-->
+<!--                        }-->
+<!--                    }).then(response => response.json())-->
+<!--                            .then(data => {-->
+<!--                                // let userIdx = data.data.memberData.user_idx;-->
+<!--                                // let userNickname = data.data.memberData.user_nickname;-->
+<!--                                let memberData = {-->
+<!--                                    'memberData' : data.data.memberData-->
+<!--                                }-->
+<!--                                window.sessionStorage.setItem("token", data.data.accessToken);-->
+<!--                                window.sessionStorage.setItem("memberData", JSON.stringify(memberData));-->
+<!--                                location.href = '/';-->
+<!--                            });-->
+<!--                },-->
+<!--                fail: function(error) {-->
+<!--                    alert(-->
+<!--                            'login success, but failed to request user information: ' +-->
+<!--                            JSON.stringify(error)-->
+<!--                    )-->
+<!--                },-->
+<!--            })-->
+<!--        },-->
+<!--        fail: function(err) {-->
+<!--            alert('failed to login: ' + JSON.stringify(err))-->
+<!--        },-->
+<!--    })-->
+<!--</script>-->
 </html>

@@ -5,12 +5,17 @@
 <mapper namespace="com.minbae.comm.tradehistory.dao.TradeHistoryMapper">
 
     <select id="findTradeListByStoreIdx" resultType="com.minbae.comm.tradehistory.dto.StoreTradeHistoryListDto">
-        select t.*, u.user_nickname, u.user_basic_addr, u.user_detail_addr
+        select t.*, u.user_nickname, u.user_basic_addr, u.user_detail_addr, u.user_tel
         from trade_history t
                  left join user u on u.user_idx = t.user_idx
                  left join deliver d on t.deliver_idx = d.deliver_idx
         where t.store_idx = #{storeIdx}
         order by t.trade_history_idx desc;
     </select>
+
+    <update id="updateOrderState">
+        update trade_history set order_state = #{orderState}
+        where trade_history_idx = #{tradehistoryidx};
+    </update>
 
 </mapper>

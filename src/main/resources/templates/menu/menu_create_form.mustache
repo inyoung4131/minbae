@@ -1,7 +1,7 @@
 {{>store/common/store_header}}
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
     <div>
-        <h1>가게 명 : </h1>
+        <h1>가게 명 : {{storeName}}</h1>
         <h2 class="h2">우리 가게 메뉴 등록</h2>
     </div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -10,18 +10,18 @@
                 <label for="inputFile" class="col-sm-2 col-form-label"><strong>첨부 파일</strong></label>
                 <div class="col-sm-10">
                     <div class="custom-file" id="inputFile">
-                        <input name="file" type="file" class="custom-file-input" id="customFile">
+                        <input name="file" type="file" class="custom-file-input" id="customFile" required>
                         <label class="custom-file-label" for="customFile">파일을 선택해 주세요.</label>
                     </div>
                 </div>
             </div>
             <div class="col-12">
                 <label for="inputMenuName" class="form-label">메뉴이름</label>
-                <input type="text" class="form-control" id="inputMenuName" value="">
+                <input type="text" class="form-control" id="inputMenuName" value="" required>
             </div>
             <div class="col-12">
                 <label for="inputMenuPrice" class="form-label">메뉴가격</label>
-                <input type="text" class="form-control" id="inputMenuPrice" value="">
+                <input type="text" class="form-control" id="inputMenuPrice" value="" required>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1">
@@ -54,8 +54,17 @@
 
             $('#menuCreateBtn').on('click', function () {
                 window.alert('menuCreateBtn 눌림');
+                _this.checkNullInput();
                 _this.postsSave();
             });
+        },
+
+        checkNullInput : function () {
+            if($('#inputMenuName').val()==""||$('#inputMenuPrice').val()==""||$('#customFile')[0].files[0]==undefined) {
+                alert('모든 항목을 채워주세요.');
+                throw 'some inputs are empty!';
+                return;
+            };
         },
 
         postsSave : function () {

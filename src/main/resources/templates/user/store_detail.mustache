@@ -53,11 +53,13 @@
         <ul id="visitOrder" style="display: none">
             <li>최소주문금액 : 없음</li>
             <li>이용 방법 : 매장, 포장</li>
-            <li>
-                위치 안내 : {{selectStore.store_basic_addr}} {{selectStore.store_detail_addr}}
-                            지도 들어가야 함
-            </li>
             <li>결제 방법 : 바로 결제</li>
+            <li>
+                <div>
+                    위치 안내 : {{selectStore.store_basic_addr}} {{selectStore.store_detail_addr}}
+                </div>
+                <div id="map" style="width:100%;height:350px;"></div>
+            </li>
         </ul>
     </div>
     <hr>
@@ -203,29 +205,29 @@
                 if(data.review_img1 != null){
                     sd_review_List += `<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                             <div class="carousel-inner">`
-                    sd_review_List += `<div class="carousel-item active">
-                                          <img src="${data.review_img1}" class="d-block w-100" alt="...">
-                                       </div>`
+                            sd_review_List += `<div class="carousel-item active">
+                                                  <img src="${data.review_img1}" class="d-block w-100" alt="...">
+                                               </div>`
                     if(data.review_img2 != null){
-                        sd_review_List += `<div class="carousel-item active">
-                                              <img src="${data.review_img2}" class="d-block w-100" alt="...">
-                                           </div>`
+                            sd_review_List += `<div class="carousel-item active">
+                                                  <img src="${data.review_img2}" class="d-block w-100" alt="...">
+                                               </div>`
                         if(data.review_img3 != null){
                             sd_review_List += `<div class="carousel-item active">
-                                              <img src="${data.review_img3}" class="d-block w-100" alt="...">
-                                           </div>`
+                                                    <img src="${data.review_img3}" class="d-block w-100" alt="...">
+                                               </div>`
                         }
                     }
-                    sd_review_List += `</div>
-                                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                      </button>
-                                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                      </button>
-                                    </div>`
+                        sd_review_List += `</div>
+                                          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                          </button>
+                                          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                          </button>
+                                      </div>`
                 }
 
                 sd_review_List += `<div class="mb-3 row">
@@ -281,5 +283,25 @@
 
     })
 
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?fd415bfe990421083c1a4135da20924a"></script>
+<script>
+    let store_idx = document.getElementById('store_idx').value;
+    fetch(`/user/store/${store_idx}`)
+    .then((response) => response.json())
+    .then((datas) => {
+        console.log('lat -> ' + datas.data.store_lng)
+        let lat = datas.data.store_lat;
+        let lng = datas.data.store_lng;
+
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                mapOption = {
+                    center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
+                    level: 5 // 지도의 확대 레벨
+                };
+
+        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+    });
 </script>
 </html>

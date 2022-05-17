@@ -14,6 +14,7 @@ public class ImgConfiguration implements WebMvcConfigurer {
 
         /* '/staticImg/**'로 호출하는 자원은 '/static/img/' 폴더 아래에서 찾는다. */
         registry.addResourceHandler("/staticImg/**").addResourceLocations("classpath:/static/img/").setCachePeriod(60 * 60 * 24 * 365);
-
+        registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/").resourceChain(false);
+        registry.setOrder(1);
     }
 }

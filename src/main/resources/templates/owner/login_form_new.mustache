@@ -1,0 +1,199 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <!--카카오 소셜 로그인-->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <style>
+        body{
+            background-color: #2AC1BC;
+            font-family: 'Do Hyeon', sans-serif;
+        }
+    </style>
+</head>
+<body class="text-center container">
+
+<main class="form-signin mt-5 row justify-content-center">
+    <div class="col-6">
+        <form>
+            <h1 class="h3 mb-3 fw-normal" style="font-weight: 900; font-size: 2rem; color: #dbdbdb;">민족의배달 사장님 광장</h1>
+            <div class="mb-4">
+                <img src="/staticImg/2So.png" style="width: 30%;">
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                <label for="floatingInput">이메일</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="pwd" placeholder="Password" required>
+                <label for="floatingPassword">비밀번호</label>
+            </div>
+
+            <div class="checkbox mb-3 text-start">
+                <label>
+                    <input type="checkbox" value="checked" id="idRemember"> 아이디 기억하기
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="button" id="testlogin">로그인</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2022 minbae final project</p>
+        </form>
+        <!--카카오 로그인-->
+        <a id="kakao-login-btn">
+
+        </a>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    let setCookie = function(name, value, exp) {
+        let date = new Date();
+        date.setTime(date.getTime() + exp*24*60*60*1000);
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+    };
+    let deleteCookie = function (key){
+        let todayDate = new Date();
+        document.cookie = key + "=; path=/; expires=" + todayDate.toGMTString() + ";" // 현재 시각 이전이면 쿠키가 만료되어 사라짐.
+    };
+    let getCookie = function(name) {
+        let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return value? value[2] : null;
+    };
+
+    var main = {
+        init: function () {
+            let ck = getCookie("key");
+            if(ck != null) {
+                $("#email").val(ck);
+                $("#idRemember").attr('checked', true);
+            }
+            var _this = this;
+            $('#testlogin').on('click', function () {
+                _this.save();
+            });
+        },
+        save: function () {
+
+            var data = {
+                email: $('#email').val(),
+                pwd: $('#pwd').val()
+            };
+
+            $.ajax({
+                type: 'GET',
+                url: '/login/owner',
+                data: data
+            }).done(function (loginval) {
+                //console.log('1'+loginval);
+                //console.log('2'+loginval.data); // 이거 됨 토큰 나옴
+                //console.log('2-1'+JSON.stringify(loginval.token)); 이거 안됨
+                //console.log('2-2'+JSON.stringify(loginval.memberData)); // 이거 됨 문자열로 변환한 객체나옴
+                if(JSON.stringify(loginval.memberData) == '{}'){
+                    alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+                    location.reload();
+                    return;
+                }
+                //console.log('4'+JSON.stringify(loginval.memberData.memberData.ownerIdx)); 이거 됨 근데 값 없으면 에러 뜸
+
+                if (loginval.status.valueOf() == "SUCCESS") {
+
+                    if($("#idRemember").is(":checked")){ // ID 저장하기 체크했을 때,
+                        setCookie("key", $("#email").val(), 7); // 7일 동안 쿠키 보관
+                    }else{ // ID 저장하기 체크 해제 시,
+                        deleteCookie("key");
+                    }
+
+                    window.sessionStorage.setItem("token", loginval.data);
+                    window.sessionStorage.setItem("memberData", JSON.stringify(loginval.memberData));
+                    $.ajax({
+                        type: "GET",
+                        url: "/owner/store/main",
+                        headers: {'user-token': window.sessionStorage.getItem("token")}
+                    }).done(function () {
+                        location.href = "/owner/store/main";
+                    });
+                    alert('로그인 성공!');
+                }
+            })
+                    .fail(function (error) {
+                        alert(JSON.stringify(error));
+                    });
+        }
+    };
+    main.init();
+</script>
+<!--소셜로그인-->
+<script>
+    // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('712d34fc361b41cea1262050b5b4ea79');
+    // SDK 초기화 여부를 판단합니다.
+    console.log(Kakao.isInitialized());
+
+    Kakao.Auth.createLoginButton({
+        container: '#kakao-login-btn',
+        success: function(authObj) {
+            Kakao.API.request({
+                url: '/v2/user/me',
+                success: function(result) {
+                    const kakaoId = result?.id;
+                    const kakaoEmail = result?.kakao_account?.email;
+                    const kakaoNickName = result?.properties?.nickname;
+                    alert('kakaoNickName>>>>>>'+kakaoNickName);
+                    const kakaoPwd = kakaoId;
+
+                    const data = {
+                        'email' : kakaoEmail,
+                        'nickName' : kakaoNickName,
+                        'pwd' : kakaoPwd
+                    }
+
+                    fetch('http://localhost:9090/owner/kakao/login', {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: {
+                            "Content-Type" : "application/json"
+                        }
+                    }).then(response => response.json())
+                            .then(data => {
+                                console.log(JSON.stringify(data.memberData));
+                                console.log(data.data);
+                                alert('dd');
+
+                                window.sessionStorage.setItem("token", data.data);
+                                window.sessionStorage.setItem("memberData", JSON.stringify(data.memberData));
+                                $.ajax({
+                                    type: "GET",
+                                    url: "/owner/store/main",
+                                    headers: {'user-token': window.sessionStorage.getItem("token")}
+                                }).done(function () {
+                                    location.href = "/owner/store/main";
+                                });
+                                alert('로그인 성공!');
+                            });
+                },
+                fail: function(error) {
+                    alert(
+                            'login success, but failed to request user information: ' +
+                            JSON.stringify(error)
+                    )
+                },
+            })
+        },
+        fail: function(err) {
+            alert('failed to login: ' + JSON.stringify(err))
+        },
+    })
+</script>
+</html>

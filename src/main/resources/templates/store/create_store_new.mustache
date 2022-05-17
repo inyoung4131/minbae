@@ -100,7 +100,7 @@
                     storeLng: document.querySelector("#lng").value,
                     storeTel: document.querySelector("#inputStoreTel").value
                 }
-                console.log(JSON.stringify(store));
+                //console.log(JSON.stringify(store));
 
                 // fetch
                 const url = "/api/store/create";
@@ -162,7 +162,7 @@
                             guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
                             guideTextBox.style.display = 'block';
                             // 추가
-                            console.log("expJibunAddr=>>>>>>"+expJibunAddr);
+                            //console.log("expJibunAddr=>>>>>>"+expJibunAddr);
                             if(expJibunAddr){
                                 $.ajax({
                                     url: 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURIComponent(expJibunAddr),
@@ -211,9 +211,9 @@
             즉, json -> string 으로 변환하여 저장.
             이를 다시 json 객체로 변환하여 꺼내왔다??
             */
-            console.log("객체>"+loadedToDos);
-            console.log(parsedToDos.memberData.ownerIdx);
-            console.log(parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx);
+            //console.log("객체>"+loadedToDos);
+            //console.log(parsedToDos.memberData.ownerIdx);
+            //console.log(parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx);
             ownerIdx = parsedToDos[Object.keys(parsedToDos)[0]].ownerIdx;
         }
 
@@ -227,9 +227,6 @@
             logoutBtn.innerHTML = '로그아웃';
             parentDiv.appendChild(logoutBtn);
 
-            /*시작하기*/
-            const startBtn = document.getElementById('getStartNow');
-            startBtn.setAttribute('href', `/owner/selectStore/${ownerIdx}`);
         }else{
             /*로그인 버튼 생성*/
             const loginBtn = document.createElement('button');
@@ -238,11 +235,6 @@
             loginBtn.innerHTML = '로그인';
             parentDiv.appendChild(loginBtn);
 
-            /*시작하기*/
-            const startBtn = document.getElementById('getStartNow');
-            startBtn.onclick = () => {
-                alert('로그인을 해주세요!');
-            }
         }
 
     }

@@ -4,18 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minbae.menu.dto.MenuSaveRequestDto;
 import com.minbae.menu.entity.Menu;
 import com.minbae.menu.service.MenuService;
+import com.minbae.store.entity.Store;
 import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Slf4j
@@ -64,10 +67,26 @@ public class MenuRestController {
     }
 
     // delete menu
-    @DeleteMapping(value = "/owne/delete/menu/{menuIdx}")
+    @DeleteMapping(value = "/owner/delete/menu/{menuIdx}")
     public ResponseEntity<Menu> deleteMenu(@PathVariable Long menuIdx){
         Menu result = menuService.delete(menuIdx);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    // api로 메뉴리스트 응답
+    @GetMapping("/owner/menuList/sunbun/{storeIdx}")
+    public ResponseEntity menuSunbunPage(@PathVariable String storeIdx, Model model){
+        List<Menu> menuList = menuService.getStoreMenuListOrderSunbun(Long.valueOf(storeIdx));
+        return (menuList != null) ? ResponseEntity.status(HttpStatus.OK).body(menuList)
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+    @PatchMapping("/owner/menuList/sunbunPatch/{storeIdx}")
+    public ResponseEntity<Integer> menuSunbunChange(@PathVariable String storeIdx, @RequestBody List<String> sunbunList){
+        //System.out.println(sunbunList);
+        Integer resultNum = menuService.changeMenuSunbun(storeIdx, sunbunList);
+        return (resultNum == 1) ? ResponseEntity.status(HttpStatus.OK).body(resultNum)
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultNum);
     }
 
 }

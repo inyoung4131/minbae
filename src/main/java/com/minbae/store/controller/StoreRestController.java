@@ -16,10 +16,10 @@ public class StoreRestController {
     private final StoreService storeService;
 
     // 신규 가게 저장 - before
-    @PostMapping("/api/v1/store")
-    public long save(@RequestBody() StoreSaveRequestDto storeSaveDto, String role){
-        return storeService.save(storeSaveDto);
-    }
+//    @PostMapping("/api/v1/store")
+//    public long save(@RequestBody() StoreSaveRequestDto storeSaveDto, String role){
+//        return storeService.save(storeSaveDto);
+//    }
 
     // 신규 가게 저장 - after
     @PostMapping("/api/store/create")

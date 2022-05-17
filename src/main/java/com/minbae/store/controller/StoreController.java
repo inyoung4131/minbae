@@ -67,4 +67,10 @@ public class StoreController {
         model.addAttribute("storeIdx", storeIdx);
         return "/store/store_manage_home";
     }
+
+    @GetMapping("/stomptest")
+    public String stompTest(){
+        return "/tradehistory/stomptest";
+    }
+
 }

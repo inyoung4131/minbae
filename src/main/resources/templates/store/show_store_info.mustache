@@ -1,14 +1,14 @@
 {{>store/common/store_header}}
 
 
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
     <div>
         <h2 class="h2">우리가게 정보관리 페이지</h2>
     </div>
-    <div>
-        <h3 class="h3">스토어 정보</h3>
+    <div class="mt-5">
+        <h3 class="h3">가게 일반 정보</h3>
     </div>
-    <form class="row g-3">
+    <form class="row g-3 mb-5">
         {{#storeInfo}}
             <div class="col-12">
                 <label for="inputStoreName" class="form-label">가게 이름</label>
@@ -37,36 +37,35 @@
             </div>
             <!--addr start-->
             <div class="col-2">
-                <input type="button" onclick="sample4_execDaumPostcode()" value="주소 찾기">
-                <input type="text" id="sample4_postcode" value="우편번호">
+                <input type="button" class="btn btn-outline-primary mb-2" onclick="sample4_execDaumPostcode()" value="주소 찾기">
+                <input type="text" class="form-control" id="sample4_postcode" value="우편번호">
             </div>
-            <div class="col-5">
+            <div class="col-12">
                 <label for="inputStoreBasicAddr" class="form-label">가게 도로명 주소</label>
                 <input type="text" class="form-control" id="inputStoreBasicAddr" value="{{storeBasicAddr}}">
-            </div>
-            <div class="col-5">
+
                 <label for="inputStoreDetailAddr" class="form-label">가게 상세 주소</label>
                 <input type="text" class="form-control" id="inputStoreDetailAddr" value="{{storeDetailAddr}}">
             </div>
             <!--addr end-->
-
-            <input type="text" id="ownerIdx" value="{{ownerIdx.ownerIdx}}" readonly>
-            <input type="text" id="storeIdx" value="{{storeIdx}}" readonly>
-            <input type="text" id="sample4_jibunAddress" value="" readonly><span id="guide" style="color:#999;display:none"></span>
-            <input type="text" id="lat" value="{{storeLat}}" readonly>
-            <input type="text" id="lng" value="{{storeLng}}" readonly>
+            <!--hidden values-->
+            <input type="hidden" id="ownerIdx" value="{{ownerIdx.ownerIdx}}" readonly>
+            <input type="hidden" id="storeIdx" value="{{storeIdx}}" readonly>
+            <input type="hidden" id="sample4_jibunAddress" value="" readonly><span id="guide" style="color:#999;display:none"></span>
+            <input type="hidden" id="lat" value="{{storeLat}}" readonly>
+            <input type="hidden" id="lng" value="{{storeLng}}" readonly>
 
         {{/storeInfo}}
-        <div class="col-2">
-            <input type="button" value="수정 취소취소">
-            <input type="button" value="가게 정보 수정완료" id="update-btn">
+        <div class="col-6">
+            <input type="button" class="btn btn-outline-warning" value="수정 취소취소">
+            <input type="button" class="btn btn-outline-primary" value="가게 정보 수정완료" id="update-btn">
         </div>
     </form>
 
-    <hr><hr><hr>
+    <hr>
 
-    <div>
-        <h3>스토어 디테일 정보</h3>
+    <div class="mt-5">
+        <h3>가게 상세 정보</h3>
     </div>
     <form class="row g-3" id="sotreDetailForm"  enctype="multipart/form-data">
         {{#StoreDetailInfo}}
@@ -86,7 +85,7 @@
                 <label for="inputStoreDetailInfoImg" class="form-label">가게대표이미지</label>
                 <input type="file" class="form-control" name="storeImg" id="inputStoreDetailInfoImg">
                 {{#storeDetailInfoImg}}
-                <label>등록된 이미지가 존재합니다. 이미지를 수정하려면 첨부파일을 업로드해주세요!</label>
+                <label style="color: red;">등록된 이미지가 존재합니다. 이미지를 수정하려면 첨부파일을 업로드해주세요!</label>
                 {{/storeDetailInfoImg}}
                 {{^storeDetailInfoImg}}
                     <label>등록된 이미지가 존재하지 않습니다. 이미지를 추가해보세요!</label>
@@ -112,17 +111,18 @@
             </div>
 
         <input type="hidden" id="inputStoreDetailIdx" value="{{storeDetailIdx}}">
-        <input type="text" id="storeIdxFromDetail" value="{{store.storeIdx}}" readonly>
+        <input type="hidden" id="storeIdxFromDetail" value="{{store.storeIdx}}" readonly>
 
         {{/StoreDetailInfo}}
-        <div class="col-2">
-            <input type="button" value="수정 취소취소">
-            <input type="button" value="가게 상세정보 수정완료" id="update-detail-btn">
+        <div class="col-6">
+            <input type="button" class="btn btn-outline-warning" value="수정 취소취소">
+            <input type="button" class="btn btn-outline-primary" value="가게 상세정보 수정완료" id="update-detail-btn">
         </div>
     </form>
 
+    <hr>
 
-    <div>
+    <div class="mt-5 mb-5">
         <h3 class="h3">가게 삭제 요청</h3>
         <button class="btn btn-danger" id="storeDelete">삭제 요청</button>
     </div>
@@ -304,5 +304,3 @@
             });
         });
 </script>
-
-<!--Store Detail img -->

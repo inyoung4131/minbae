@@ -20,7 +20,7 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         const storeIdx = window.sessionStorage.getItem("storeIdx");
-        stompClient.subscribe(`/topic/${storeIdx}`, function (greeting) {
+        stompClient.subscribe(`/topic/store/${storeIdx}`, function (greeting) {
             console.log(JSON.parse(greeting.body).name);
             userIdx = JSON.parse(greeting.body).name; // 추가
             showGreeting(JSON.parse(greeting.body).name);
@@ -37,7 +37,7 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/"+userIdx, {}, JSON.stringify({'name': $("#name").val()}));
+    stompClient.send("/app/user/"+userIdx, {}, JSON.stringify({'name': $("#name").val()}));
 }
 
 function showGreeting(message) {
