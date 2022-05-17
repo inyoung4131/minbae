@@ -13,6 +13,11 @@
             width: 100%;
             height: 15rem;
         }
+
+        .d-block{
+            width: 5rem;
+            height: 9rem;
+        }
     </style>
 </head>
 <body>
@@ -212,15 +217,15 @@
                     sd_review_List += `<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                             <div class="carousel-inner">`
                             sd_review_List += `<div class="carousel-item active">
-                                                  <img src="C:\\이젠\\upload\\${data.review_img1}" class="d-block w-100" alt="...">
+                                                  <img src="/user/image/${data.review_img1}" class="d-block w-100" alt="...">
                                                </div>`
                     if(data.review_img2 != null){
                             sd_review_List += `<div class="carousel-item active">
-                                                  <img src="C:\\이젠\\upload\\${data.review_img2}" class="d-block w-100" alt="...">
+                                                  <img src="/user/image/${data.review_img2}" class="d-block w-100" alt="...">
                                                </div>`
                         if(data.review_img3 != null){
                             sd_review_List += `<div class="carousel-item active">
-                                                    <img src="C:/이젠/upload/${data.review_img3}" class="d-block w-100" alt="...">
+                                                    <img src="/user/image/${data.review_img3}" class="d-block w-100" alt="...">
                                                </div>`
                         }
                     }
