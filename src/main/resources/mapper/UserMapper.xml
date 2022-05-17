@@ -230,11 +230,11 @@
 
     <select id="get_order_store" resultType="hashMap">
         select
-            s.store_name, th.order_date, th.order_state
+            store_name, th.order_date, th.order_state
         from trade_history th
-        join store s on th.store_idx = s.store_idx
-        where th.user_idx = #{user_idx} and th.order_state != 3
-        order by th.order_date desc
+                 join store s on th.store_idx = s.store_idx
+        where th.user_idx = #{user_idx}
+        order by th.order_date desc;
     </select>
 
     <select id="get_store_lication" resultType="hashMap">
