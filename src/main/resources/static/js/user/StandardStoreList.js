@@ -1,3 +1,4 @@
+
 var page=0;
 var user_lat=JSON.parse(window.localStorage.getItem("user_latlng")).user_lat;
 var user_lng=JSON.parse(window.localStorage.getItem("user_latlng")).user_lng;
@@ -11,34 +12,54 @@ window.onscroll = function(e) {
         page++;
     }
 }
-
 function requestStandardStoreList(){
     $.ajax({
         type: 'GET',
-        url: '/user/category/standard?paging='+page+'&user_lat='+user_lat+'&user_lng='+user_lng+'&category='+`{{categoryKo}}`,
+        url: '/user/category/standard?paging='+page+'&user_lat='+user_lat+'&user_lng='+user_lng+'&category='+(window.location.href.split('/', 7)[6]),
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
     }).done(function (data) {
         if(data!=null&&data.length>0){
             for(var i=0;i<data.length;i++){
-                var form = document.createElement("form");
+                var a = document.createElement("a");
+                a.href="/user/store/detail/"+(window.location.href.split('/', 7)[6])+"/"+data[i].store_idx+"/star";
+                a.className="link-secondary";
                 var div = document.createElement("div");
+                div.className="card mb-3";
+                div.style.maxWidth="750px";
                 var div1 = document.createElement("div");
+                div1.className="row g-0";
                 var div2 = document.createElement("div");
+                div2.className="col-md-4";
+                var img = document.createElement("img");
+                img.src="C:/이젠/upload/"+data[i].store_detail_info_img;
+                img.className="img-fluid rounded-start";
+                div2.append(img);
                 var div3 = document.createElement("div");
+                div3.className="col-md-8";
                 var div4 = document.createElement("div");
-                div.style.marginTop="40px";
-                div.style.border="1px solid black";
-                div1.innerText=data[i].store_detail_info_img;
-                div2.innerText=data[i].store_name;
-                div3.innerText="평점:"+ data[i].avger_star + "리뷰 수 :" + data[i].cou;
-                div4.innerText="최소 배달금액"+data[i].store_detail_minimum_price;
+                div4.className="card-body";
+                var h5 = document.createElement("h5");
+                h5.className="card-title"
+                h5.innerText=data[i].store_name;
+                var p1 = document.createElement("p1");
+                p1.className="card-text"
+                p1.innerText=data[i].avger_star;
+                var p2 = document.createElement("p2");
+                p2.className="card-text"
+                var small = document.createElement("small");
+                small.className="text-muted";
+                small.innerText="최소 주문 "+data[i].store_detail_minimum_price;
+                p2.append(small);
+                a.append(div);
                 div.append(div1);
-                div.append(div2);
-                div.append(div3);
-                div.append(div4);
-                form.append(div);
-                $('#storeListDiv').append(form);
+                div1.append(div2);
+                div1.append(div3);
+                div3.append(div4);
+                div4.append(h5);
+                div4.append(p1);
+                div4.append(p2);
+                $('#storeListDiv').append(a);
             }
         }
         resultdata=data;
