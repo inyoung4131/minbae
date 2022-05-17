@@ -32,8 +32,10 @@ function requestStandardStoreList() {
                     var div2 = document.createElement("div");
                     div2.className = "col-md-4";
                     var img = document.createElement("img");
-                    img.src = "C:/이젠/upload/" + data[i].store_detail_info_img;
+                    img.src = "/user/image/" + data[i].store_detail_info_img;
                     img.className = "img-fluid rounded-start";
+                    img.style.width = "15rem";
+                    img.style.height = "9rem";
                     div2.append(img);
                     var div3 = document.createElement("div");
                     div3.className = "col-md-8";
