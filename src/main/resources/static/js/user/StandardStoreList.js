@@ -13,6 +13,7 @@ window.onscroll = function(e) {
     }
 }
 function requestStandardStoreList(){
+    alert(1);
     $.ajax({
         type: 'GET',
         url: '/user/category/standard?paging='+page+'&user_lat='+user_lat+'&user_lng='+user_lng+'&category='+(window.location.href.split('/', 7)[6]),
