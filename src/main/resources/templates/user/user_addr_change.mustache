@@ -1,52 +1,66 @@
 <div id="header_addr">
-<!--    <div id="detailAddr"></div>-->
+    <!--    <div id="detailAddr"></div>-->
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240&libraries=services"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240&libraries=services"></script>
 <script>
-    $('#detailAddr').on('click',function(){
-        window.open('/user/main/addr/main','AddrPopup','width=400px,height=550px');
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    $('#detailAddr').on('click', function () {
+        var popup= window.open('/user/main/addr/main', 'AddrPopup', 'width=400px,height=550px');
+        popup.addEventListener('beforeunload', function() {
+            location.reload();
+        });
     });
 
-
     var mem = window.sessionStorage.getItem("memberData");
-
     var latlng = 0;
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var lat = position.coords.latitude+"000001",
-                    lon = position.coords.longitude+"000001";
-            latlng = new kakao.maps.LatLng(lat, lon);
 
-            searchDetailAddrFromCoords(latlng, function(result, status) {
-                if (status === kakao.maps.services.Status.OK) {
-                    var detailAddr = !!result[0].road_address ? result[0].road_address.address_name : '';
-                    var detailAddr2 = result[0].address.address_name;
-
-                    if(detailAddr!=''){
-                        let user_lat_lng = {
-                            user_lat: lat,
-                            user_lng: lon
-                        }
-                        user_lat_lng = JSON.stringify(user_lat_lng);
-                        window.localStorage.setItem("user_latlng", user_lat_lng);
-                        $(`#detailAddr`).text();
-                    }else if(detailAddr2!=undefined){
-                        let user_lat_lng = {
-                            user_lat: lat,
-                            user_lng: lon
-                        }
-                        user_lat_lng = JSON.stringify(user_lat_lng);
-                        window.localStorage.setItem("user_latlng", user_lat_lng);
-                        $(`#detailAddr`).text(detailAddr2);
-                    }
-                }
-            });
+    if (mem != null || mem != undefined) {
+        mem = JSON.parse(mem);
+        geocoder.addressSearch(mem.memberData.userBasicAddr, function (result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                latlng = JSON.stringify(new kakao.maps.LatLng(result[0].y, result[0].x));
+                window.localStorage.setItem("user_latlng", latlng);
+                $(`#detailAddr`).text(mem.memberData.userBasicAddr);
+            }
         });
+    } else {
 
-        var geocoder = new kakao.maps.services.Geocoder();
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var lat = position.coords.latitude + "000001",
+                        lon = position.coords.longitude + "000001";
+                latlng = new kakao.maps.LatLng(lat, lon);
 
+                searchDetailAddrFromCoords(latlng, function (result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        var detailAddr = !!result[0].road_address ? result[0].road_address.address_name : '';
+                        var detailAddr2 = result[0].address.address_name;
+
+                        if (detailAddr != '') {
+                            let user_lat_lng = {
+                                user_lat: lat,
+                                user_lng: lon
+                            }
+                            user_lat_lng = JSON.stringify(user_lat_lng);
+                            window.localStorage.setItem("user_latlng", user_lat_lng);
+                            $(`#detailAddr`).text();
+                        } else if (detailAddr2 != undefined) {
+                            let user_lat_lng = {
+                                user_lat: lat,
+                                user_lng: lon
+                            }
+                            user_lat_lng = JSON.stringify(user_lat_lng);
+                            window.localStorage.setItem("user_latlng", user_lat_lng);
+                            $(`#detailAddr`).text(detailAddr2);
+                        }
+                    }
+                });
+            });
+        }
 
         function searchDetailAddrFromCoords(coords, callback) {
             geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);

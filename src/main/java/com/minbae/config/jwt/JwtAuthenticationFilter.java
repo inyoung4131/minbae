@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		PrincipalDetails principalDetailis = (PrincipalDetails) authResult.getPrincipal();
 
-		String jwtToken = jwtTokenProvider.createToken(principalDetailis.getUsername(), principalDetailis.getUserIdx());
+		String jwtToken = jwtTokenProvider.createToken("user",principalDetailis.getUsername(), principalDetailis.getUserIdx());
 		
 		response.addHeader("user-token", jwtToken);
 	}

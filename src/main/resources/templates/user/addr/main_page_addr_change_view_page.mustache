@@ -13,9 +13,10 @@
 
         #div1 {
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        h2 {
+        h3 {
             display: inline-block;
             margin: auto;
         }
@@ -26,8 +27,15 @@
         }
 
         #map_div {
-            display: inline-flex;
-            float: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        #map_div_child {
+            display: flex;
+            align-items: center;
         }
 
         #head_div::after {
@@ -37,6 +45,15 @@
             display: block;
 
             clear: both;
+        }
+
+        #dumy_div {
+            float: left;
+            display: inline-block;
+        }
+
+        .print_addr_div {
+            height: 50px;
         }
 
         .print_addr_div1 {
@@ -64,28 +81,54 @@
 
             clear: both;
         }
+
         #search_div {
             margin-bottom: 15px;
         }
-        #searchText{
-            width: 350px;
+
+        #searchText {
+            width: 100%;
             height: 30px;
-            background-image : url('https://i.esdrop.com/d/f/3IfGDhTdT6/RYx4YRFC33.png');
+            border: 0px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+            background-color: rgb(230, 230, 230);
+            background-image: url('https://i.esdrop.com/d/f/3IfGDhTdT6/RYx4YRFC33.png');
             background-size: 25px;
-            background-position:top left;
-            background-repeat:no-repeat;
+            background-position: 3px 3px;
+            background-repeat: no-repeat;
+        }
+
+        #boundary_div {
+            width: 100%;
+            height: 10px;
+            background-color: rgb(230, 230, 230);
+        }
+
+        #printed_selecte_div0 {
+            background-image: url("https://i.esdrop.com/d/f/3IfGDhTdT6/WuD5cMz7fr.png");
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: 50px;
         }
     </style>
 </head>
 <body>
 <div id="head_div">
     <div id="div1">
-        <h2>   주소설정</h2>
+        <div id="dumy_div" style="color:white">편집</div>
+        <h3>주소설정</h3>
         <div id="edit_div" class="edit">편집</div>
     </div>
-    <div><input type="text" id="searchText" placeholder="     지번, 도로명, 건물명으로 검색"></div>
-    <div id="map_div">현재위치로 설정 <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/P5RseXa9Zc.png" width="25px"></div>
+    <div><input type="text" id="searchText" placeholder="       지번, 도로명, 건물명으로 검색"></div>
+    <div id="map_div">
+        <div id="map_div_child"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/P5RseXa9Zc.png" width="25px">
+            현재위치로 설정
+        </div>
+        <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/mxYfPiHjHH.png" width="15px" height="15px" style="opacity: 0.5;">
+    </div>
 </div>
+<div id="boundary_div"></div>
 <div id="search_div">
     <div id="search_div_img"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/hGUy0zCtd6.png" width="45px"></div>
     <div id="search_div_text">우리집 추가</div>
@@ -97,6 +140,7 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
+
     $('#search_div').on('click', function () {
         location.href = "/user/main/addr/search";
     });
@@ -109,13 +153,47 @@
     $(`#map_div`).on('click', function () {
         location.href = "/user/main/addr/map";
     });
+
+    function selectAddr() {
+        if (window.sessionStorage.getItem("memberData") != null) {
+            var data = {
+                userIdx: Number(JSON.parse(window.sessionStorage.getItem("memberData")).memberData.userIdx),
+                userBasicAddr: usedAddr[this.value].road != "" ? usedAddr[this.value].road : usedAddr[this.value].basic,
+                userDetailAddr: usedAddr[this.value].detail != null ? usedAddr[this.value].detail : ""
+            };
+            $.ajax({
+                type: 'PUT',
+                url: '/user/main/addr/change',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function () {
+            });
+
+            var memberData = JSON.parse(window.sessionStorage.getItem("memberData"));
+            memberData.memberData.userBasicAddr = usedAddr[this.value].road != "" ? usedAddr[this.value].road : usedAddr[this.value].basic;
+            memberData.memberData.userDetailAddr = usedAddr[this.value].detail != null ? usedAddr[this.value].detail : "";
+            opener.sessionStorage.setItem("memberData", JSON.stringify(memberData));
+
+
+            usedAddr.unshift(usedAddr[this.value]);
+            usedAddr.splice(this.value + 1, 1);
+            window.localStorage.setItem("used_addr", JSON.stringify(usedAddr));
+            location.reload();
+        }else{
+
+        }
+    }
+
     var usedAddr = window.localStorage.getItem("used_addr");
     if (usedAddr != null && usedAddr != 0) {
         usedAddr = JSON.parse(usedAddr);
         for (var i = 0; i < usedAddr.length + 1; i++) {
             var div = document.createElement("div");
             div.className = "print_addr_div";
-            div.id="printed_selecte_div"+i;
+            div.id = "printed_selecte_div" + i;
+            div.value = i;
+            div.addEventListener('click', selectAddr);
             var form_addr = document.createElement('form');
             var div1 = document.createElement('div');
             div1.className = "print_addr_div1";
@@ -140,14 +218,16 @@
                 div2.innerText = "별칭:" + usedAddr[i].alias;
             }
             div3.innerText = usedAddr[i].road;
-            form_addr.append(div1);
-            form_addr.append(div2);
-            form_addr.append(div3);
-            div.append(form_addr);
-            $('#usedAddrDiv').append(div);
+            div.append(div1);
+            div.append(div2);
+            div.append(div3);
+            form_addr.append(div);
+            $('#usedAddrDiv').append(form_addr);
         }
-    } else {
+    }
 
+    function choiceAddr(form) {
+        alert(1);
     }
 </script>
 </body>

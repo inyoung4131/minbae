@@ -30,25 +30,25 @@ public class JwtTokenProvider {
     private final long accessExpireTime = 172800000; //(60 * 60 * 1000L) * 48
     private final long refreshExpireTime = 172800000; // (60 * 60 * 1000L) * 48
 
-    public String createToken(String memberId, long memberIdx) {
+    public String createToken(String role,String memberId, long memberIdx) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + accessExpireTime);
         return Jwts.builder()
                 .setSubject(""+memberId)
-                .setClaims(createClaims(memberId, tokenIss, memberIdx))
+                .setClaims(createClaims(role,memberId, tokenIss, memberIdx))
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
-    public String createRefreshToken(String memberId,  long memberIdx) {
+    public String createRefreshToken(String role,String memberId,  long memberIdx) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + refreshExpireTime);
 
         return Jwts.builder()
                 .setSubject(""+memberId)
-                .setClaims(createClaims(memberId, tokenIss, memberIdx))
+                .setClaims(createClaims(role,memberId, tokenIss, memberIdx))
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
@@ -79,12 +79,13 @@ public class JwtTokenProvider {
         }
     }
 
-    private Map<String, Object> createClaims(String memberId, String tokenIss, long memberIdx) {
+    private Map<String, Object> createClaims(String role,String memberId, String tokenIss, long memberIdx) {
         Map<String, Object> claims = new HashMap<>();
 
         claims.put(claimUid, memberId);
         claims.put(claimIss, tokenIss);
         claims.put(claimMemberIdx, memberIdx);
+        claims.put("role", role);
         
         return claims;
     }
