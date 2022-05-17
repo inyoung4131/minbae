@@ -3,7 +3,15 @@ var user_lat = JSON.parse(window.localStorage.getItem("user_latlng")).user_lat;
 var user_lng = JSON.parse(window.localStorage.getItem("user_latlng")).user_lng;
 var resultdata;
 
-$('#body').on('load', requestStandardStoreList());
+$('#body').on('load', function () {
+        if (location.href.startsWith("http://localhost:9090/user/category/click/")) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                requestStandardStoreList();
+                page++;
+            }
+        }
+    }
+);
 
 window.onscroll = function (e) {
     if (location.href.startsWith("http://localhost:9090/user/category/click/")) {
@@ -14,7 +22,7 @@ window.onscroll = function (e) {
     }
 }
 
-function requestStandardStoreList() {
+function requestStandardStoreList(){
     $.ajax({
         type: 'GET',
         url: '/user/category/standard?paging=' + page + '&user_lat=' + user_lat + '&user_lng=' + user_lng + '&category=' + (window.location.href.split('/', 7)[6]),
@@ -46,10 +54,10 @@ function requestStandardStoreList() {
                 h5.innerText = data[i].store_name;
                 var p1 = document.createElement("p1");
                 p1.className = "card-text"
-                if(data[i].avger_star!=undefined){
-                p1.innerHTML = data[i].avger_star+"점<br/>";
-                }else{
-                    p1.innerHTML = "0점"+"<br/>";
+                if (data[i].avger_star != undefined) {
+                    p1.innerHTML = data[i].avger_star + "점<br/>";
+                } else {
+                    p1.innerHTML = "0점" + "<br/>";
                 }
                 var p2 = document.createElement("p2");
                 p2.className = "card-text"
