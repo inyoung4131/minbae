@@ -90,6 +90,7 @@
 
             }).done(function () {
                 alert('메뉴가 등록되었습니다.');
+                location.reload();
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
