@@ -24,6 +24,4 @@ public class AdminController {
     public ApiResponse login(@PathVariable String role,String email,String pwd) {
         return new ApiResponse(ApiStatus.SUCCESS, adminService.login(role,email,pwd),adminService.getMemberInfo(role,email,pwd));
     }
-    
-
 }
