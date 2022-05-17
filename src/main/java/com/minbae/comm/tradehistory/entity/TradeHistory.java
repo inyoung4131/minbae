@@ -6,8 +6,10 @@ import com.minbae.review.entity.Review;
 import com.minbae.store.entity.Store;
 import com.minbae.storedetail.entity.StoreDetail;
 import com.minbae.user.entity.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -30,6 +32,7 @@ public class TradeHistory {
     @JoinColumn(name="user_idx",nullable = false)
     private User userIdx;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name="deliver_idx")
     private Deliver deliverIdx;
@@ -41,6 +44,7 @@ public class TradeHistory {
     @Column(nullable = false,name="order_deliver_price")
     private int orderDeliverPrice;
 
+    @Setter
     @ColumnDefault("0")
     @Column(nullable = false,name="order_state")
     private String orderState;
@@ -53,5 +57,6 @@ public class TradeHistory {
     @JsonManagedReference
     @OneToOne(mappedBy = "tradeHistory", orphanRemoval = true)
     private Review review;
+
 
 }

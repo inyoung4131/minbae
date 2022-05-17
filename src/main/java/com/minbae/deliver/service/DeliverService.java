@@ -1,27 +1,41 @@
 package com.minbae.deliver.service;
 
-import com.minbae.deliver.dto.DeliverSessionDto;
-import com.minbae.deliver.repository.DeliverSessionRepository;
+import com.minbae.comm.tradehistory.entity.TradeHistory;
+import com.minbae.comm.tradehistory.repository.TradeHistoryRepository;
+import com.minbae.deliver.entity.Deliver;
+import com.minbae.deliver.repository.DeliverRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.converter.SimpleMessageConverter;
+import org.springframework.data.repository.query.Param;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class DeliverService {
-    private final DeliverSessionRepository deliverSessionRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final DeliverRepository deliverRepository;
+    private final TradeHistoryRepository tradeHistoryRepository;
+
+    public void assignComplete(Long deliverIdx,Long tradeIdx){
+        Deliver deliver = deliverRepository.findByDeliverIdx(deliverIdx);
+        deliver.setDeliverWorkState(1);
+        deliverRepository.save(deliver);
+        TradeHistory tradeHistory = tradeHistoryRepository.findByTradeHistoryIdx(tradeIdx);
+        tradeHistory.setDeliverIdx(deliver);
+        tradeHistory.setOrderState("2");
+        tradeHistoryRepository.save(tradeHistory);
+    }
 
     public void assginDeliver(double storeLat, double storeLng) {
-        List<DeliverSessionDto> list = deliverSessionRepository.findAllRooms();
+        List<Deliver> list = deliverRepository.findAll();
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getState() == 0) {
-                double distanceMeter = distance(storeLng, storeLat, list.get(i).getLng(), list.get(i).getLat(), "meter");
-                if(distanceMeter<1500){
-                    simpMessagingTemplate.convertAndSend("/deliver/room"+list.get(i).getId(),"asdasd");
+            if (list.get(i).getDeliverWorkState() == 0) {
+                double distanceMeter = distance(storeLng, storeLat, list.get(i).getDeliverLng(), list.get(i).getDeliverLat(), "meter");
+                if(distanceMeter<5000){
+                    simpMessagingTemplate.convertAndSend("/deliver/room"+list.get(i).getDeliverIdx(),"asdasd");
                 }
             }
 
