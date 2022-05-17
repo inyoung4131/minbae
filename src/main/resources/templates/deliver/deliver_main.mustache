@@ -34,6 +34,9 @@
     var isStomp = false;
 
     function connectStomp() {
+        var data ={
+            id:1,lat:128,lng:37
+        }
         var sock = new SockJS("/deliver"); // endpoint
         var client = Stomp.over(sock);
         isStomp = true;
@@ -41,7 +44,7 @@
         socket.connect({}, function (frame) {
             socket.send('/app/chat/create', {}, JSON.stringify({"id":1}));
             socket.subscribe('/deliver/room/'+1,{});
-            socket.send('/app/chat/refresh',{},JSON.stringify({"id":1,"lat":Number(135),"lng":Number(35)}));
+            socket.send('/app/chat/refresh',{},JSON.stringify({refreshDto:data}));
         });
     }
 </script>

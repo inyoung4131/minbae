@@ -1,6 +1,7 @@
 package com.minbae.deliver.controller;
 
 import com.minbae.deliver.dto.DeliverSessionDto;
+import com.minbae.deliver.dto.RefreshDto;
 import com.minbae.deliver.repository.DeliverSessionRepository;
 import com.minbae.deliver.service.DeliverService;
 import lombok.RequiredArgsConstructor;
@@ -48,12 +49,12 @@ public class DeliverController {
 
     //기사 latlng 변경
     @MessageMapping("/chat/refresh")
-    public void refresh(@RequestParam("id") String id,@RequestParam("lat") Double lat,@RequestParam("lng") Double lng){
-        System.out.println("refresh"+id);
-        System.out.println("refresh"+lat);
-        System.out.println("refresh"+lng);
-        deliverSessionRepository.refresh(id,lat,lng);
-        simpMessagingTemplate.convertAndSend("/deliver/room"+id,"{lat:"+lat+",lng:"+lng+"}");
+    public void refresh(RefreshDto refreshDto){
+        System.out.println("refresh"+refreshDto.getId());
+        System.out.println("refresh"+refreshDto.getLat());
+        System.out.println("refresh"+refreshDto.getLng());
+        deliverSessionRepository.refresh(refreshDto.getId(), refreshDto.getLat(), refreshDto.getLng());
+        simpMessagingTemplate.convertAndSend("/deliver/room"+refreshDto.getId(),"{lat:"+refreshDto.getLat()+",lng:"+refreshDto.getLng()+"}");
     }
 
     //기사 찾아서 메세지 보내기
