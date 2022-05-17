@@ -55,7 +55,7 @@
            },
            reviewReply : document.querySelector("#edit-review-reply").value
        };
-       const url = "/owne/store/"+data.storeIdx.storeIdx+"/addreply";
+       const url = "/owner/store/"+data.storeIdx.storeIdx+"/addreply";
        fetch(url, {
            method: "PATCH",
            body: JSON.stringify(data),

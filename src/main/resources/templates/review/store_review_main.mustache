@@ -280,7 +280,7 @@
            console.log("storeIdx==>"+storeIdx);
 
            //삭제 API 호출 및 처리
-           const url = `/owne/delete/reply/${reviewIdx}`;
+           const url = `/owner/delete/reply/${reviewIdx}`;
            fetch(url, {
                method: "DELETE"
            }).then(response => response.json())
