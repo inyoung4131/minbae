@@ -21,13 +21,8 @@ window.onscroll = function (e) {
         }
     }
 }
-<<<<<<< HEAD
-function requestStandardStoreList(){
-    alert(1);
-=======
 
-function requestStandardStoreList() {
->>>>>>> 704738dd854d3942a1d93368b0544e34280269c1
+function requestStandardStoreList(){
     $.ajax({
         type: 'GET',
         url: '/user/category/standard?paging=' + page + '&user_lat=' + user_lat + '&user_lng=' + user_lng + '&category=' + (window.location.href.split('/', 7)[6]),
