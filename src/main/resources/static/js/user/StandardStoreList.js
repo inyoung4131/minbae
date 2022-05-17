@@ -46,7 +46,11 @@ function requestStandardStoreList() {
                 h5.innerText = data[i].store_name;
                 var p1 = document.createElement("p1");
                 p1.className = "card-text"
-                p1.innerText = data[i].avger_star;
+                if(data[i].avger_star!=undefined){
+                p1.innerHTML = data[i].avger_star+"점<br/>";
+                }else{
+                    p1.innerHTML = "0점"+"<br/>";
+                }
                 var p2 = document.createElement("p2");
                 p2.className = "card-text"
                 var small = document.createElement("small");
