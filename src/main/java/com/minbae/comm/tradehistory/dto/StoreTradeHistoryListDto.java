@@ -16,5 +16,6 @@ public class StoreTradeHistoryListDto {
     private String userTel;
     private int orderState;
     private Long userIdx;
+    private int orderDeliverPrice;
 
 }

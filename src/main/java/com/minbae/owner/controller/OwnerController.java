@@ -22,11 +22,11 @@ public class OwnerController {
     private final OwnerService ownerService;
     private final AdminController adminController;
 
-    // 로그인 폼 이동
-    @GetMapping("/loginForm/owner")
+    // 로그인 폼 이동 - before
+    @GetMapping("/loginForm/after/owner")
     public String loginOwnerForm(){return "owner/login_form";}
-
-    @GetMapping("/loginForm/new/owner")
+    // 로그인 폼 이동 - after
+    @GetMapping("/loginForm/owner")
     public String newloginOwnerFOrm(){return "owner/login_form_new";}
 
     // 0514 kakao하면서 추가
