@@ -33,6 +33,15 @@ public class YangsUserRestController {
     public List<Map<String, Object>> getStoreByCategoryAndStandard(Model model
             , @RequestParam("paging") int paging, @RequestParam("category") String category
             , @RequestParam("user_lat") double user_lat, @RequestParam("user_lng") double user_lng){
+        switch (category){
+            case "치킨": category="CHICKEN"; break;
+            case "중국집": category="CHINESEFOOD"; break;
+            case "카페|디저트": category="DESSERT"; break;
+            case "분식": category="BUNSIK"; break;
+            case "피자": category="PIZZA"; break;
+            case "돈가스|회|일식": category="JAPANESEFOOD";
+        }
+
         return yangsUserService.getStoreByCategoryAndStandard(paging, category, user_lat, user_lng);
     }
 

@@ -15,7 +15,7 @@ window.onscroll = function(e) {
 function requestStandardStoreList(){
     $.ajax({
         type: 'GET',
-        url: '/user/category/standard?paging='+page+'&user_lat='+user_lat+'&user_lng='+user_lng+'&category='+category,
+        url: '/user/category/standard?paging='+page+'&user_lat='+user_lat+'&user_lng='+user_lng+'&category='+`{{categoryKo}}`,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
     }).done(function (data) {
