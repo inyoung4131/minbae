@@ -83,7 +83,6 @@ public class UserRestController {
     public UserApiResponse storeDetailReview(@PathVariable("store_idx") Long store_idx){
 
         List<Map<String, Object>> sd_review_list = userService.storeDetailReview(store_idx);
-        System.out.println(sd_review_list);
         return (sd_review_list != null) ?
                 new UserApiResponse(UserApiStatus.SUCCESS, sd_review_list) :
                 new UserApiResponse(UserApiStatus.FAIL, null);
