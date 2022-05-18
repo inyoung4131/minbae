@@ -42,12 +42,12 @@ public class storeReviewController {
 
         Map<String, Integer> countMap = storeReviewService.getReviewCountNum(Long.valueOf(storeIdx));
         model.addAttribute("countMap", countMap);
-        return "/review/store_review_main";
+        return "review/store_review_main";
     }
 
     @GetMapping("/owne/store/{storeIdx}/macroReview")
     public String goMacroReviewPage(@PathVariable String storeIdx){
-        return "/review/review_macro_main";
+        return "review/review_macro_main";
     }
 
 
@@ -71,7 +71,7 @@ public class storeReviewController {
 
         String storeName = storeService.storeInfo(Long.valueOf(storeIdxVal)).getStoreName();
         model.addAttribute("storeName",storeName);
-        return "/review/store_review_main";
+        return "review/store_review_main";
     }
 
 

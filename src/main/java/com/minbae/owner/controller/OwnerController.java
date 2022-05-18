@@ -73,7 +73,7 @@ public class OwnerController {
         // 아래 방법은 어떨까..
         //redirectAttributes.addFlashAttribute("ownerLoginedResponse", ownerLoginedResponse);
 
-        return "redirect:/owner/login_form";
+        return "redirect:owner/login_form";
     }
 
 

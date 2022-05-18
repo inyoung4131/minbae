@@ -86,7 +86,6 @@ public class MenuRestController {
 
     @PatchMapping("/owner/menuList/sunbunPatch/{storeIdx}")
     public ResponseEntity<Integer> menuSunbunChange(@PathVariable String storeIdx, @RequestBody List<String> sunbunList){
-        //System.out.println(sunbunList);
         Integer resultNum = menuService.changeMenuSunbun(storeIdx, sunbunList);
         return (resultNum == 1) ? ResponseEntity.status(HttpStatus.OK).body(resultNum)
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultNum);
