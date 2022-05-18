@@ -33,10 +33,10 @@ public class StoreStompController {
     }
 
     // 가게 -> 기사
-    @MessageMapping("/deliver")
-    public void requestDelivering(StoreToDeliverMessage message) throws Exception{
-        //Thread.sleep(500);
-        simpMessagingTemplate.convertAndSend("/app/chat/assign", message);
-    }
+//    @MessageMapping("/deliver")
+//    public void requestDelivering(StoreToDeliverMessage message) throws Exception{
+//        //Thread.sleep(500);
+//        simpMessagingTemplate.convertAndSend("/app/chat/assign", message);
+//    }
 
 }
