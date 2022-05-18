@@ -103,16 +103,18 @@
         </nav>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
-            <div>
-                <h1>가게 명 : </h1>
+            <div class="mb-5">
+                <h1>가게 명 : {{storeName}}</h1>
                 <h2 class="h2">우리 가게 메뉴 순서 변경</h2>
+                <span class="label text-danger">상단에 위치할수록 우선노출되는 메뉴입니다!</span>
             </div>
-            <button onclick="window.location = document.referrer; ">돌아가기</button>
-            <div>
+
+            <div class="mb-5">
                 <ul id="sortable">
 
                 </ul>
             </div>
+            <button onclick="window.location = document.referrer;" class="btn btn-warning">돌아가기</button>
             <button onclick="fooSubmitSunbun()" class="btn btn-primary">순서적용</button>
         </main>
     </div>
@@ -191,8 +193,9 @@
                 .then((res) => {
                     res.forEach( (data) => {
                         let menu_idx = `${data.menuIdx}`;
+                        let menu_name = `${data.menuName}`;
                         let menuList = '';
-                        menuList += `<li class="ui-state-default" value="${menu_idx}"><span class="ui-icon ui-icon-arrowthick-2-n-s""></span>Item 식별번호 : ${data.menuIdx} | 순서: ${data.menuSunbun}순위</li>`;
+                        menuList += `<li class="ui-state-default" value="${menu_idx}"><span class="ui-icon ui-icon-arrowthick-2-n-s""></span>메뉴명 : ${menu_name}</li>`;
                         let divMenuList = document.createElement('div');
                         divMenuList.innerHTML = menuList;
                         document.getElementById('sortable').appendChild(divMenuList);

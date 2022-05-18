@@ -16,8 +16,8 @@
                     </div>
 
                     <!-- 히든값 -->
-                    reviewIdx:<input type="text" id="edit-review-idx" value="">
-                    storeIdx:<input type="text" id="edit-review-store-idx" value="" readonly>
+                    <input type="hidden" id="edit-review-idx" value="">
+                    <input type="hidden" id="edit-review-store-idx" value="" readonly>
                     <!-- 전송버튼 -->
                     <button type="button" class="btn btn-outline-primary btn-sm" id="review-update-btn">작성 완료</button>
                 </form>
@@ -55,7 +55,7 @@
            },
            reviewReply : document.querySelector("#edit-review-reply").value
        };
-       const url = "/owne/store/"+data.storeIdx.storeIdx+"/addreply";
+       const url = "/owner/store/"+data.storeIdx.storeIdx+"/addreply";
        fetch(url, {
            method: "PATCH",
            body: JSON.stringify(data),
@@ -66,6 +66,7 @@
             .then(res => {
                 if(res.resultNum == 1) {
                     alert('답변성공');
+                    location.href = `/owner/store/${data.storeIdx.storeIdx}/reviews`;
                 }else {
                     alert('답변실패');
                 }

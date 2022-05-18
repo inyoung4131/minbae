@@ -34,12 +34,12 @@ public class StoreController {
     }
 
     // 특정 사장님의 가게 목록 조회 // 이거 dead page 아닌가?
-    @GetMapping("/owne/storeList/{ownerIdx}")
-    public String index(@PathVariable Long ownerIdx, Model model){
-        List<Store> storeList = storeService.index(ownerIdx);
-        model.addAttribute("storeList", storeList);
-        return "/store/show_store";
-    }
+//    @GetMapping("/owne/storeList/{ownerIdx}")
+//    public String index(@PathVariable Long ownerIdx, Model model){
+//        List<Store> storeList = storeService.index(ownerIdx);
+//        model.addAttribute("storeList", storeList);
+//        return "/store/show_store";
+//    }
 
     // 특정 사장님의 가게 정보 페이지로 이동
     @GetMapping("/owner/storeInfo/{storeIdx}")
@@ -49,7 +49,7 @@ public class StoreController {
 
         model.addAttribute("storeInfo", store);
         model.addAttribute("StoreDetailInfo", storeDetail);
-        return "/store/show_store_info";
+        return "store/show_store_info";
     }
 
     // 특정 사장님의 가게 선택 페이지로 이동
@@ -58,19 +58,20 @@ public class StoreController {
         List<Store> storeList = storeService.index(ownerIdx);
         model.addAttribute("storeList", storeList);
         model.addAttribute("ownerIdx", ownerIdx);
-        return "/store/choose_store";
+        return "store/choose_store";
     }
 
     // 특정 사장님의 가게관리 메인 페이지 이동
     @GetMapping("/owner/manageStore/{storeIdx}")
     public String goManageStorePage(@PathVariable Long storeIdx, Model model){
         model.addAttribute("storeIdx", storeIdx);
-        return "/store/store_manage_home";
+        model.addAttribute("storeName", storeService.storeInfo(storeIdx).getStoreName());
+        return "store/store_manage_home";
     }
 
     @GetMapping("/stomptest")
     public String stompTest(){
-        return "/tradehistory/stomptest";
+        return "tradehistory/stomptest";
     }
 
 }

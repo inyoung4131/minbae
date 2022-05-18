@@ -1,5 +1,6 @@
 package com.minbae.deliver.dto;
 
+import com.minbae.deliver.entity.Deliver;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,4 +23,6 @@ public class DeliverSessionDto {
         DSD.state=0;
         return DSD;
     }
+
+
 }
