@@ -7,10 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    <button id="btnSend" class="btn btn-primary">Send Message</button>
-    <button id="assignbutton" onclick="assign()" >받기</button>
+<button id="btnSend" class="btn btn-primary">직접 요청 보내버리기</button>
+<button id="assignbutton" onclick="assign()">받기</button>
 <div id="print_div"></div>
-
+<div id="parent_map">
+<div id="map"></div>
+    <input type="button" value="픽업완료" id="pickup">
+    <input type="button" value="배달완료" id="deliveryComplete">
+</div>
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -19,27 +23,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
+
+    document.getElementById("parent_map").style.display="none";
+    document.getElementById("pickup").addEventListener('click',pickup);
+    document.getElementById("deliveryComplete").addEventListener('click',deliveryComplete);
     const mem = JSON.parse(window.sessionStorage.getItem("memberData")).memberData;
     let tradeIdx;
-    function assign(){
-        data={
-            deliverIdx:Number(mem.deliverIdx),tradeIdx:Number(129)
+
+    function assign() {
+        data = {
+            deliverIdx: Number(mem.deliverIdx), tradeIdx: Number(129)
         }
-        fetch("/deliver/assign/complete",{
-            method:"put",
-            headers:{"Content-Type":"application/json; charset=UTF-8"},
-            body:JSON.stringify(data)
+        fetch("/deliver/assign/complete", {
+            method: "put",
+            headers: {"Content-Type": "application/json; charset=UTF-8"},
+            body: JSON.stringify(data)
         });
     }
-    $(document).ready(  function() {
+
+    $(document).ready(function () {
         connectStomp();
 
-        $('#btnSend').on('click', function(evt) {
+        $('#btnSend').on('click', function (evt) {
             evt.preventDefault();
-            data={
-                "storeLat":bbb,"storeLng":aaa
-            }
-                socket.send('/app/chat/assign', {}, JSON.stringify({"storeLat":37.55,"storeLng":126.943}));
+            socket.send('/app/chat/assign', {}, JSON.stringify({
+                "message": "1",
+                "storeIdx": 2,
+                "tradeHistoryIdx": 22
+            }));
         });
     });
 
@@ -47,6 +58,20 @@
     var socket = null;
     var isStomp = false;
 
+    function accept() {
+        fetch("/deliver/assign/complete", {
+            method: "put",
+            headers: {"Content-Type": "application/json; charset:UTF-8"},
+            body: JSON.stringify({
+                deliverIdx: mem.deliverIdx,
+                tradeIdx: this.id
+            })
+        });
+    }
+
+    function deny() {
+
+    }
 
     function connectStomp() {
         var sock = new SockJS("/deliver");
@@ -54,20 +79,42 @@
         isStomp = true;
         socket = client;
         socket.connect({}, function (frame) {
-            socket.subscribe('/topic/deliver/'+mem.deliverIdx,function (event){
-                var message=JSON.parse(event.body);
-                if(message.message=="상점"){
+            socket.subscribe('/topic/deliver/' + mem.deliverIdx, function (event) {
+                var message = JSON.parse(event.body);
+                if (message.message == "배달요청") {
                     var div1 = document.createElement("div");
+                    div1.id = "div" + message.tradeHistoryIdx;
                     var div2 = document.createElement("div");
-                    div2.innerText="가게이름";
+                    div2.innerText = message.storeName;
                     var div3 = document.createElement("div");
-                    div3.innerText="가게 주소";
+                    div3.innerText = "가게 주소 :" + message.storeBasicAddr;
                     var div4 = document.createElement("div");
-                    div4.innerText="배달 주소";
+                    var div5 = document.createElement("div");
+                    div4.innerText = "목적지 : " + message.userBasicAddr;
+                    var input1 = document.createElement("input");
+                    input1.type = "button";
+                    input1.value = "요청받기";
+                    input1.addEventListener('click', accept);
+                    input1.id = message.tradeHistoryIdx;
+                    var input2 = document.createElement("input");
+                    input2.type = "button";
+                    input2.value = "거절하기";
+                    input2.addEventListener('click', deny);
+                    div5.append(input1);
+                    div5.append(input2);
                     div1.append(div2);
                     div1.append(div3);
                     div1.append(div4);
+                    div1.append(div5);
                     document.getElementById("print_div").append(div1);
+                }else if(message.message=="배정성공"){
+                    alert("배정성공 및 배달 시작");
+                    document.getElementById("print_div").style.display="none";
+                    document.getElementById("parent_map").style.display="block";
+                    document.getElementById("pickup").style.display="block";
+                    document.getElementById("deliveryComplete").style.display="none";
+                    document.getElementById("pickup").id=message.tradeHistoryIdx;
+                    document.getElementById("deliveryComplete").id=message.tradeHistoryIdx;
                 }
             });
             if (navigator.geolocation) {
@@ -82,7 +129,12 @@
         });
     }
 
+    function pickup(){
+        socket.send('/app/chat/complete',{},{"tradeIdx":this.id});
+    }
+    function deliveryComplete(){
 
+    }
 </script>
 </body>
 </html>

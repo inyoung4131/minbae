@@ -53,4 +53,8 @@ public class DeliverController {
         return "deliver/deliver_login";
     }
 
+    @MessageMapping("/chat/complete")
+    public void complete(@Payload StoreToDeliverMessage dto){
+        deliverService.deliveryComplete(dto);
+    }
 }
