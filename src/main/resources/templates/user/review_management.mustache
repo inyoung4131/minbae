@@ -28,6 +28,12 @@
             });
         }
     </script>
+    <style>
+        .img{
+            height: 9rem;
+            width: 12rem
+        }
+    </style>
 </head>
 <body>
 {{>layout/myPage/my_page_header}}
@@ -39,28 +45,28 @@
     <div>
         <input type="hidden" id="review_idx" value="{{review_idx}}">
         <div>
-            <span>{{store_name}}</span>
+            <h5>{{store_name}}</h5>
             <button type="button" class="btn-close" aria-label="Close" id="b_delete" onclick='basket_delete()'></button>
         </div>
-        <div>별점:{{review_star}}</div>
         {{#review_img1}}
-            <div>이미지1:{{review_img1}}</div>
-            <img src="C:\\이젠\\upload\\{{review_img1}}" >
+            <img src="/user/image/{{review_img1}}" class="img" >
         {{/review_img1}}
         {{^review_img1}}
         {{/review_img1}}
 
         {{#review_img2}}
-            <div>이미지2:{{review_img2}}</div>
+            <img src="/user/image/{{review_img2}}" class="img">
         {{/review_img2}}
         {{^review_img2}}
         {{/review_img2}}
 
         {{#review_img3}}
-            <div>이미지2:{{review_img3}}</div>
+            <img src="/user/image/{{review_img3}}" class="img">
         {{/review_img3}}
         {{^review_img3}}
         {{/review_img3}}
+
+        <div>별점:{{review_star}}</div>
         <div>리뷰:{{review_comment}}</div>
         {{#review_reply}}
             <div>사장님 답변:{{review_reply}}</div>
@@ -70,6 +76,7 @@
     </div>
     <hr>
     {{/reviewList}}
+
 {{>layout/myPage/my_page_footer}}
 </body>
 </html>

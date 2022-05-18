@@ -1,25 +1,12 @@
 package com.minbae.user.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minbae.user.comm.UserApiResponse;
 import com.minbae.user.comm.UserApiStatus;
 import com.minbae.user.dto.UserReviewDTO;
-import com.minbae.user.exception.UserCommException;
-import com.minbae.user.exception.comm.UserExceptionType;
 import com.minbae.user.service.UserService;
-import io.swagger.models.auth.In;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController
@@ -37,9 +24,7 @@ public class UserRestController {
     public UserApiResponse reviewCreate(MultipartHttpServletRequest req, UserReviewDTO dto) throws Exception {
 
         List<MultipartFile> upload = req.getFiles("upload");
-//        upload.forEach(data -> {
-//            System.out.println("name => " + data.getOriginalFilename());
-//        });
+
         int InsertResult = userService.reviewCreate(dto, upload);
 
         return (InsertResult == 1) ?
