@@ -116,7 +116,7 @@ public class UserService {
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
             String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년MM월dd일HH시mm분ss초"));
 
-            String safeFile = "c:/이젠/upload/" + formatedNow + originFileName;
+            String safeFile = "C:/이젠/upload/" + formatedNow + originFileName;
             try {
                 mf.transferTo(new File(safeFile));
             } catch (IllegalStateException e) {

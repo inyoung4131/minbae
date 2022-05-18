@@ -1,5 +1,10 @@
 package com.minbae.deliver.dto;
 
-public class RefreshDto {
+import lombok.Data;
 
+@Data
+public class RefreshDto {
+    Long id;
+    double lat;
+    double lng;
 }
