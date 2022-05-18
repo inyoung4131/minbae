@@ -130,7 +130,7 @@
     }
 
     function pickup(){
-        socket.send('/app/chat/complete',{},{"message":"123","tradeHistoryIdx":this.id,"storeIdx":2});
+        socket.send('/app/chat/complete',{},JSON.stringify({"message":"123","tradeHistoryIdx":this.id,"storeIdx":2}));
     }
     function deliveryComplete(){
 
