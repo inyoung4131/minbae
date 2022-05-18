@@ -9,7 +9,7 @@
 <body>
     <button id="btnSend" class="btn btn-primary">Send Message</button>
     <button id="assignbutton" onclick="assign()" >받기</button>
-
+<div id="print_div"></div>
 
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -55,7 +55,20 @@
         socket = client;
         socket.connect({}, function (frame) {
             socket.subscribe('/topic/deliver/'+mem.deliverIdx,function (event){
-
+                var message=JSON.parse(event.body);
+                if(message.message=="상점"){
+                    var div1 = document.createElement("div");
+                    var div2 = document.createElement("div");
+                    div2.innerText="가게이름";
+                    var div3 = document.createElement("div");
+                    div3.innerText="가게 주소";
+                    var div4 = document.createElement("div");
+                    div4.innerText="배달 주소";
+                    div1.append(div2);
+                    div1.append(div3);
+                    div1.append(div4);
+                    document.getElementById("print_div").append(div1);
+                }
             });
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {

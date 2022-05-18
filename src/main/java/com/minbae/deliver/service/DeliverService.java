@@ -1,8 +1,10 @@
 package com.minbae.deliver.service;
 
+import com.minbae.comm.stomp.store.StoreToDeliverMessage;
 import com.minbae.comm.tradehistory.entity.TradeHistory;
 import com.minbae.comm.tradehistory.repository.TradeHistoryRepository;
 import com.minbae.deliver.dto.AssignDto;
+import com.minbae.deliver.dto.AssignRequestDto;
 import com.minbae.deliver.entity.Deliver;
 import com.minbae.deliver.repository.DeliverRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,9 @@ public class DeliverService {
         tradeHistoryRepository.save(tradeHistory);
     }
 
-    public void assginDeliver(AssignDto assignDto) {
+    public void assginDeliver(StoreToDeliverMessage dto) {
+
+        AssignRequestDto ARD = new AssignRequestDto();
         List<Deliver> list = deliverRepository.findAll();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getDeliverWorkState() == 0) {

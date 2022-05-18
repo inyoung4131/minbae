@@ -1,5 +1,6 @@
 package com.minbae.deliver.controller;
 
+import com.minbae.comm.stomp.store.StoreToDeliverMessage;
 import com.minbae.deliver.dto.AssginCompleteDto;
 import com.minbae.deliver.dto.AssignDto;
 import com.minbae.deliver.dto.RefreshDto;
@@ -42,8 +43,8 @@ public class DeliverController {
 
     //기사 찾아서 메세지 보내기
     @MessageMapping("/chat/assign")
-    public void deliverAssign(@Payload AssignDto assignDto) {
-        deliverService.assginDeliver(assignDto);
+    public void deliverAssign(@Payload StoreToDeliverMessage dto) {
+        deliverService.assginDeliver(dto);
     }
 
 
