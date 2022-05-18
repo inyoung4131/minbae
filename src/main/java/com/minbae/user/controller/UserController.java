@@ -192,7 +192,7 @@ public class UserController {
     //img
     @GetMapping(value = "/image/{image_name}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> img_search(@PathVariable("image_name") String image_name) throws IOException {
-        InputStream imageStream = new FileInputStream("C:\\이젠\\upload\\" + image_name);
+        InputStream imageStream = new FileInputStream("C:/이젠/upload/" + image_name);
         byte[] imageByteArray = IOUtils.toByteArray(imageStream);
         imageStream.close();
         return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
