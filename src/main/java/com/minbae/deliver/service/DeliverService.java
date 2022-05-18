@@ -1,6 +1,7 @@
 package com.minbae.deliver.service;
 
 import com.minbae.comm.stomp.store.StoreToDeliverMessage;
+import com.minbae.comm.stomp.store.UserToStoreMessage;
 import com.minbae.comm.tradehistory.entity.TradeHistory;
 import com.minbae.comm.tradehistory.repository.TradeHistoryRepository;
 import com.minbae.deliver.dto.AssignDto;
@@ -35,10 +36,12 @@ public class DeliverService {
         tradeHistoryRepository.save(tradeHistory);
         Deliver deliver = deliverRepository.findByDeliverIdx(tradeHistory.getDeliverIdx().getDeliverIdx());
         deliver.setDeliverWorkState(0);
+        UserToStoreMessage message = new UserToStoreMessage();
+        message.setU_trade_history_idx("보냈음");
         deliverRepository.save(deliver);
         simpMessagingTemplate.convertAndSend("/topic/deliver/" + tradeHistory.getDeliverIdx().getDeliverIdx() , "12" );
-        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), "1" );
-        simpMessagingTemplate.convertAndSend("/topic/store/" + tradeHistory.getStoreIdx().getStoreIdx(), "message" );
+        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), message );
+        simpMessagingTemplate.convertAndSend("/topic/store/" + tradeHistory.getStoreIdx().getStoreIdx(), message );
     }
 
     public void assignComplete(Long deliverIdx, Long tradeIdx) {
@@ -66,9 +69,11 @@ public class DeliverService {
         tradeHistory.setDeliverIdx(deliver);
         tradeHistory.setOrderState("2");
         tradeHistoryRepository.save(tradeHistory);
-        String message="deliver";
+
+        UserToStoreMessage message = new UserToStoreMessage();
+        message.setU_trade_history_idx("보냈음");
         simpMessagingTemplate.convertAndSend("/topic/deliver/" + tradeHistory.getDeliverIdx().getDeliverIdx() , ARD );
-        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), "1" );
+        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), message );
         simpMessagingTemplate.convertAndSend("/topic/store/" + tradeHistory.getStoreIdx().getStoreIdx(), message );
     }
 
