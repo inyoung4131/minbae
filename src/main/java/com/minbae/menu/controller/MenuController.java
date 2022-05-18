@@ -34,7 +34,7 @@ public class MenuController {
 
         Store storeEntity = storeService.storeInfo(storeIdxL);
         model.addAttribute("storeEntity", storeEntity);
-        return "/menu/menu_list";
+        return "menu/menu_list";
     }
 
     @PostMapping("/owner/menu/{storeIdx}")
@@ -45,14 +45,14 @@ public class MenuController {
 
         Store storeEntity = storeService.storeInfo(storeIdxL);
         model.addAttribute("storeEntity", storeEntity);
-        return "/menu/menu_list";
+        return "menu/menu_list";
     }
 
     @GetMapping("/owner/menuSunbun/{storeIdx}")
     public String menuSunbunListPage(@PathVariable String storeIdx, Model model){
         String storeName = storeService.storeInfo(Long.valueOf(storeIdx)).getStoreName();
         model.addAttribute("storeName", storeName);
-        return "/menu/menu_list_sortable";
+        return "menu/menu_list_sortable";
     }
 
     // 특정 가게의 신규메뉴 등록 페이지 이동
@@ -62,7 +62,7 @@ public class MenuController {
         model.addAttribute("storeIdx",storeIdx);
         model.addAttribute("storeName",storeName);
 
-        return "/menu/menu_create_form";
+        return "menu/menu_create_form";
     }
 
     // 이미지 출력

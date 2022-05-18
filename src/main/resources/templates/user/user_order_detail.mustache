@@ -59,7 +59,7 @@
             });
 
     //소켓연결
-    let socket = new SockJS('http://localhost:9090/chat');
+    let socket = new SockJS('/chat');
     let stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);

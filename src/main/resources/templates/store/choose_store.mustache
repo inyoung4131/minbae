@@ -166,14 +166,14 @@
                 userIdx = JSON.parse(greeting.body).message; // 추가
             });
         });
-    }
+    };
 
     function disconnect() {
         if (stompClient !== null) {
             stompClient.disconnect();
         }
         console.log("Disconnected");
-    }
+    };
 
     let btns = document.querySelectorAll('#startManage');
     btns.forEach( btn => {
