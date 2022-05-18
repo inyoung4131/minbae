@@ -18,4 +18,27 @@
         where trade_history_idx = #{tradehistoryidx};
     </update>
 
+    <select id="selectOrderPrice" resultType="hashmap">
+        select
+            x.ok as today_date
+            ,ifnull(y.s,0) as order_price
+        from (   select a.Date as ok
+                 from (
+                       select curdate() - INTERVAL (a.a + (10 * b.a)) DAY as Date
+                       from (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as a
+                       cross join (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as b
+                       ) a
+                 where a.Date between #{oneMonthBefore} and #{today}
+        ) x left outer join
+        (SELECT
+            MID(order_date, 1,10) as Month
+            ,sum(order_price) as s
+        FROM
+            trade_history
+        where store_idx = #{storeIdx}
+        group by
+           Month
+        ) y on x.ok= y.Month order by x.ok;
+    </select>
+
 </mapper>

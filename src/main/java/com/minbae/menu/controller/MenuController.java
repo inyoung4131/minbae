@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.*;
 import java.io.*;
@@ -36,8 +37,21 @@ public class MenuController {
         return "/menu/menu_list";
     }
 
+    @PostMapping("/owner/menu/{storeIdx}")
+    public String menuListPagePost(@PathVariable String storeIdx, Model model){
+        Long storeIdxL = Long.valueOf(storeIdx);
+        List<Menu> menuList = menuService.getStoreMenuList(storeIdxL);
+        model.addAttribute("menuList", menuList);
+
+        Store storeEntity = storeService.storeInfo(storeIdxL);
+        model.addAttribute("storeEntity", storeEntity);
+        return "/menu/menu_list";
+    }
+
     @GetMapping("/owner/menuSunbun/{storeIdx}")
     public String menuSunbunListPage(@PathVariable String storeIdx, Model model){
+        String storeName = storeService.storeInfo(Long.valueOf(storeIdx)).getStoreName();
+        model.addAttribute("storeName", storeName);
         return "/menu/menu_list_sortable";
     }
 

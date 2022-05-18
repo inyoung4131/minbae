@@ -12,12 +12,12 @@
                     <!-- menu name -->
                     <div class="mb-3">
                         <label class="form-label">메뉴명</label>
-                        <input type="text" class="form-control form-control-sm" id="edit-menu-name">
+                        <input type="text" class="form-control form-control-sm" id="edit-menu-name" required>
                     </div>
                     <!-- menu price -->
                     <div class="mb-3">
                         <label class="form-label">메뉴 가격</label>
-                        <input type="text" class="form-control form-control-sm" rows="3" id="edit-menu-price"></input>
+                        <input type="text" class="form-control form-control-sm" rows="3" id="edit-menu-price" required></input>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">대표|일반</label>
@@ -33,7 +33,7 @@
                         <div id="menu-image-list">
 
                         </div>
-                        <div class="selected_img"><label></label><img src="" /></div>
+                        <div class="selected_img"><label id="selected-img-label"></label><img src="" /></div>
                         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
                         <!--show live updated image JS-->
                         <script>
@@ -50,8 +50,8 @@
                         </script>
                     </div>
                     <!-- 히든값 -->
-                    <input type="text" id="edit-menu-idx" value="">
-                    <input type="text" id="edit-store-idx" value="" readonly>
+                    <input type="hidden" id="edit-menu-idx" value="">
+                    <input type="hidden" id="edit-store-idx" value="" readonly>
                     <!-- 전송버튼 -->
                     <button type="button" class="btn btn-outline-primary btn-sm" id="menu-update-btn">수정 완료</button>
                 </form>
@@ -94,6 +94,19 @@
 
 <!-- show image file list & delete button -->
 <script>
+    const checkNullInput = () => {
+        // console.log("document.getElementById('deleteThisImgBtn')==undefined>>>>>>"+document.getElementById('deleteThisImgBtn'));
+        console.log('yesorno>>>'+$("#selected-img-label").text());
+        alert('그대로 멈춰랏!');
+        if(document.getElementById('deleteThisImgBtn')!=undefined || $("#selected-img-label").text() != ""){
+
+        }else{
+            alert('모든 항목을 채워주세요.');
+            throw 'some inputs are empty!';
+            return;
+        }
+    };
+
     // 모달 요소 선택
     const commentEditModal = document.querySelector("#menu-edit-modal");
     commentEditModal.addEventListener("show.bs.modal", function (event){
@@ -139,30 +152,33 @@
             bts.addEventListener("click", () => {
                 if(confirm('이미지를 정말 삭제 하시겠습니까?') == false){
                     return;
-                }
+                };
                 // api delete 요청 보내기
                 let data = {
                     "menuIdx" : document.querySelector("#edit-menu-idx").value,
                     "menuImg" : triggerBtn.getAttribute('data-bs-menuimg')
                 };
-                console.log(data);
-                console.log(JSON.stringify(data));
-                const url = "/update/menuImage";
+                // console.log(data);
+                // console.log(JSON.stringify(data));
+                const url = "/update/menuImage/delete";
                 fetch(url, {
-                    method: "PATCH",
+                    method: 'PATCH',
                     body: JSON.stringify(data),
                     headers: {
                         "Content-Type": "application/json"
                     }
-                }).then(response => {
-                    if (!response.ok) {
-                        alert("이미지 삭제 실패..!");
-                        return;
-                    }
-                    alert('이미지 삭제 성공');
-                    const addUrl = document.querySelector('#edit-store-idx').value;
-                    location.href=`/owner/menu/${addUrl}`;
-                });
+                }).then(response => response.json())
+                        .then(res => {
+                            console.log(res);
+                            alert('멈춰');
+                            if(res.resultNum == 1) {
+                                alert('삭제성공');
+                            }else {
+                                alert('삭제실패');
+                            };
+                            location.reload();
+                            //location.reload();
+                        });
             });
 
         };
@@ -173,6 +189,7 @@
             if(confirm('메뉴를 수정하시겠습니까?')==false){
                 return;
             };
+            checkNullInput();
             let updateData = {
                 menuIdx: $('#edit-menu-idx').val(),
                 menuName: $('#edit-menu-name').val(),

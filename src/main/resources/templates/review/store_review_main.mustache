@@ -102,7 +102,7 @@
                 </div>
 
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="btnradio" id="allListBtn" autocomplete="off" checked value="all">
+                    <input type="radio" class="btn-check" name="btnradio" id="allListBtn" autocomplete="off" value="all">
                     <label class="btn btn-outline-primary" for="allListBtn">전체({{countMap.allReviewCount}})</label>
 
                     <input type="radio" class="btn-check" name="btnradio" id="noReplyListBtn" autocomplete="off" value="noreply">
@@ -110,6 +110,9 @@
 
                     <button class="btn btn-success" id="getListBtn">조회</button>
                 </div>
+                <input type="hidden" value="{{#selectedRadio}}{{selectedRadio}}{{/selectedRadio}}{{^selectedRadio}}{{/selectedRadio}}" id="selectedRadioValue">
+                <input type="hidden" value="{{#startDate}}{{startDate}}{{/startDate}}{{^startDate}}{{/startDate}}" id="hiddenStartDate">
+                <input type="hidden" value="{{#endDate}}{{endDate}}{{/endDate}}{{^endDate}}{{/endDate}}" id="hiddenEndDate">
 
             </div>
             <script>
@@ -160,9 +163,9 @@
                         <div>
                             <div class="card m-3">
                                 <div class="card-header">
-                                    <strong class="d-block text-gray-dark">@{{user_nickname}}</strong>
+                                    <strong class="d-block text-gray-dark">작성자 : {{user_nickname}}</strong>
                                     <strong class="text-gray-dark"><label class="review-star-label">{{review_star}}</label> | {{review_write_date}}</strong>
-                                    주문한 메뉴도 가져오는게 맞나..
+
                                 </div>
                                 <div class="card-body">
                                     <div id="review-image-div">
@@ -236,6 +239,23 @@
             starElement.innerHTML = starIcon;
         };
     };
+    /** set startDate, EndDate, radio check */
+    set_radio_date_checked = () => {
+        let selectedRadioValue = document.getElementById('selectedRadioValue').value;
+        let hiddenStartDateValue = document.getElementById('hiddenStartDate').value;
+        let hiddenEndDateValue = document.getElementById('hiddenEndDate').value;
+        if(selectedRadioValue == 'all'){
+            $('#allListBtn').prop("checked",true);
+        }else if(selectedRadioValue == 'noreply'){
+            $('#noReplyListBtn').prop("checked",true);
+        }
+        if(hiddenStartDateValue != null || hiddenStartDateValue != ""){
+            document.getElementById('startDate').value = hiddenStartDateValue;
+        }
+        if(hiddenEndDateValue != null || hiddenEndDateValue != ""){
+            document.getElementById('startDate').value = hiddenEndDateValue;
+        }
+    }
 
     window.onload = () => {
         // 꺼내보자
@@ -259,6 +279,7 @@
 
         set_menu();
         set_reviewstar_to_icon();
+        set_radio_date_checked();
     }
 </script>
 </html>

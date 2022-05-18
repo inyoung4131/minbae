@@ -167,7 +167,7 @@
     /** send requestStomp to deliver */
     const fooStompToDeliver = (event) => {
         alert("기사에게 전송할 요청메시지:"+'message:배정요청 tradehistoryidx'+event.target.getAttribute('value'));
-        stompClient.send("/app/deliver", {}, JSON.stringify({'message': '배정요청', 'tradeHistoryIdx':event.target.getAttribute('value')})); // tradeHistoryIdx도 전송해야함
+        stompClient.send("/app/deliver", {}, JSON.stringify({'message': '배정요청', 'tradeHistoryIdx':event.target.getAttribute('value'), 'storeIdx':window.sessionStorage.getItem("storeIdx")})); // tradeHistoryIdx도 전송해야함
         alert('요청완료');
         location.reload();
     }
@@ -262,7 +262,10 @@
                     optionDivBae[i].append(sendDeliverBtn);
                 }
             }else if(qoduf[i]==2){ // 기사 배정 완료, 배달 중
-
+                let deliveringBtn = document.createElement('button');
+                deliveringBtn.setAttribute('class', 'btn btn-success');
+                deliveringBtn.innerHTML = '배정완료배달중';
+                optionDivBae[i].append(deliveringBtn);
             }else if(qoduf[i]==3){ // 배달 완료
                 let completeBtn = document.createElement('button');
                 completeBtn.setAttribute('class', 'btn btn-secondary');

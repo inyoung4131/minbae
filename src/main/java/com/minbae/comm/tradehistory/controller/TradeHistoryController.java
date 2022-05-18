@@ -3,6 +3,7 @@ package com.minbae.comm.tradehistory.controller;
 import com.minbae.comm.tradehistory.dto.StoreTradeHistoryListDto;
 import com.minbae.comm.tradehistory.service.TradeHistoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,8 @@ public class TradeHistoryController {
         model.addAttribute("tradeList", tradeList);
         return  "/tradehistory/store_trade_history_list";
     }
+
+
 
 
 }

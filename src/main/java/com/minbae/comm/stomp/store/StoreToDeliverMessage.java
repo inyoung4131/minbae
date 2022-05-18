@@ -13,5 +13,6 @@ public class StoreToDeliverMessage {
 
     String message;
     String tradeHistoryIdx;
+    String storeIdx;
 
 }
