@@ -58,6 +58,10 @@ public class storeReviewController {
                                  @PathVariable(required = false) String startDate,
                                  @PathVariable(required = false) String endDate, Model model){
 
+        model.addAttribute("selectedRadio", selectedRadio);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
         List<Map<String, Object>> reviewList = storeReviewService.getReviewListNew(selectedRadio, storeIdxVal, startDate, endDate);
         model.addAttribute("reviewList", reviewList);
 

@@ -65,6 +65,7 @@ public class StoreController {
     @GetMapping("/owner/manageStore/{storeIdx}")
     public String goManageStorePage(@PathVariable Long storeIdx, Model model){
         model.addAttribute("storeIdx", storeIdx);
+        model.addAttribute("storeName", storeService.storeInfo(storeIdx).getStoreName());
         return "/store/store_manage_home";
     }
 

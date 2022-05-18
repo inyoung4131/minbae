@@ -22,7 +22,7 @@ public class storeReviewRestController {
     private final StoreReviewService storeReviewService;
 
     // 특정 가게의 사장님 답변 생성
-    @PatchMapping("/owne/store/{storeIdx}/addreply")
+    @PatchMapping("/owner/store/{storeIdx}/addreply")
     public ResponseEntity<Map<String, Integer>> createStoreReview(@PathVariable String storeIdx, @RequestBody StoreReviewRequestDto storeReviewRequestDto){
         Integer resultNum = storeReviewService.addStoreReview(storeIdx, storeReviewRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("resultNum", resultNum));
@@ -30,7 +30,7 @@ public class storeReviewRestController {
     }
 
     // 특정 가게의 사장님 답변 삭제
-    @DeleteMapping("/owne/delete/reply/{reviewIdx}")
+    @DeleteMapping("/owner/delete/reply/{reviewIdx}")
     public Map<String, Integer> deleteStoreReply(@PathVariable String reviewIdx){
         Integer resultNum = storeReviewService.deleteStoreReply(reviewIdx);
         Map<String, Integer> map = new HashMap<>();
@@ -39,7 +39,7 @@ public class storeReviewRestController {
     }
 
     //특정 가게의 사장님 답변 수정
-    @PatchMapping("/owne/patch/reply")
+    @PatchMapping("/owner/patch/reply")
     public Map<String, Integer> updateStoreReply(@RequestBody StoreReviewUpdateDto updateDto) {
         Integer resultNum = storeReviewService.updateStoreReply(updateDto);
         Map<String, Integer> map = new HashMap<>();
