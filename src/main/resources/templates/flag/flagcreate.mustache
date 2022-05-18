@@ -2,78 +2,208 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>Document</title>
+    <!-- 추가 시작 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        #customHeaderColor {
+            background-color: #2AC1BC !important;
+        }
+        h1, h2, h3, header, nav{
+            font-family: 'Do Hyeon', sans-serif;
+        }
+        #customHeaderColor a {
+            font-size: 2rem;
+        }
+        #sidebarMenu{
+            font-size: 1.25rem;
+        }
+    </style>
+    <!-- 추가 끝 -->
 </head>
 <body>
-<div>
+<header class="navbar navbar-dark sticky-top bg-info flex-md-nowrap p-3 shadow" id="customHeaderColor">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-dark" id="customATag" href="/owner/store/main">민족의 배달 사장님 광장</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-nav" >
+        <div class="nav-item text-nowrap" id="login-logout-section">
+            <!--로그인/로그아웃 버튼 생성 영역-->
+        </div>
+    </div>
+</header>
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240"></script>
-    <div id="map" style="width:350px;height:350px;"></div>
-    <input type="button" value="등록" id="createFlag">
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="first-item-href">
+                            <span data-feather="home"></span>
+                            관리 가게 선택
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="second-item-href">
+                            가게 정보 관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="third-item-href">
+                            <span data-feather="shopping-cart"></span>
+                            메뉴 관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="fourth-item-href">
+                            <span data-feather="users"></span>
+                            메뉴 신규 등록
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="fifth-item-href">
+                            <span data-feather="bar-chart-2"></span>
+                            리뷰 관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="sixth-item-href">
+                            <span data-feather="layers"></span>
+                            주문 관리
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-        var createFlag = {
-            init: function () {
-                var _this = this;
-                $('#createFlag').on('click', function () {
-                    _this.save();
-                });
-            },
-            save: function () {
+<!-- FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START -->
+<!-- FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START -->
+    <div>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240"></script>
+        <div id="map" style="width:350px;height:350px;"></div>
+        <input type="button" value="등록" id="createFlag">
 
-                var flagSaveDto = {
-                    storeIdx: {
-                        storeIdx: Number(1)
-            } ,
-                    flagLat: marker.getPosition().getLat().toFixed(5),
-                    flagLng: marker.getPosition().getLng().toFixed(5)
-                };
-                $.ajax({
-                    type: 'POST',
-                    url: '/owner/create/flag',
-                    dataType: 'json',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(flagSaveDto)
-                }).done(function () {
-                    alert("등록완료");
-                }).fail(function (error) {
-                    alert(JSON.stringify(error));
-                });
-            }
-        };
-        createFlag.init();
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            var createFlag = {
+                init: function () {
+                    var _this = this;
+                    $('#createFlag').on('click', function () {
+                        _this.save();
+                    });
+                },
+                save: function () {
 
-        var mapContainer = document.getElementById('map'),
-                mapOption = {
-                    center: new kakao.maps.LatLng(33.45070, 126.57066),
-                    level: 4
-                };
-        var map = new kakao.maps.Map(mapContainer, mapOption);
+                    var flagSaveDto = {
+                        storeIdx: {
+                            //storeIdx: Number(1)
+                            storeIdx: window.sessionStorage.getItem("storeIdx")
+                        } ,
+                        flagLat: marker.getPosition().getLat().toFixed(5),
+                        flagLng: marker.getPosition().getLng().toFixed(5)
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '/owner/create/flag',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify(flagSaveDto)
+                    }).done(function () {
+                        alert("등록완료");
+                    }).fail(function (error) {
+                        alert(JSON.stringify(error));
+                    });
+                }
+            };
+            createFlag.init();
 
-        var marker = new kakao.maps.Marker({
-            position: map.getCenter()
-        });
-        marker.setMap(map);
+            var mapContainer = document.getElementById('map'),
+                    mapOption = {
+                        center: new kakao.maps.LatLng(33.45070, 126.57066),
+                        level: 4
+                    };
+            var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        var circle = new kakao.maps.Circle({
-            center : new kakao.maps.LatLng(33.450701, 126.570667),
-            radius: 1000,
-            strokeWeight: 5,
-            strokeColor: '#fdff8f',
-            strokeOpacity: 0.5,
-            fillColor: '#fdff8f',
-            fillOpacity: 0.5
-        });
+            var marker = new kakao.maps.Marker({
+                position: map.getCenter()
+            });
+            marker.setMap(map);
 
-        circle.setMap(map);
+            var circle = new kakao.maps.Circle({
+                center : new kakao.maps.LatLng(33.450701, 126.570667),
+                radius: 1000,
+                strokeWeight: 5,
+                strokeColor: '#fdff8f',
+                strokeOpacity: 0.5,
+                fillColor: '#fdff8f',
+                fillOpacity: 0.5
+            });
 
-        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-            var latlng = mouseEvent.latLng;
-            circle.setPosition(latlng);
-            marker.setPosition(latlng);
-        });
+            circle.setMap(map);
 
-    </script>
+            kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+                var latlng = mouseEvent.latLng;
+                circle.setPosition(latlng);
+                marker.setPosition(latlng);
+            });
+
+        </script>
+    </div>
+<!-- FLAG END FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  -->
+<!-- FLAG END FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  -->
+
+        </main>
+    </div>
 </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </html>
+<script>
+    const fooLogout = () => {
+        window.sessionStorage.clear();
+        alert('sessionStoreage clear success');
+        location.href="/owner/store/main";
+    }
+
+    const fooLogin = () => {
+        location.href="/loginForm/owner";
+    }
+
+    /** set left menuBar href */
+    const set_menu = () => {
+        const storeIdxVal = window.sessionStorage.getItem('storeIdx');
+        const ownerIdxVal = JSON.parse(window.sessionStorage.getItem("memberData"));
+        let ownerIdx = ownerIdxVal.memberData.ownerIdx;
+        document.getElementById('first-item-href').setAttribute('href', '/owner/selectStore/' +ownerIdx);
+        document.getElementById('second-item-href').setAttribute('href', '/owner/storeInfo/' +storeIdxVal);
+        document.getElementById('third-item-href').setAttribute('href', '/owner/menu/'+storeIdxVal);
+        document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);
+        document.getElementById('fifth-item-href').setAttribute('href', '/owner/store/'+storeIdxVal+'/reviews');
+        document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/'+storeIdxVal);
+    };
+    window.onload = () => {
+        const parentDiv = document.getElementById('login-logout-section');
+        if(window.sessionStorage.getItem("token")){
+            const logoutBtn = document.createElement('button');
+            logoutBtn.setAttribute('class' , 'btn btn-outline-primary me-2');
+            logoutBtn.onclick = fooLogout;
+            logoutBtn.innerHTML = '로그아웃';
+            parentDiv.appendChild(logoutBtn);
+
+        }else{
+            const loginBtn = document.createElement('button');
+            loginBtn.setAttribute('class' , 'btn btn-outline-primary me-2');
+            loginBtn.onclick = fooLogin;
+            loginBtn.innerHTML = '로그인';
+            parentDiv.appendChild(loginBtn);
+        }
+
+        set_menu();
+    }
+</script>
