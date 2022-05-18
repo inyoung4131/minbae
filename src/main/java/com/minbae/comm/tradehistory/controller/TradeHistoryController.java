@@ -22,7 +22,7 @@ public class TradeHistoryController {
     public String goStoreTradeHistoryPage(@PathVariable String storeIdx, Model model){
         List<StoreTradeHistoryListDto> tradeList = tradeHistoryService.getStoreTradeList(storeIdx);
         model.addAttribute("tradeList", tradeList);
-        return  "/tradehistory/store_trade_history_list";
+        return  "tradehistory/store_trade_history_list";
     }
 
 
