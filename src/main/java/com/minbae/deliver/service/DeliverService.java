@@ -39,7 +39,7 @@ public class DeliverService {
         UserToStoreMessage message = new UserToStoreMessage();
         message.setU_trade_history_idx("보냈음");
         deliverRepository.save(deliver);
-        simpMessagingTemplate.convertAndSend("/topic/deliver/" + tradeHistory.getDeliverIdx().getDeliverIdx() , "12" );
+        simpMessagingTemplate.convertAndSend("/topic/deliver/" + tradeHistory.getDeliverIdx().getDeliverIdx() , message );
         simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), message );
         simpMessagingTemplate.convertAndSend("/topic/store/" + tradeHistory.getStoreIdx().getStoreIdx(), message );
     }
