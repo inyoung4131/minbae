@@ -2,6 +2,7 @@ package com.minbae.deliver.service;
 
 import com.minbae.comm.tradehistory.entity.TradeHistory;
 import com.minbae.comm.tradehistory.repository.TradeHistoryRepository;
+import com.minbae.deliver.dto.AssignDto;
 import com.minbae.deliver.entity.Deliver;
 import com.minbae.deliver.repository.DeliverRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +30,14 @@ public class DeliverService {
         tradeHistoryRepository.save(tradeHistory);
     }
 
-    public void assginDeliver(double storeLat, double storeLng) {
+    public void assginDeliver(AssignDto assignDto) {
         List<Deliver> list = deliverRepository.findAll();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getDeliverWorkState() == 0) {
-                double distanceMeter = distance(storeLng, storeLat, list.get(i).getDeliverLng(), list.get(i).getDeliverLat(), "meter");
+                double distanceMeter = distance( assignDto.getStoreLat(),assignDto.getStoreLng(),  list.get(i).getDeliverLat(),list.get(i).getDeliverLng(), "meter");
                 if(distanceMeter<5000){
-                    simpMessagingTemplate.convertAndSend("/deliver/room"+list.get(i).getDeliverIdx(),"asdasd");
+                    System.out.println(list.get(i).getDeliverIdx());
+                    simpMessagingTemplate.convertAndSend("/topic/deliver/"+list.get(i).getDeliverIdx(), assignDto);
                 }
             }
 

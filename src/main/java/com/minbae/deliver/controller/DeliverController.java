@@ -1,6 +1,7 @@
 package com.minbae.deliver.controller;
 
 import com.minbae.deliver.dto.AssginCompleteDto;
+import com.minbae.deliver.dto.AssignDto;
 import com.minbae.deliver.dto.RefreshDto;
 import com.minbae.deliver.entity.Deliver;
 import com.minbae.deliver.repository.DeliverRepository;
@@ -24,7 +25,7 @@ public class DeliverController {
     private final DeliverService deliverService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    @GetMapping("/deliver/main")
+    @GetMapping("/deliver/page/main")
     public String asdfasfd() {
         return "deliver/deliver_main";
     }
@@ -36,14 +37,15 @@ public class DeliverController {
         deliver.setDeliverLng(refreshDto.getLng());
         deliver.setDeliverLat(refreshDto.getLat());
         deliverRepository.save(deliver);
-        simpMessagingTemplate.convertAndSend("/deliver/room"+refreshDto.getId(),"{lat:"+refreshDto.getLat()+",lng:"+refreshDto.getLng()+"}");
+        simpMessagingTemplate.convertAndSend("/topic/deliver/"+refreshDto.getId(),"{lat:"+refreshDto.getLat()+",lng:"+refreshDto.getLng()+"}");
     }
 
     //기사 찾아서 메세지 보내기
     @MessageMapping("/chat/assign")
-    public void deliverAssign(long tradeIdx,double storeLat,double storeLng) {
-        deliverService.assginDeliver(storeLat,storeLng);
+    public void deliverAssign(@Payload AssignDto assignDto) {
+        deliverService.assginDeliver(assignDto);
     }
+
 
     @GetMapping("/loginform/deliver")
     public String loginform(){

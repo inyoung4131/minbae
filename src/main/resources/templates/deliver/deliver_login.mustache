@@ -76,15 +76,9 @@
             }).done(function (loginval) {
                 if (loginval.status.valueOf() == "SUCCESS") {
 
-                    if ($("#idRemember").is(":checked")) { // ID 저장하기 체크했을 때,
-                        setCookie("key", $("#email").val(), 7); // 7일 동안 쿠키 보관
-                    } else { // ID 저장하기 체크 해제 시,
-                        deleteCookie("key");
-                    }
-
                     window.sessionStorage.setItem("token", loginval.data);
                     window.sessionStorage.setItem("memberData", JSON.stringify(loginval.memberData));
-                    location.href = "/deliver/main";
+                    location.href = "/deliver/page/main";
                 } else if (loginval.status.valueOf() == "FAIL") {
                     alert('아이디 혹은 비밀번호가 일치하지 않습니다');
                     window.location.reload();
