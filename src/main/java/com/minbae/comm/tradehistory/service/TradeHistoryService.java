@@ -3,8 +3,13 @@ package com.minbae.comm.tradehistory.service;
 import com.minbae.comm.stomp.store.StoreToUserMessage;
 import com.minbae.comm.tradehistory.dao.TradeHistoryMapper;
 import com.minbae.comm.tradehistory.dto.StoreTradeHistoryListDto;
+import com.minbae.comm.tradehistory.repository.TradeHistoryRepository;
+import com.minbae.store.entity.Store;
+import com.minbae.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +21,8 @@ import java.util.Map;
 public class TradeHistoryService {
 
     private final TradeHistoryMapper tradeHistoryMapper;
+    private final TradeHistoryRepository tradeHistoryRepository;
+    private final StoreRepository storeRepository;
 
     public List<StoreTradeHistoryListDto> getStoreTradeList(String storeIdx) {
         List<StoreTradeHistoryListDto> tradeList = tradeHistoryMapper.findTradeListByStoreIdx(storeIdx);
@@ -44,5 +51,15 @@ public class TradeHistoryService {
         List<Map<String, Object>> resultList = tradeHistoryMapper.selectOrderPrice(storeIdx, today, oneMonthBefore);
         System.out.println("리스트에 담긴 값>>"+resultList.get(0));
         return resultList;
+    }
+
+
+
+    // 0518 21:00
+    public List<StoreTradeHistoryListDto> getTradeHistoryInfiniteList(String storeIdx, String page, String size) {
+        Integer integerPage = Integer.valueOf(page);
+        integerPage = ((integerPage-1)*5);
+        Integer integerSize = Integer.valueOf(size);
+        return tradeHistoryMapper.findAllTradeHistoryListDtoInfinity(storeIdx, integerSize, integerPage);
     }
 }

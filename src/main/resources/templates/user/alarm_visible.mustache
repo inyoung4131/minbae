@@ -12,12 +12,8 @@
         console.log('Connected: ' + frame);
         //응답 받기
         stompClient.subscribe(`/topic/user/${user_idx}`, function (greeting) {
-            let j_parse = JSON.parse(greeting.body);
-            let message = j_parse.message;
-            if(message){
                 let alarm = document.getElementById('alarm');
                 alarm.style.display = 'block';
-            }
         });
     });
 </script>

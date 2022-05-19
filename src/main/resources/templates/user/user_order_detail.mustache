@@ -45,12 +45,23 @@
                         order_state = '주문 거절';
                     }
 
-                    let order_store_text = `<div>
-                                            <div><label>가게 이름</label>:${data.store_name}</div>
-                                            <div><label>주문 일시</label>:${order_date.toLocaleDateString()}</div>
-                                            <div><label>주문 상태</label>:${order_state}</div>
-                                        </div>
-                                        <hr>`
+                    let order_store_text = `<div class="card mb-3" style="max-width: 750px;">
+                                              <div class="row g-0">
+                                                <div class="col-md-8">
+                                                  <div class="card-body">
+                                                    <h5 class="card-title">${data.store_name}</h5>
+                                                    <p class="card-text"><small class="text-muted">*주문 일시 : </small><span style="font-size: small">${order_date.toLocaleDateString()}</span></p>
+                                                    <p class="card-text" style="color: cornflowerblue">${order_state}</p>
+                                                  </div>
+                                                </div>
+                                             </div>
+                                          </div>`
+                    // let order_store_text = `<div>
+                    //                         <div><label>가게 이름</label>:${data.store_name}</div>
+                    //                         <div><label>주문 일시</label>:${order_date.toLocaleDateString()}</div>
+                    //                         <div><label>주문 상태</label>:${order_state}</div>
+                    //                     </div>
+                    //                     <hr>`
                     let div_order_state = document.createElement('div');
                     div_order_state.innerHTML = order_store_text
                     let order_state_list = document.getElementById('order_state_list');
@@ -65,11 +76,12 @@
         console.log('Connected: ' + frame);
         //응답 받기
         stompClient.subscribe(`/topic/user/${user_idx}`, function (greeting) {
-            let j_parse = JSON.parse(greeting.body);
-            let message = j_parse.message;
-            if(message){
-                location.reload();
-            }
+            location.reload();
+            // let j_parse = JSON.parse(greeting.body);
+            // let message = j_parse.message;
+            // if(message){
+            //     location.reload();
+            // }
         });
     });
 </script>

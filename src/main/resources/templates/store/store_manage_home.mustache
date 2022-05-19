@@ -105,12 +105,13 @@
                 <!--차트가 그려질 부분-->
                 <canvas id="myChart"></canvas>
             </div>
+            <div class="alert alert-warning alert-dismissible fade show mt-5" role="alert" id="alarm" style="display: none">
+                <strong>민족의 배달 주문!</strong>(주문 현황 페이지로 이동)
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </main>
 
-        <div class="alert alert-warning alert-dismissible fade show" role="alert" id="alarm" style="display: none">
-            <strong>민족의 배달 주문!</strong>(주문 현황 페이지로 이동)
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+
 
     </div>
 </div>
@@ -128,7 +129,6 @@
 
     const fooLogout = () => {
         window.sessionStorage.clear();
-        alert('sessionStoreage clear success');
         location.href="/owner/store/main";
     }
 

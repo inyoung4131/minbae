@@ -56,13 +56,15 @@ public class MenuService {
 
     // 파일 복사 및 저장 메소드
     public String copyInto(Long writer, MultipartFile upload) {
-        String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년MM월dd일HH시mm분ss초"));
+        String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
         String originFileName = upload.getOriginalFilename();
         String savedFileName = formatedNow+originFileName;
 
         try {
             byte[] bytes = upload.getBytes(); // 실제파일의 바이트 정보 취득
-            File f = new File("C:\\workspace\\upload\\"+savedFileName); // 현재 시간 추가하여 파일명 생성으로 수정할 것.
+            //File f = new File("C:\\workspace\\upload\\"+savedFileName);
+            File f = new File("/home/ec2-user/minbae/C:/이젠/upload/"+savedFileName);
+
             FileOutputStream fos = new FileOutputStream(f); // 자원생성
             fos.write(bytes); // 복사
             fos.close(); // 자원종료
@@ -75,7 +77,9 @@ public class MenuService {
 
     // 파일 삭제 메소드
     public void deleteFile(String menuImg){
-        File deleteTarget = new File("C:\\workspace\\upload\\"+menuImg);
+        //File deleteTarget = new File("C:\\workspace\\upload\\"+menuImg);
+        File deleteTarget = new File("/home/ec2-user/minbae/C:/이젠/upload/"+menuImg);
+
         if(deleteTarget.exists()){
             deleteTarget.delete();
         }else{

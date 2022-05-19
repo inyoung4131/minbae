@@ -1,13 +1,14 @@
 package com.minbae.comm.tradehistory.controller;
 
+import com.minbae.comm.tradehistory.dto.StoreTradeHistoryListDto;
+import com.minbae.comm.tradehistory.entity.TradeHistory;
 import com.minbae.comm.tradehistory.service.TradeHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +23,15 @@ public class TradeHistoryRestController {
         List<Map<String, Object>> resultList = tradeHistoryService.getStoreWeekMoneyData(storeIdx);
         return ResponseEntity.status(HttpStatus.OK).body(resultList);
     }
+
+    // 0518 21:00
+    @GetMapping("/owner/tradeHistoryList/infinite/{storeIdx}")
+    public ResponseEntity<List<StoreTradeHistoryListDto>> getTradeHistory(@PathVariable String storeIdx, @RequestParam("page") String page, @RequestParam("size") String size){
+        List<StoreTradeHistoryListDto> resultList = tradeHistoryService.getTradeHistoryInfiniteList(storeIdx, page, size);
+
+        return (resultList != null) ? ResponseEntity.status(HttpStatus.OK).body(resultList)
+                                    : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
 
 }
