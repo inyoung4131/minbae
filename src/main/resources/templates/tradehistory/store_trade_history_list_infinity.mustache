@@ -27,6 +27,13 @@
         #sidebarMenu{
             font-size: 1.25rem;
         }
+        #article-list-pagination{
+            display: none;
+        }
+        #invisible_div{
+            width: 100%;
+            height: 15rem;
+        }
     </style>
 </head>
 <body>
@@ -90,8 +97,9 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
             <div>
                 <h2 class="h2">우리가게 주문관리 페이지</h2>
+                <h3 class="h3">가게 명 : {{storeName}}</h3>
             </div>
-            <table class="table table-striped table-hover text-center" id="table_id">
+            <table class="table table-striped table-hover text-center mt-5" id="table_id">
                 <thead>
                 <tr>
                     <th scope="col">#주문번호</th>
@@ -117,6 +125,9 @@
                     </tr>
                 </tbody>
             </table>
+            <div id="invisible_div">
+
+            </div>
         </main>
 
     </div>
@@ -189,93 +200,6 @@
         console.log("Disconnected");
     };
 
-    /** add accept or deny btn in OptionDiv */
-    const fooAddOptionBtn = () => {
-        // 각 input hidden 값들(userIdx) 가져오기
-        const hiddenUserIdxs = document.querySelectorAll('#userIdxInput');
-        let hiddenUserIdxArray = [];
-        hiddenUserIdxs.forEach( hiddenUserIdx => {
-            hiddenUserIdxArray.push(hiddenUserIdx.getAttribute('value'));
-        });
-        // 각 input hidden 값들(tradeHistoryIdxInput) 가져오기
-        const hiddenTradeHistoryIdxs = document.querySelectorAll('#tradeHistoryIdxInput');
-        let hiddenTradeHistoryIdxArray = [];
-        hiddenTradeHistoryIdxs.forEach( hiddenTradeHistoryIdx => {
-            hiddenTradeHistoryIdxArray.push(hiddenTradeHistoryIdx.getAttribute('value'));
-        });
-        // 각 input hidden 값들(orderDeliverPriceInput) 가져오기
-        const hiddenOrderDeliverPrices = document.querySelectorAll('#orderDeliverPriceInput');
-        let hiddenOrderDeliverPriceArray = [];
-        hiddenOrderDeliverPrices.forEach( hiddenOrderDeliverPrice => {
-            hiddenOrderDeliverPriceArray.push(hiddenOrderDeliverPrice.getAttribute('value'));
-        });
-
-        // 각 td들의 값 가져오기
-        const tds = document.querySelectorAll('#orderState');
-        let qoduf = [];
-        tds.forEach( td => {
-            qoduf.push(td.textContent)
-        });
-        // td 옆의 각 설정버튼 생성영역 가져오기
-        const optionDiv = document.querySelectorAll('#optionBtn');
-        let optionDivBae = [];
-        optionDiv.forEach( div => {
-            optionDivBae.push(div);
-        });
-        // td의 값이 0일경우 설정버튼 생성영역에 설정버튼 생성하기
-        for(let i = 0; i<qoduf.length; i++){
-            if(qoduf[i]==0) { // 주문수락 전
-                let acceptBtn = document.createElement('button');
-                acceptBtn.setAttribute('class', 'btn btn-primary');
-                acceptBtn.setAttribute('value', hiddenUserIdxArray[i]);
-                acceptBtn.setAttribute('value-tradehistoryidx', hiddenTradeHistoryIdxArray[i]);
-                // tradehistory도 담아둘 것.
-                acceptBtn.onclick = fooStompToUserAccept;
-                acceptBtn.innerHTML = '수락';
-
-                let denyBtn = document.createElement('button');
-                denyBtn.setAttribute('class', 'btn btn-danger');
-                denyBtn.setAttribute('value', hiddenUserIdxArray[i]);
-                denyBtn.setAttribute('value-tradehistoryidx', hiddenTradeHistoryIdxArray[i]);
-                denyBtn.onclick = fooStompToUserDeny;
-                denyBtn.innerHTML = '거절';
-
-                optionDivBae[i].append(acceptBtn);
-                optionDivBae[i].append(denyBtn);
-            }else if(qoduf[i]==1) { // 주문 수락 후, 기사배정 전
-                // 방문포장의 경우 : OrderDeliverPrice = 0 -> 배정요청 아님
-                if(hiddenOrderDeliverPriceArray[i] == 0){
-                    let takeOutBtn = document.createElement('button');
-                    takeOutBtn.setAttribute('class', 'btn btn-success');
-                    takeOutBtn.innerHTML = '방문포장';
-                    optionDivBae[i].append(takeOutBtn);
-                }else {
-                    let sendDeliverBtn = document.createElement('button');
-                    sendDeliverBtn.setAttribute('class', 'btn btn-primary');
-                    sendDeliverBtn.setAttribute('value', hiddenTradeHistoryIdxArray[i]);
-                    sendDeliverBtn.onclick = fooStompToDeliver;
-                    sendDeliverBtn.innerHTML = '기사배정요청';
-                    optionDivBae[i].append(sendDeliverBtn);
-                }
-            }else if(qoduf[i]==2){ // 기사 배정 완료, 배달 중
-                let deliveringBtn = document.createElement('button');
-                deliveringBtn.setAttribute('class', 'btn btn-success');
-                deliveringBtn.innerHTML = '배정완료배달중';
-                optionDivBae[i].append(deliveringBtn);
-            }else if(qoduf[i]==3){ // 배달 완료
-                let completeBtn = document.createElement('button');
-                completeBtn.setAttribute('class', 'btn btn-secondary');
-                completeBtn.innerHTML = '배달/픽업 완료';
-                optionDivBae[i].append(completeBtn);
-            }else if(qoduf[i]==4){
-                let orderCanceledBtn = document.createElement('button');
-                orderCanceledBtn.setAttribute('class', 'btn btn-secondary');
-                orderCanceledBtn.innerHTML = '주문취소';
-                optionDivBae[i].append(orderCanceledBtn);
-            }
-        }
-
-    };
 
     /** set left menuBar href */
     const set_menu = () => {
@@ -287,7 +211,7 @@
         document.getElementById('third-item-href').setAttribute('href', '/owner/menu/'+storeIdxVal);
         document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);
         document.getElementById('fifth-item-href').setAttribute('href', '/owner/store/'+storeIdxVal+'/reviews');
-        document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/'+storeIdxVal);
+        document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/infinity/'+storeIdxVal);
     };
 
     /** 0. onload
@@ -317,7 +241,7 @@
         // 좌측 메뉴 세팅
         set_menu();
         // 해당페이지 접수/거절 버튼 세팅
-        fooAddOptionBtn();
+        //fooAddOptionBtn();
         // SOCKET
         disconnect();
         connect();
@@ -327,7 +251,7 @@
 <!-- infinity scroll Test -->
 <script>
     /*<![CDATA[*/
-    const articlesPerPageSize = 5;
+    const articlesPerPageSize = 10;
 
     function getPageId(n) {
         return 'article-page-' + n;
@@ -385,7 +309,12 @@
         // deliverIdx <-> 미배정
         let deliverIdxTd = document.createElement('td');
         deliverIdxTd.className = 'article-list__item__image';
-        deliverIdxTd.innerText = data.deliverIdx;
+        if(data.deliverIdx){
+            deliverIdxTd.innerText = data.deliverIdx;
+        }else{
+            deliverIdxTd.innerText = '미배정';
+        }
+
         // userTel
         let userTelTd = document.createElement('td');
         userTelTd.className = 'article-list__item__image';
@@ -394,9 +323,89 @@
         let orderStateTd = document.createElement('td');
         orderStateTd.className = 'article-list__item__image';
         orderStateTd.innerText = data.orderState;
-        // optionBtn - 태그
+        // optionBtn - td 태그
         let optionBtnTd = document.createElement('td');
         optionBtnTd.className = 'article-list__item__image';
+
+        // optionBtn - td 내부의 btn 태그들
+        switch (data.orderState) {
+            case 0 : // 주문 수락 전
+                // 수락버튼 생성
+                let acceptBtn = document.createElement('button');
+                acceptBtn.setAttribute('class', 'btn btn-primary');
+                acceptBtn.setAttribute('value', data.userIdx);
+                acceptBtn.setAttribute('value-tradehistoryidx', data.tradehistoryidx);
+                acceptBtn.onclick = fooStompToUserAccept;
+                acceptBtn.innerHTML = '수락';
+                optionBtnTd.appendChild(acceptBtn);
+                // 거절버튼 생성
+                let denyBtn = document.createElement('button');
+                denyBtn.setAttribute('class', 'btn btn-danger');
+                denyBtn.setAttribute('value', data.userIdx);
+                denyBtn.setAttribute('value-tradehistoryidx', data.tradehistoryidx);
+                denyBtn.onclick = fooStompToUserDeny;
+                denyBtn.innerHTML = '거절';
+                optionBtnTd.appendChild(denyBtn);
+                break;
+            case 1 : // 주문 수락 후, 기사 배정 전
+                    if(data.orderDeliverPrice == 0){
+                        let takeOutBtn = document.createElement('button');
+                        takeOutBtn.setAttribute('class', 'btn btn-success');
+                        takeOutBtn.innerHTML = '방문포장';
+                        optionBtnTd.append(takeOutBtn);
+                    }else{
+                        let sendDeliverBtn = document.createElement('button');
+                        sendDeliverBtn.setAttribute('class', 'btn btn-primary');
+                        sendDeliverBtn.setAttribute('value', data.tradehistoryidx);
+                        sendDeliverBtn.onclick = fooStompToDeliver;
+                        sendDeliverBtn.innerHTML = '기사배정요청';
+                        optionBtnTd.append(sendDeliverBtn);
+                    };
+                    break;
+            case 2 : // 기사 배정 완료, 배달 중
+                let deliveringBtn = document.createElement('button');
+                deliveringBtn.setAttribute('class', 'btn btn-success');
+                deliveringBtn.innerHTML = '배정완료배달중';
+                optionBtnTd.append(deliveringBtn);
+                break;
+            case 3 : // 배달 완료
+                let completeBtn = document.createElement('button');
+                completeBtn.setAttribute('class', 'btn btn-secondary');
+                completeBtn.innerHTML = '배달/픽업 완료';
+                optionBtnTd.append(completeBtn);
+                break;
+            case 4 : // 주문 취소
+                let orderCanceledBtn = document.createElement('button');
+                orderCanceledBtn.setAttribute('class', 'btn btn-secondary');
+                orderCanceledBtn.innerHTML = '주문취소';
+                optionBtnTd.append(orderCanceledBtn);
+        }
+
+        // input hidden - userIdx
+        let userIdxHidden = document.createElement('input');
+        userIdxHidden.className = 'article-list__item__image';
+        userIdxHidden.id = 'userIdxInput';
+        userIdxHidden.value = data.userIdx;
+        userIdxHidden.type = 'hidden';
+        // input hidden - tradeHistoryIdx
+        let tradeHistoryIdxHidden = document.createElement('input');
+        tradeHistoryIdxHidden.className = 'article-list__item__image';
+        tradeHistoryIdxHidden.id = 'tradeHistoryIdx';
+        tradeHistoryIdxHidden.value = data.tradeHistoryIdx;
+        tradeHistoryIdxHidden.type = 'hidden';
+        // input hidden - orderDeliverPrice
+        let orderDeliverPriceHidden = document.createElement('input');
+        orderDeliverPriceHidden.className = 'article-list__item__image';
+        orderDeliverPriceHidden.id = 'orderDeliverPrice';
+        orderDeliverPriceHidden.value = data.orderDeliverPrice;
+        orderDeliverPriceHidden.type = 'hidden';
+        // input hidden - deliverIdx
+        let deliverIdxHidden = document.createElement('input');
+        deliverIdxHidden.className = 'article-list__item__image';
+        deliverIdxHidden.id = 'deliverIdx';
+        deliverIdxHidden.value = data.deliverIdx;
+        deliverIdxHidden.type = 'hidden';
+
 
         const article = document.createElement('tr');
         article.className = 'article-list__item';
@@ -409,8 +418,12 @@
         article.appendChild(userTelTd);
         article.appendChild(orderStateTd);
         article.appendChild(optionBtnTd);
+        article.appendChild(userIdxHidden);
+        article.appendChild(tradeHistoryIdxHidden);
+        article.appendChild(orderDeliverPriceHidden);
+        article.appendChild(deliverIdxHidden);
 
-        fooAddOptionBtn();
+        //fooAddOptionBtn();
         return article;
     }
 
@@ -441,7 +454,7 @@
             url: `/owner/tradeHistoryList/infinite/${window.sessionStorage.getItem("storeIdx")}`,
             data: {
                 page: page, // current Page
-                size: articlesPerPageSize, // max page size // 페이지당 가져올 개수?
+                size: articlesPerPageSize, // max page size // 페이지당 가져올 개수
             },
             dataType: 'json',
         }).done(function (result) {
