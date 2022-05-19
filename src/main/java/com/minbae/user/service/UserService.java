@@ -114,7 +114,7 @@ public class UserService {
         for (MultipartFile mf : upload) {
             fileName.add(mf.getOriginalFilename());
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
-            String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년MM월dd일HH시mm분ss초"));
+            String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
 
             String safeFile = "C:/이젠/upload/" + formatedNow + originFileName;
             try {

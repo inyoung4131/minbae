@@ -25,6 +25,12 @@ public class TradeHistoryController {
         return  "tradehistory/store_trade_history_list";
     }
 
+    @GetMapping("/owner/store/tradeHistory/infinity/{storeIdx}")
+    public String goStoreTradeHistoryInfinityPage(@PathVariable String storeIdx){
+
+        return  "tradehistory/store_trade_history_list_infinity";
+    }
+
 
 
 

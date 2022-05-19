@@ -69,10 +69,11 @@ public class StoreDetailService {
     }
 
     private String saveImgMethod(MultipartFile req) {
-        String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년MM월dd일HH시mm분ss초"));
+        String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
         String originFileName = req.getOriginalFilename();
         String savedFileName = formatedNow+originFileName;
-        String saveFile = "C:\\workspace\\upload\\" + formatedNow + originFileName;
+        //String saveFile = "C:\\workspace\\upload\\" + formatedNow + originFileName;
+        String saveFile = "/home/ec2-user/minbae/C:/이젠/upload/" + formatedNow + originFileName;
 
         try {
             req.transferTo(new File(saveFile));
@@ -87,7 +88,9 @@ public class StoreDetailService {
     }
 
     public void deleteFile(String imgName){
-        File deleteTarget = new File("C:\\workspace\\upload\\"+imgName);
+        //File deleteTarget = new File("C:\\workspace\\upload\\"+imgName);
+        File deleteTarget = new File("/home/ec2-user/minbae/C:/이젠/upload/"+imgName);
+
         if(deleteTarget.exists()){
             deleteTarget.delete();
         }else{

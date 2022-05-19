@@ -15,4 +15,6 @@ public interface TradeHistoryMapper {
     Integer updateOrderState(String tradehistoryidx, int orderState);
 
     List<Map<String, Object>> selectOrderPrice(String storeIdx, String today, String oneMonthBefore);
+
+    List<StoreTradeHistoryListDto> findAllTradeHistoryListDtoInfinity(String storeIdx, Integer integerSize, Integer integerPage);
 }

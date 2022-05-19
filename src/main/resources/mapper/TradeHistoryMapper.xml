@@ -41,4 +41,14 @@
         ) y on x.ok= y.Month order by x.ok;
     </select>
 
+    <select id="findAllTradeHistoryListDtoInfinity" resultType="com.minbae.comm.tradehistory.dto.StoreTradeHistoryListDto">
+        select t.*, u.user_nickname, u.user_basic_addr, u.user_detail_addr, u.user_tel
+        from trade_history t
+                 left join user u on u.user_idx = t.user_idx
+                 left join deliver d on t.deliver_idx = d.deliver_idx
+        where t.store_idx = #{storeIdx}
+        order by t.trade_history_idx desc
+            limit #{integerSize, jdbcType=INTEGER} OFFSET #{integerPage, jdbcType=INTEGER};
+    </select>
+
 </mapper>
