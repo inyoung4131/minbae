@@ -22,7 +22,7 @@ public class DeliverController {
 
     @GetMapping("/deliver/page/main")
     public String asdfasfd() {
-        return "deliver_main2";
+        return "deliver/deliver_main";
     }
 
     //기사 latlng 변경

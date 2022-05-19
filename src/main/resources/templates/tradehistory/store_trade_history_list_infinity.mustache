@@ -186,9 +186,9 @@
             const storeIdx = window.sessionStorage.getItem("storeIdx");
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/store/'+storeIdx, function (greeting) {
-                console.log(JSON.parse(greeting.body).u_trade_history_idx);
+                //console.log(JSON.parse(greeting.body).u_trade_history_idx);
                 alert('메시지 도착');
-                userIdx = JSON.parse(greeting.body).u_trade_history_idx;
+                //userIdx = JSON.parse(greeting.body).u_trade_history_idx;
                 location.reload();
             });
         });
