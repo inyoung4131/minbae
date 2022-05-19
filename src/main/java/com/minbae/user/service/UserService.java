@@ -142,8 +142,6 @@ public class UserService {
             dto.setReview_img3(fileName.get(2));
         }
 
-//        copyInto(upload);
-
         return userMapper.reviewCreate(dto);
     }
 
@@ -333,30 +331,4 @@ public class UserService {
 //        return trade_history_idx;
 //    }
 
-
-//    public void copyInto(List<MultipartFile> upload) throws IOException {
-//
-//        //실제 파일의 바이트 단위의 정보를 가지고 올 수 있음, 입출력 사이에 예외가 발생할 수 있으니 예외 처리
-//        try {
-//
-//            /**원본 담기*/
-//            byte[] bytes = upload.getBytes;
-//
-//            /** 이곳에 복사 */
-//            File f = new File("c:/이젠/upload/"+upload.stream().forEach(data -> data.getOriginalFilename()););
-//
-//            /**저 위치에 실제 저장할 수 있도록 스트림을 사용, 1byte 스트림 체계를 사용 - 바이트 단위로 쪼개서 저장하기 때문에*/
-//            FileOutputStream fos = new FileOutputStream(f);
-//
-//            /**복사*/
-//            fos.write(bytes);
-//
-//            /**자원 닫기*/
-//            fos.close();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 }

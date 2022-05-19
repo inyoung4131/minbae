@@ -43,10 +43,11 @@
             shoppingList += `<div class="card mb-3" style="max-width: 750px;">
                               <div class="row g-0">
                                 <div class="col-md-4">
-                                  <img src="/user/image/${data[8]}" class="img-fluid rounded-start" id='menu_img${i}' style="height: 15rem; width: 15rem">
+                                  <img src="/user/image/${data[8]}" class="img-fluid rounded-start" id='menu_img${i}' style="height: 12rem; width: 15rem">
                                 </div>
                                 <div class="col-md-8">
                                   <div class="card-body">
+                                    <button type="button" class="btn-close" aria-label="Close" id="b_delete" onclick='basket_delete(${i})'></button>
                                     <h5 class="card-title" id='menu_name${i}'>${data[3]}</h5>
                                     <p class="card-text"><small class="text-muted">*가격 : </small><span id='menu_price${i}' style="font-size: small">${data[4]}</span></p>
                                     <p class="card-text" id='total_price${i}'>${data[7]}원</p>
