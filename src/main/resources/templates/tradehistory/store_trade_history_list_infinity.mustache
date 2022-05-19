@@ -334,7 +334,7 @@
                 let acceptBtn = document.createElement('button');
                 acceptBtn.setAttribute('class', 'btn btn-primary');
                 acceptBtn.setAttribute('value', data.userIdx);
-                acceptBtn.setAttribute('value-tradehistoryidx', data.tradehistoryidx);
+                acceptBtn.setAttribute('value-tradehistoryidx', data.tradeHistoryIdx);
                 acceptBtn.onclick = fooStompToUserAccept;
                 acceptBtn.innerHTML = '수락';
                 optionBtnTd.appendChild(acceptBtn);
@@ -342,7 +342,7 @@
                 let denyBtn = document.createElement('button');
                 denyBtn.setAttribute('class', 'btn btn-danger');
                 denyBtn.setAttribute('value', data.userIdx);
-                denyBtn.setAttribute('value-tradehistoryidx', data.tradehistoryidx);
+                denyBtn.setAttribute('value-tradehistoryidx', data.tradeHistoryIdx);
                 denyBtn.onclick = fooStompToUserDeny;
                 denyBtn.innerHTML = '거절';
                 optionBtnTd.appendChild(denyBtn);
@@ -356,7 +356,7 @@
                     }else{
                         let sendDeliverBtn = document.createElement('button');
                         sendDeliverBtn.setAttribute('class', 'btn btn-primary');
-                        sendDeliverBtn.setAttribute('value', data.tradehistoryidx);
+                        sendDeliverBtn.setAttribute('value', data.tradeHistoryIdx);
                         sendDeliverBtn.onclick = fooStompToDeliver;
                         sendDeliverBtn.innerHTML = '기사배정요청';
                         optionBtnTd.append(sendDeliverBtn);

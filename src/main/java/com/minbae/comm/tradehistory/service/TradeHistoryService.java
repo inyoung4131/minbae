@@ -30,7 +30,6 @@ public class TradeHistoryService {
     }
 
     public void changeOrderState(StoreToUserMessage message) {
-        System.out.println("TradeHistoryService에 들어온 message(수락/거절)>>"+message.getMessage());
         Integer resultNum = 0;
         if(message.getMessage().equals("수락")){
             resultNum = tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 1);
