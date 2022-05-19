@@ -29,18 +29,23 @@
                     let order_date = new Date(data.order_date);
 
                     let historyList = '';
-                    historyList += `<div>`;
-                    historyList += `<input type="hidden" id="trade_history_idx${idx}" value="${data.trade_history_idx}">`
-                    historyList += `<div>주문 날짜:${order_date.toLocaleDateString()}</div>
-                                <div>가게 이미지:${data.store_detail_info_img}</div>
-                                <div>가게 이름:${data.store_name}</div>
-                                <div>총 주문 수량:${data.totalCount}</div>
-                                <div>총 금액:${data.order_price}</div>
-                                <div>
-                                    <a href="javascript:reviewCreate(${data.store_idx}, ${data.trade_history_idx});" style="display: none" id="reviewCreate${idx}">리뷰 작성하기</a>
-                                </div>
-                                <hr>
-                                </div>`
+                    historyList = `<div class="card mb-3" style="max-width: 750px;">
+                                      <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <img src="/user/image/${data.store_detail_info_img}" class="img-fluid rounded-start" style="height: 12rem; width: 15rem">
+                                        </div>
+                                        <div class="col-md-8">
+                                          <div class="card-body">
+                                            <h5 class="card-title">${data.store_name}</h5>
+                                            <p class="card-text"><small class="text-muted">*주문 날짜 : </small><span style="font-size: small">${order_date.toLocaleDateString()}</span></p>
+                                            <p class="card-text">${data.order_price}원</p>
+                                            <div>
+                                                <button type="button" class="btn btn-outline-secondary" onclick="reviewCreate(${data.store_idx}, ${data.trade_history_idx})" style="display: none" id="reviewCreate${idx}">리뷰 작성하기</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                     </div>
+                                  </div>`
                     let div_historyList = document.createElement('div');
                     div_historyList.innerHTML = historyList;
                     document.body.appendChild(div_historyList);
