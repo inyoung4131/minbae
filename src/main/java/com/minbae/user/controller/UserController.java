@@ -28,6 +28,11 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping("/main")
+    public String index(){
+        return "user/user_index";
+    }
+
     @GetMapping("/category/click/{categoryKo}/{categoryEn}")
     public ModelAndView categoryClick(@PathVariable String categoryKo, @PathVariable String categoryEn){
 

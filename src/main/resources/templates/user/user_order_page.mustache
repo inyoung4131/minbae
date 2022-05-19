@@ -31,17 +31,49 @@
 <h3 id="title">주문하기</h3>
 <hr>
 <div id="deliver_view">
-    <div><label>우리집</label>:<label id="user_addr">{{user_info.user_basic_addr}}</label></div>
-    <div><label>상세주소</label><input type="text" id="user_addr_detail" value="{{user_info.user_detail_addr}}"></div>
+    <div class="mb-3 row" style="float: none;">
+        <label for="staticEmail" class="col-sm-2 col-form-label">우리집</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="user_addr" value="{{user_info.user_basic_addr}}">
+        </div>
+    </div>
+
+    <div class="mb-3 row" style="float: none;">
+        <label for="staticEmail" class="col-sm-2 col-form-label">상세주소</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="user_addr_detail" value="{{user_info.user_detail_addr}}">
+        </div>
+    </div>
+
+<!--    <div><label>우리집</label>:<label id="user_addr">{{user_info.user_basic_addr}}</label></div>-->
+<!--    <div><label>상세주소</label><input type="text" id="user_addr_detail" value="{{user_info.user_detail_addr}}"></div>-->
 </div>
 
-<div><label>전화번호</label>:<label id="user_tel">{{user_info.user_tel}}</label></div>
+<div class="mb-3 row" style="float: none;">
+    <label for="staticEmail" class="col-sm-2 col-form-label">전화번호</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="user_tel" value="{{user_info.user_tel}}">
+    </div>
+</div>
+<!--<div><label>전화번호</label>:<label id="user_tel">{{user_info.user_tel}}</label></div>-->
 <hr>
-<div><label>메뉴</label>:<label id="menu_print"></label></div>
-<div><label>총 수량</label>:<label id="quantity_print"></label></div>
+<div class="mb-3 row" style="float: none;">
+    <label for="staticEmail" class="col-sm-2 col-form-label">메뉴</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="menu_print">
+    </div>
+</div>
+<div class="mb-3 row" style="float: none;">
+    <label for="staticEmail" class="col-sm-2 col-form-label">총 수량</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="quantity_print">
+    </div>
+</div>
+<!--<div><label>메뉴</label>:<label id="menu_print"></label></div>-->
+<!--<div><label>총 수량</label>:<label id="quantity_print"></label></div>-->
 <hr>
 <div>
-    <div>결제 수단</div>
+    <h5>결제 수단</h5>
     <select class="form-select" aria-label="Default select example" onchange="payment()" id="payment">
         <option value="card" selected>카드/신용카드</option>
         <option value="cash">만나서 현금 결제</option>
@@ -50,17 +82,35 @@
 <hr>
 <div>
     <h5>결제 금액</h5>
-    <div>
-        <label> 주문 금액 </label>:<lable id="totalPrice"></lable>
+    <div class="mb-3 row" style="float: none;">
+        <label for="staticEmail" class="col-sm-2 col-form-label">주문 금액</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="totalPrice">
+        </div>
     </div>
-    <div id="deliver_price">
-        <label> 배달팁 </label>:<label id="deliverPrice"></label>
+    <div class="mb-3 row" style="float: none;">
+        <label for="staticEmail" class="col-sm-2 col-form-label">배달팁</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="deliverPrice">
+        </div>
     </div>
+<!--    <div>-->
+<!--        <label> 주문 금액 </label>:<lable id="totalPrice"></lable>-->
+<!--    </div>-->
+<!--    <div id="deliver_price">-->
+<!--        <label> 배달팁 </label>:<label id="deliverPrice"></label>-->
+<!--    </div>-->
     <hr>
 </div>
-<div>
-    <label> 총 결제금액 </label>:<label id="realTotalPrice"></label>
+<div class="mb-3 row" style="float: none;">
+    <label for="staticEmail" class="col-sm-2 col-form-label">총 결제금액</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="realTotalPrice">
+    </div>
 </div>
+<!--<div>-->
+<!--    <label> 총 결제금액 </label>:<label id="realTotalPrice"></label>-->
+<!--</div>-->
 <div style="text-align: center">
     <button type="button" class="btn btn-primary btn-sm" onclick="location.href='/user/shopping/list'">돌아가기</button>
     <button type="button" class="btn btn-primary btn-sm" onclick="requestPay()" id="b_order">결제하기</button>
@@ -109,20 +159,20 @@
     })
 
     //화면에 뿌리기
-    document.getElementById('menu_print').innerText = `${menu_names} `;
-    document.getElementById('quantity_print').innerText = `${menu_total_quantity }개 `;
-    document.getElementById('totalPrice').innerText = `${totalPrice}원`;
+    document.getElementById('menu_print').value = `${menu_names} `;
+    document.getElementById('quantity_print').value = `${menu_total_quantity }개 `;
+    document.getElementById('totalPrice').value = `${totalPrice}원`;
 
     //포장일 경우 배달팁 제외
     if(deliver_or_take_out == 'deliver'){
         //배달일 경우 총 금액에 배달비 포함
         totalPrice = totalPrice + parseInt(shoppingList[0][5]);
-        document.getElementById('deliverPrice').innerText = `${shoppingList[0][5]}원`;
-        document.getElementById('realTotalPrice').innerText = `${totalPrice}원`;
+        document.getElementById('deliverPrice').value = `${shoppingList[0][5]}원`;
+        document.getElementById('realTotalPrice').value = `${totalPrice}원`;
         document.getElementById('b_order').innerText = `${totalPrice}원 결제하기`;
     }else{
         //포장일 경우 배달비 제외 총 금액 그대로 적용
-        document.getElementById('realTotalPrice').innerText = `${totalPrice}원`;
+        document.getElementById('realTotalPrice').value = `${totalPrice}원`;
         document.getElementById('b_order').innerText = `${totalPrice}원 결제하기`;
         document.getElementById('deliver_price').style.display = 'none';
     }
@@ -138,8 +188,8 @@
         menu_name_str = menu_names[0];
     }
 
-    let user_tel = document.getElementById('user_tel').innerText;   //연락처
-    let user_addr = document.getElementById('user_addr').innerText; //주소
+    let user_tel = document.getElementById('user_tel').value;   //연락처
+    let user_addr = document.getElementById('user_addr').value; //주소
     let user_addr_detail = document.getElementById('user_addr_detail').value;
     let user_email = document.getElementById('user_email').value;
     let user_nickname = document.getElementById('user_nickname').value;
@@ -217,7 +267,7 @@
                         }
                     });
                 } else {
-                    alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+                    alert(rsp.error_msg);
                 }
             });
         }else{      //만나서 현금 결제하는 경우
