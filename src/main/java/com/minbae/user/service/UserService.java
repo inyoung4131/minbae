@@ -112,11 +112,14 @@ public class UserService {
 
         List<String> fileName = new ArrayList<>();
         for (MultipartFile mf : upload) {
-            fileName.add(mf.getOriginalFilename());
+            String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
+            fileName.add(formatedNow + mf.getOriginalFilename());
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
-            String formatedNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년MM월dd일HH시mm분ss초"));
 
-            String safeFile = "C:/이젠/upload/" + formatedNow + originFileName;
+            System.out.println("formatedNow -> " + formatedNow);
+
+            String safeFile = "/home/ec2-user/minbae/C:/이젠/upload/" + formatedNow + originFileName;
+            System.out.println("safeFile ->" + safeFile);
             try {
                 mf.transferTo(new File(safeFile));
             } catch (IllegalStateException e) {
