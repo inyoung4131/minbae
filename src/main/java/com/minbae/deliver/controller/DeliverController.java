@@ -1,22 +1,16 @@
 package com.minbae.deliver.controller;
 
 import com.minbae.comm.stomp.store.StoreToDeliverMessage;
-import com.minbae.deliver.dto.AssginCompleteDto;
-import com.minbae.deliver.dto.AssignDto;
 import com.minbae.deliver.dto.RefreshDto;
 import com.minbae.deliver.entity.Deliver;
 import com.minbae.deliver.repository.DeliverRepository;
 import com.minbae.deliver.service.DeliverService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -28,7 +22,7 @@ public class DeliverController {
 
     @GetMapping("/deliver/page/main")
     public String asdfasfd() {
-        return "deliver/deliver_main";
+        return "deliver_main2";
     }
 
     //기사 latlng 변경
@@ -56,5 +50,9 @@ public class DeliverController {
     @MessageMapping("/chat/complete")
     public void complete(@Payload StoreToDeliverMessage dto){
         deliverService.deliveryComplete(dto);
+    }
+    @MessageMapping("/chat/pickup")
+    public void pickup(@Payload StoreToDeliverMessage dto){
+        deliverService.pickup(Long.parseLong(dto.getStoreIdx()),Long.parseLong(dto.getTradeHistoryIdx()));
     }
 }

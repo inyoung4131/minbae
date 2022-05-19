@@ -26,8 +26,6 @@
     {{/type}}
     <hr>
     <div id="top">
-<!--        <img src="/user/image/{{selectStore.store_detail_info_img}}" class="img-fluid">-->
-<!--        <hr>-->
         <ul>
             <li>{{selectStore.store_name}}</li>
             <li>
@@ -65,7 +63,7 @@
                 <div>
                     위치 안내 : {{selectStore.store_basic_addr}} {{selectStore.store_detail_addr}}
                 </div>
-                <div id="map" style="width:100%;height:350px;"></div>
+                <div id="map" style="width:50%;height:150px;"></div>
             </li>
         </ul>
     </div>
@@ -89,7 +87,7 @@
             </div>
             <hr>
             <div id="menuList">
-                <h4>대표 메뉴</h4>
+                <h4 style="color: mediumpurple">대표 메뉴</h4>
                 {{#kingMenu}}
                     <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}" class="link-secondary">
                         <div class="card mb-3" style="max-width: 750px;">
@@ -110,7 +108,7 @@
                     </a>
                 {{/kingMenu}}
 
-                <h4>메뉴 소개</h4>
+                <h4 style="color: cadetblue">메뉴 소개</h4>
                 {{#menuList}}
                     <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}" class="link-secondary">
                         <div class="card mb-3" style="max-width: 750px;">
