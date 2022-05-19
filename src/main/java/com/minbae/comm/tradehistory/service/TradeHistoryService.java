@@ -48,7 +48,7 @@ public class TradeHistoryService {
         String today = now.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         String oneMonthBefore = now.minusDays(15).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         List<Map<String, Object>> resultList = tradeHistoryMapper.selectOrderPrice(storeIdx, today, oneMonthBefore);
-        System.out.println("리스트에 담긴 값>>"+resultList.get(0));
+        //System.out.println("리스트에 담긴 값>>"+resultList.get(0));
         return resultList;
     }
 

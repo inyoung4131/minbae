@@ -42,4 +42,8 @@ public interface ReviewMapper {
     //특정 가게 리뷰횟수,별총점
     ReviewCountAndAvgStar getReviewCountAndStarAvg(@Param("storeIdx") Long storeIdx);
 
+    // 특정 가게의 전체 리뷰 개수 - 날짜조건
+    Integer countAllReviewByStoreIdxAndStateAndDate(Long storeIdx, String startDate, String endDate);
+    // 특정 가게의 미답변 리뷰 개수 - 날짜조건
+    Integer countNotReplyReviewByStoreIdxAndStateAndDate(Long storeIdx, String startDate, String endDate);
 }

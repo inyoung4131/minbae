@@ -17,6 +17,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" type="text/javascript"></script>
     <!-- chart JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <!--카카오 소셜 로그인-->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <style>
         #customHeaderColor {
             background-color: #2AC1BC !important;
@@ -57,6 +59,12 @@
                         <a class="nav-link" href="#" id="first-item-href">
                             <span data-feather="home"></span>
                             관리 가게 선택
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="first-half-item-href">
+                            <span data-feather="home"></span>
+                            우리 가게 메인
                         </a>
                     </li>
                     <li class="nav-item">
@@ -129,8 +137,15 @@
 
     const fooLogout = () => {
         window.sessionStorage.clear();
-        location.href="/owner/store/main";
-    }
+        function kakaoLogout() {
+            Kakao.init('인증키');
+            //로컬전용 location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://localhost:9090/owner/store/main';
+            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://3.34.197.171:9090/owner/store/main';
+
+        };
+        kakaoLogout();
+        alert('로그아웃 성공');
+    };
 
     const fooLogin = () => {
         location.href="/loginForm/owner";
@@ -142,6 +157,7 @@
         const ownerIdxVal = JSON.parse(window.sessionStorage.getItem("memberData"));
         let ownerIdx = ownerIdxVal.memberData.ownerIdx;
         document.getElementById('first-item-href').setAttribute('href', '/owner/selectStore/' +ownerIdx);
+        document.getElementById('first-half-item-href').setAttribute('href', '/owner/manageStore/'+storeIdxVal);
         document.getElementById('second-item-href').setAttribute('href', '/owner/storeInfo/' +storeIdxVal);
         document.getElementById('third-item-href').setAttribute('href', '/owner/menu/'+storeIdxVal);
         document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);

@@ -65,7 +65,7 @@ public class storeReviewController {
         List<Map<String, Object>> reviewList = storeReviewService.getReviewListNew(selectedRadio, storeIdxVal, startDate, endDate);
         model.addAttribute("reviewList", reviewList);
 
-        Map<String, Integer> countMap = storeReviewService.getReviewCountNum(Long.valueOf(storeIdxVal));
+        Map<String, Integer> countMap = storeReviewService.getReviewCountNumByDate(Long.valueOf(storeIdxVal), startDate, endDate);
         model.addAttribute("countMap", countMap);
         model.addAttribute("storeIdx",storeIdxVal);
 

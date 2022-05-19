@@ -55,6 +55,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#" id="first-half-item-href">
+                            <span data-feather="home"></span>
+                            우리 가게 메인
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#" id="second-item-href">
                             가게 정보 관리
                         </a>
@@ -206,7 +212,6 @@
 <script>
     const fooLogout = () => {
         window.sessionStorage.clear();
-        alert('sessionStoreage clear success');
         location.href="/owner/store/main";
     }
 
@@ -220,6 +225,7 @@
         const ownerIdxVal = JSON.parse(window.sessionStorage.getItem("memberData"));
         let ownerIdx = ownerIdxVal.memberData.ownerIdx;
         document.getElementById('first-item-href').setAttribute('href', '/owner/selectStore/' +ownerIdx);
+        document.getElementById('first-half-item-href').setAttribute('href', '/owner/manageStore/'+storeIdxVal);
         document.getElementById('second-item-href').setAttribute('href', '/owner/storeInfo/' +storeIdxVal);
         document.getElementById('third-item-href').setAttribute('href', '/owner/menu/'+storeIdxVal);
         document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);
@@ -249,11 +255,15 @@
         }else if(selectedRadioValue == 'noreply'){
             $('#noReplyListBtn').prop("checked",true);
         }
-        if(hiddenStartDateValue != null || hiddenStartDateValue != ""){
+        if(hiddenStartDateValue == null || hiddenStartDateValue == ""){
+        }else{
             document.getElementById('startDate').value = hiddenStartDateValue;
+
         }
-        if(hiddenEndDateValue != null || hiddenEndDateValue != ""){
-            document.getElementById('startDate').value = hiddenEndDateValue;
+        if(hiddenEndDateValue == null || hiddenEndDateValue == ""){
+        }else{
+            document.getElementById('endDate').value = hiddenEndDateValue;
+
         }
     }
 

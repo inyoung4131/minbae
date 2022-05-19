@@ -48,6 +48,13 @@ public class StoreReviewService {
         map.put("notReplyReviewCount", reviewMapper.countNotReplyReviewByStoreIdx(storeIdx));
         return map;
     }
+    // 특정가게의 리뷰개수 조회 - 조건 있는 경우
+    public Map<String, Integer> getReviewCountNumByDate(Long storeIdx, String startDate, String endDate){
+        Map<String, Integer> map = new HashMap<>();
+        map.put("allReviewCount", reviewMapper.countAllReviewByStoreIdxAndStateAndDate(storeIdx, startDate, endDate));
+        map.put("notReplyReviewCount", reviewMapper.countNotReplyReviewByStoreIdxAndStateAndDate(storeIdx, startDate, endDate));
+        return map;
+    }
 
     // 특정 가게의 사장님 리뷰 생성
     @Transactional
@@ -92,7 +99,7 @@ public class StoreReviewService {
     }
 
 
-    /*집에서 새로만든거 test용 */
+    // 특정가게 리뷰조회 - 조건
     public List<Map<String, Object>> getReviewListNew(String selectedRadio, String storeIdxVal, String startDate, String endDate) {
         List<Map<String, Object>> reviewListByStoreIdx = new ArrayList<>();
         if(selectedRadio == null || selectedRadio.equals("all")){
