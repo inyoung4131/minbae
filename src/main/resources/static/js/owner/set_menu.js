@@ -8,5 +8,5 @@ window.onload = function (){
     document.getElementById('third-item-href').setAttribute('href', '/owner/menu/'+storeIdxVal);
     document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);
     document.getElementById('fifth-item-href').setAttribute('href', '/owner/store/'+storeIdxVal+'/reviews');
-    document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/'+storeIdxVal);
+    document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/infinity/'+storeIdxVal);
 };

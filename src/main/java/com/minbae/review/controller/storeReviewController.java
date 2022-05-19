@@ -45,10 +45,10 @@ public class storeReviewController {
         return "review/store_review_main";
     }
 
-    @GetMapping("/owne/store/{storeIdx}/macroReview")
-    public String goMacroReviewPage(@PathVariable String storeIdx){
-        return "review/review_macro_main";
-    }
+//    @GetMapping("/owne/store/{storeIdx}/macroReview")
+//    public String goMacroReviewPage(@PathVariable String storeIdx){
+//        return "review/review_macro_main";
+//    }
 
 
 

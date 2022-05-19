@@ -58,7 +58,7 @@ public class TradeHistoryService {
     // 0518 21:00
     public List<StoreTradeHistoryListDto> getTradeHistoryInfiniteList(String storeIdx, String page, String size) {
         Integer integerPage = Integer.valueOf(page);
-        integerPage = ((integerPage-1)*5);
+        integerPage = ((integerPage-1)*10);
         Integer integerSize = Integer.valueOf(size);
         return tradeHistoryMapper.findAllTradeHistoryListDtoInfinity(storeIdx, integerSize, integerPage);
     }

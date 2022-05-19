@@ -2,6 +2,7 @@ package com.minbae.comm.tradehistory.controller;
 
 import com.minbae.comm.tradehistory.dto.StoreTradeHistoryListDto;
 import com.minbae.comm.tradehistory.service.TradeHistoryService;
+import com.minbae.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class TradeHistoryController {
 
     private final TradeHistoryService tradeHistoryService;
+    private final StoreService storeService;
 
     @GetMapping("/owner/store/tradeHistory/{storeIdx}")
     public String goStoreTradeHistoryPage(@PathVariable String storeIdx, Model model){
@@ -26,8 +28,8 @@ public class TradeHistoryController {
     }
 
     @GetMapping("/owner/store/tradeHistory/infinity/{storeIdx}")
-    public String goStoreTradeHistoryInfinityPage(@PathVariable String storeIdx){
-
+    public String goStoreTradeHistoryInfinityPage(@PathVariable String storeIdx, Model model){
+        model.addAttribute("storeName", storeService.storeInfo(Long.valueOf(storeIdx)).getStoreName());
         return  "tradehistory/store_trade_history_list_infinity";
     }
 

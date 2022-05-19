@@ -9,7 +9,8 @@
             r.*, u.user_nickname
         from review r
                  left join user u on u.user_idx = r.user_idx
-        where r.store_idx = #{storeIdx};
+        where r.store_idx = #{storeIdx}
+        order by review_idx desc;
     </select>
 
     <select id="findNoReplyReviewListByStoreIdx" resultType="hashmap">
@@ -19,7 +20,8 @@
             left join user u on u.user_idx = r.user_idx
         where
             r.store_idx = #{storeIdx}
-            and r.review_reply is null;
+            and r.review_reply is null
+        order by review_idx desc;
     </select>
 
     <select id="findReviewListByStoreIdxAndDate" resultType="hashmap">
@@ -28,7 +30,8 @@
         from review r
                  left join user u on u.user_idx = r.user_idx
         where r.review_write_date between #{startDate} and #{endDate}
-            and r.store_idx = #{storeIdxVal};
+            and r.store_idx = #{storeIdxVal}
+        order by review_idx desc;
     </select>
 
     <select id="findNoReplyReviewListByStoreIdxAndDate" resultType="hashmap">
@@ -39,7 +42,8 @@
         where
             r.review_write_date between #{startDate} and #{endDate}
             and r.store_idx = #{storeIdxVal}
-            and r.review_reply is null;
+            and r.review_reply is null
+        order by review_idx desc;
     </select>
 
     <select id="findByReviewIdx" resultType="com.minbae.review.dto.StoreReviewDto">
