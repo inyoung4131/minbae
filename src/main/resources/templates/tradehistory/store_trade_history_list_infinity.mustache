@@ -193,6 +193,9 @@
     }
     const fooStompToUserSuccessPickup = (event) => {
         stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '픽업', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
+        setTimeout(function() {
+            location.reload();
+        }, 1000);
     };
     /** connect STOMP */
     const connect = () => {
