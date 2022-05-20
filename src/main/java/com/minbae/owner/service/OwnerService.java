@@ -65,10 +65,13 @@ public class OwnerService {
         if(kakaoUser == null) {
             if(kakaoEmail == null || kakaoEmail.equals("")){
                 ownerMapper.insertKakaoOwner(param.get("pwd")+"@kakao.noemail", param.get("nickName"), param.get("pwd"));
+                kakaoUser.remove("email");
+                kakaoUser.put("email", param.get("pwd")+"@kakao.noemail");
             }else{
                 ownerMapper.insertKakaoOwner(param.get("email"), param.get("nickName"), param.get("pwd"));
             }
         }
+
 
         return kakaoUser;
     }
