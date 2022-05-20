@@ -81,6 +81,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
     var auth=false;
+    var time=new Date();
 
     let authNum;
     $('#auth_text').on('keyup', function (event) {
@@ -131,15 +132,20 @@
     });
 
     function phoneNumberCheck() {
-        fetch("/join/user/sms?tel="+document.getElementById('text_input_tel').value.replaceAll("-",""),)
-                .then(response => response.json())
-                .then(data => {
-                    if(data!=null){
-                    authNum=data;
-                    }else{
-                        alert('5분 뒤 인증 가능합니다.');
-                    }
-                })
+
+        if(((new Date())/1000-(time)/1000)<300) {
+            fetch("/join/user/sms?tel=" + document.getElementById('text_input_tel').value.replaceAll("-", ""),)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data != null) {
+                            authNum = data;
+                        } else {
+
+                        }
+                    })
+        }else{
+            alert('5분 뒤 인증 가능합니다.');
+        }
     }
 
     function countdown() {
