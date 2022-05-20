@@ -41,6 +41,8 @@
                         order_state = '배달 완료';
                     }else if(data.order_state == 4){
                         order_state = '주문 거절';
+                    }else if(data.order_state == 5){
+                        order_state = '픽업 완료';
                     }
 
                     let order_store_text = `<div class="card mb-3" style="max-width: 750px;">
@@ -62,7 +64,7 @@
 
                     let order_state_color = document.getElementById(`order_state_color${idx}`);
                     let order_state_text = order_state_color.innerText;
-                    if(order_state_text == '배달 완료'){
+                    if(order_state_text == '배달 완료' || order_state_text == '픽업 완료'){
                         order_state_color.style.color = '#999999'
                     }else if(order_state_text == '주문 수락/조리중'){
                         order_state_color.style.color = 'mediumpurple'
