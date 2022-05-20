@@ -17,10 +17,16 @@ import java.util.Map;
 public class TradeHistoryRestController {
 
     private final TradeHistoryService tradeHistoryService;
+// 테스트
+//    @GetMapping("/owner/storeMoney/{storeIdx}")
+//    public ResponseEntity<List<Map<String, Object>>> getStoreMoneyData(@PathVariable String storeIdx){
+//        List<Map<String, Object>> resultList = tradeHistoryService.getStoreWeekMoneyData(storeIdx);
+//        return ResponseEntity.status(HttpStatus.OK).body(resultList);
+//    }
 
-    @GetMapping("/owner/storeMoney/{storeIdx}")
-    public ResponseEntity<List<Map<String, Object>>> getStoreMoneyData(@PathVariable String storeIdx){
-        List<Map<String, Object>> resultList = tradeHistoryService.getStoreWeekMoneyData(storeIdx);
+    @GetMapping("/owner/storeMoney/{storeIdx}/{xSize}")
+    public ResponseEntity<List<Map<String, Object>>> getStoreMoneyData(@PathVariable String storeIdx, @PathVariable String xSize){
+        List<Map<String, Object>> resultList = tradeHistoryService.getStoreWeekMoneyData2(storeIdx, xSize);
         return ResponseEntity.status(HttpStatus.OK).body(resultList);
     }
 
