@@ -5,18 +5,73 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <style>
+        body{
+            font-family: 'Do Hyeon', sans-serif;
+            font-size: 18px;
+        }
+        #header{
+            display: flex;
+            justify-content: space-between;
+        }
+        #header_text{
+            font-size: 25px;
+            display: inline-block;
+            margin: auto;
+        }
+        #body_div{
+            margin-top: 35px;
+        }
+        #detail_addr{
+            margin-bottom: 25px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+        #detail_addr:focus{
+            outline: none;
+        }
+        #check_div{
+            margin-bottom: 15px;
+        }
+        #maplink_div{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        #mapling_img_div{
+            align-items: center;
+            display: flex;
+        }
+        #submit_button {
+            margin-top: 30px;
+            background-color: rgba(42, 193, 188);
+            font-size: 18px;
+            color: white;
+            width: 385px;
+            border:none;
+            height: 40px;
+        }
+    </style>
 </head>
 <body>
-<div><span id="back"> <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" width="45px"> </span>상세 정보 입력</div>
-<div>
-    <div>{{basic}}</div>
+<div id="header">
+    <span id="back"> <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" width="30px"> </span>
+    <div id="header_text">상세 정보 입력</div>
+    <div style="width: 30px"></div>
+</div>
+<div id="body_div">
+    <div>지번주소 : {{basic}}</div>
     <input type="hidden" value="{{basic}}" id="basic">
-    <div>도로명 {{road}}</div>
+    <div>도로명주소 : {{road}}</div>
     <input type="hidden" value="{{road}}" id="road">
     <input type="hidden" id="lat">
     <input type="hidden" id="lng">
-    <div><input type="text" placeholder="상세 주소 입력" id="detail_addr"></div>
-    <div><input type='checkbox'
+    <div>상세주소 : <input type="text" placeholder="상세 주소 입력" id="detail_addr"></div>
+    <div id="check_div"><input type='checkbox'
                 name='category'
                 value='우리집'
                 onclick='checkOnlyOne(this,event)'/> 우리 집
@@ -31,13 +86,18 @@
                value='기타'
                onclick='checkOnlyOne(this,event)'/> 기타
     </div>
-    <div>별칭을 입력해주세요 <input type="text" id="alias"></div>
-    <div>지도에서 위치 확인</div>
-    <div><input type="button" value="완료" onclick="process_end()"></div>
+    <div id="maplink_div">
+        <div id="mapling_img_div"><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/aXbfChmEST.png" width="30px">지도에서 위치 확인</div><img src="https://i.esdrop.com/d/f/3IfGDhTdT6/mxYfPiHjHH.png" width="20px" height="20px">
+    </div>
+    <div><input type="button" value="완료" onclick="process_end()" id="submit_button"></div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
+
+    document.getElementById('maplink_div').addEventListener('click',function (){
+        location.href="/user/main/addr/map?addr="+encodeURI($('#basic'));
+    })
 
     function setUserLatLng() {
         let user_lat_lng = {
@@ -91,7 +151,27 @@
                 mem.unshift(arr);
                 mem = JSON.stringify(mem);
                 window.localStorage.setItem("used_addr", mem);
-                location.href = "/user/main/addr/main";
+                if (window.sessionStorage.getItem("memberData") != null) {
+                    var data={
+                        userIdx: JSON.parse(window.sessionStorage.getItem("memberData"))["memberData"].userIdx,
+                        userBasicAddr: $('#road').val(),
+                        userDetailAddr: $('#detail_addr').val()
+                    };
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/user/main/addr/change',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify(data)
+                    }).done(function () {
+                        var mem = JSON.parse(window.sessionStorage.getItem("memberData"));
+                        mem["memberData"].userBasicAddr=$('#road').val();
+                        mem["memberData"].userDetailAddr=$('#detail_addr').val();
+                        window.sessionStorage.setItem("memberData",JSON.stringify(mem));
+                        location.href = "/user/main/addr/main";
+                    })
+                    ;
+                }
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
@@ -116,24 +196,7 @@
                 window.localStorage.setItem("used_addr", mem);
                 setUserLatLng();
                 location.href = "/user/main/addr/main";
-                // 아직. 로그인 다 하고.
-                // if (window.sessionStorage.getItem("memberData") != null) {
-                //     var data={
-                //         userIdx: JSON.parse(window.sessionStorage.getItem("memberData"))[0].userIdx,
-                //         userBasicAddr: $('#road').val(),
-                //         userDetailAddr: $('#detail_addr').val()
-                //     };
-                //     $.ajax({
-                //         type: 'PUT',
-                //         url: '/user/main/addr/change',
-                //         dataType: 'json',
-                //         contentType: 'application/json; charset=utf-8',
-                //         data: JSON.stringify(data)
-                //     }).done(function () {
-                //         location.href = "/user/main/addr/main";
-                //     })
-                //     ;
-                // }
+
             });
         }
     }
