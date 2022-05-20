@@ -142,7 +142,7 @@ public class DeliverService {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getDeliverWorkState() == 0) {
                 double distanceMeter = distance(store.getStoreLat(), store.getStoreLng(), list.get(i).getDeliverLat(), list.get(i).getDeliverLng(), "meter");
-                if (distanceMeter < 15000000) {
+                if (distanceMeter < 2500) {
                     dellist.add(list.get(i).getDeliverIdx());
                     simpMessagingTemplate.convertAndSend("/topic/deliver/" + list.get(i).getDeliverIdx(), ARD);
                 }

@@ -35,7 +35,6 @@ public class StoreDetail {
     @Column(nullable = false,name="store_detail_deliver_price")
     private int storeDetailDeliverPrice;
 
-    @ColumnDefault("blank")
     @Column(name="store_detail_menu_text")
     private String storeDetailMenuText;
 
