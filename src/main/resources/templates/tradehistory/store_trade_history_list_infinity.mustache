@@ -394,7 +394,7 @@
             case 3 : // 배달 완료
                 let completeBtn = document.createElement('button');
                 completeBtn.setAttribute('class', 'btn btn-secondary');
-                completeBtn.innerHTML = '배달/픽업 완료';
+                completeBtn.innerHTML = '배달 완료';
                 optionBtnTd.append(completeBtn);
                 break;
             case 4 : // 주문 취소
@@ -402,6 +402,12 @@
                 orderCanceledBtn.setAttribute('class', 'btn btn-secondary');
                 orderCanceledBtn.innerHTML = '주문취소';
                 optionBtnTd.append(orderCanceledBtn);
+                break;
+            case 5 :
+                let completePickBtn = document.createElement('button');
+                completePickBtn.setAttribute('class', 'btn btn-secondary');
+                completePickBtn.innerHTML = '픽업 완료';
+                optionBtnTd.append(completePickBtn);
         }
 
         // input hidden - userIdx

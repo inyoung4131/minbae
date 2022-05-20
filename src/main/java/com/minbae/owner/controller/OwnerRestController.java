@@ -30,7 +30,6 @@ public class OwnerRestController {
     @PostMapping("/owner/kakao/login")
     public ApiResponse ownerKakaoLogin(@RequestBody Map<String, Object> param){
         Map<String, Object> kakaoUser = ownerService.kakaoLogin(param);
-        System.out.println();
         return new ApiResponse(ApiStatus.SUCCESS,
                                 adminService.login("owner", (String) kakaoUser.get("owner_email"),(String) kakaoUser.get("owner_pwd")),
                                 adminService.getMemberInfo("owner",(String) kakaoUser.get("owner_email"),(String) kakaoUser.get("owner_pwd")));
