@@ -202,8 +202,6 @@
                         navigator.geolocation.getCurrentPosition(function (position) {
                             const cur_lat = position.coords.latitude;
                             const cur_lng = position.coords.longitude;
-
-
                             const cateImg = "https://i.esdrop.com/d/f/3IfGDhTdT6/2ifHfz3s3P.png";
                             const cateImageSize = new kakao.maps.Size(33, 37); // 마커이미지의 크기입니다
                             const cateImageOption = {offset: new kakao.maps.Point(15, 69)};
@@ -232,6 +230,7 @@
                                 position: iwPosition,
                                 content: iwContent
                             });
+
                             infowindow.open(map, storeMarker);
 
                             var delMarkerImage = new kakao.maps.MarkerImage("https://i.esdrop.com/d/f/3IfGDhTdT6/yK5FGL4WFo.png", new kakao.maps.Size(30, 30), {offset: new kakao.maps.Point(15, 69)})
@@ -242,12 +241,21 @@
                             });
                             delMarker.setMap(map);
 
+                            setInterval(function () {
+                                navigator.geolocation.getCurrentPosition(function (position) {
+                                delMarker=new kakao.maps.Marker({
+                                    position: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                                    image: delMarkerImage
+                                });
+                                delMarker.setMap(map);
+                                });
+                            }, 10000);
+
                             geocoder.addressSearch(message.userBasicAddr, function(result, status) {
 
-                                // 정상적으로 검색이 완료됐으면
                                 if (status === kakao.maps.services.Status.OK) {
 
-                                    var userMarkerImage = new kakao.maps.MarkerImage("https://i.esdrop.com/d/f/3IfGDhTdT6/0X8EYtgq4Z.png", cateImageSize, cateImageOption)
+                                    var userMarkerImage = new kakao.maps.MarkerImage("https://i.esdrop.com/d/f/3IfGDhTdT6/0X8EYtgq4Z.png", cateImageSize, cateImageOption);
                                     var userMarkerPosition = new kakao.maps.LatLng(result[0].y, result[0].x);
                                     var userMarker = new kakao.maps.Marker({
                                         position: userMarkerPosition,
@@ -307,7 +315,7 @@
                             "id": mem.deliverIdx,
                             "lat": lat,
                             "lng": lon
-                        }))
+                        }));
                     }, 10000);
                 });
             }
