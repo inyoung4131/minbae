@@ -46,7 +46,17 @@ public class TradeHistoryService {
     public List<Map<String, Object>> getStoreWeekMoneyData(String storeIdx) {
         LocalDateTime now = LocalDateTime.now();
         String today = now.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-        String oneMonthBefore = now.minusDays(15).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+        String oneMonthBefore = now.minusDays(13).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+        List<Map<String, Object>> resultList = tradeHistoryMapper.selectOrderPrice(storeIdx, today, oneMonthBefore);
+        //System.out.println("리스트에 담긴 값>>"+resultList.get(0));
+        return resultList;
+    }
+
+    public List<Map<String, Object>> getStoreWeekMoneyData2(String storeIdx, String xSize) {
+        int target = Integer.parseInt(xSize)-1;
+        LocalDateTime now = LocalDateTime.now();
+        String today = now.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+        String oneMonthBefore = now.minusDays(target).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         List<Map<String, Object>> resultList = tradeHistoryMapper.selectOrderPrice(storeIdx, today, oneMonthBefore);
         //System.out.println("리스트에 담긴 값>>"+resultList.get(0));
         return resultList;

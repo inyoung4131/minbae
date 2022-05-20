@@ -133,9 +133,15 @@
 <script>
     const fooLogout = () => {
         window.sessionStorage.clear();
-        alert('sessionStoreage clear success');
-        location.href="/owner/store/main";
-    }
+        function kakaoLogout() {
+            Kakao.init('인증키');
+            //로컬전용 location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://localhost:9090/owner/store/main';
+            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://3.34.197.171:9090/owner/store/main';
+
+        };
+        kakaoLogout();
+        alert('로그아웃 성공');
+    };
 
     const fooLogin = () => {
         location.href="/loginForm/owner";

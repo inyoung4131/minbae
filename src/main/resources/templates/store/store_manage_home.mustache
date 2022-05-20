@@ -41,9 +41,9 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-nav" >
-<!--        <div class="nav-item">
-            <img src="/staticImg/Few.png">
-        </div>-->
+        <!--        <div class="nav-item">
+                    <img src="/staticImg/Few.png">
+                </div>-->
         <div class="nav-item text-nowrap" id="login-logout-section">
 
         </div>
@@ -106,20 +106,28 @@
             </div>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
+
                 </div>
-                <span class="text">※일별 매출액(16일)</span>
+                <div class="d-flex justify-content-end align-items-center">
+                    <select class="form-select form-select-sm" aria-label="Default select example" id="selectOptionDate" style="width: 10rem;">
+                        <option value="7">7일 기준</option>
+                        <option value="14" selected>14일 기준</option>
+                        <option value="30">30일 기준</option>
+                    </select>
+                    <span class="text ms-3">※ 일별 매출액(조회기간을 선택해주세요)</span>
+                </div>
             </div>
-            <div style="width: 900px; height: 900px;">
-                <!--차트가 그려질 부분-->
-                <canvas id="myChart"></canvas>
+            <div id="parentDiv">
+                <div style="width: 900px; height: 900px;" id="canvasDiv">
+                    <!--차트가 그려질 부분-->
+                    <canvas id="myChart"></canvas>
+                </div>
             </div>
             <div class="alert alert-warning alert-dismissible fade show mt-5" role="alert" id="alarm" style="display: none">
                 <strong>민족의 배달 주문!</strong>(주문 현황 페이지로 이동)
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </main>
-
-
 
     </div>
 </div>
@@ -134,6 +142,8 @@
     let userIdx = null;
     let todayDateArray = [];
     let orderPriceArray = [];
+    let x_size = document.getElementById('selectOptionDate').value;
+    var myChart;
 
     const fooLogout = () => {
         window.sessionStorage.clear();
@@ -196,28 +206,29 @@
 
     /** Fetch - get necessary Chart data*/
     const getChartData = () => {
+
         let storeIdx = window.sessionStorage.getItem("storeIdx");
         let data = {
-
         };
-        fetch(`/owner/storeMoney/${storeIdx}`, {
-            method: 'GET'
-        }
+
+        fetch(`/owner/storeMoney/${storeIdx}/${x_size}`, {
+                    method: 'GET'
+                }
         ).then(response => response.json())
-            .then(data => {
-                data.forEach( td => {
-                    let new_today_date = new Date(td.today_date).toLocaleDateString("en-US").substring(4,0);
-                    todayDateArray.push(new_today_date);
-                    orderPriceArray.push(td.order_price);
+                .then(data => {
+                    data.forEach(td => {
+                        let new_today_date = new Date(td.today_date).toLocaleDateString("en-US").substring(4, 0);
+                        todayDateArray.push(new_today_date);
+                        orderPriceArray.push(td.order_price);
+                    });
+                    drawChart();
                 });
-                drawChart();
-            });
     };
 
     /** Chart JS */
     const drawChart = () => {
         const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
+        myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels:  todayDateArray,
@@ -243,6 +254,25 @@
         });
     };
 
+    document.getElementById('selectOptionDate').addEventListener('change', () => {
+        myChart.destroy();
+        let storeIdx = window.sessionStorage.getItem("storeIdx");
+        x_size = document.getElementById('selectOptionDate').value;
+        fetch(`/owner/storeMoney/${storeIdx}/${x_size}`, {
+                    method: 'GET'
+                }
+        ).then(response => response.json())
+                .then(data => {
+                    todayDateArray = [];
+                    orderPriceArray = [];
+                    data.forEach(td => {
+                        let new_today_date = new Date(td.today_date).toLocaleDateString("en-US").substring(4, 0);
+                        todayDateArray.push(new_today_date);
+                        orderPriceArray.push(td.order_price);
+                    });
+                    drawChart();
+                });
+    });
 
     window.onload = () => {
         // 꺼내보자
