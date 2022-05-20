@@ -191,6 +191,9 @@
             location.reload();
         }, 1000);
     }
+    const fooStompToUserSuccessPickup = (event) => {
+        stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '픽업', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
+    };
     /** connect STOMP */
     const connect = () => {
         var socket = new SockJS('/chat');
@@ -365,7 +368,10 @@
                     if(data.orderDeliverPrice == 0){
                         let takeOutBtn = document.createElement('button');
                         takeOutBtn.setAttribute('class', 'btn btn-success');
-                        takeOutBtn.innerHTML = '방문포장';
+                        takeOutBtn.setAttribute('value', data.userIdx);
+                        takeOutBtn.setAttribute('value-tradehistoryidx', data.tradeHistoryIdx);
+                        takeOutBtn.onclick = fooStompToUserSuccessPickup;
+                        takeOutBtn.innerHTML = '방문포장완료하기';
                         optionBtnTd.append(takeOutBtn);
                     }else{
                         let sendDeliverBtn = document.createElement('button');
