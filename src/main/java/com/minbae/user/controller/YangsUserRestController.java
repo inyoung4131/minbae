@@ -85,10 +85,7 @@ public class YangsUserRestController {
 
     @GetMapping("/join/user/sms")
     public String smsAuth(@Param("tel") String tel, HttpServletRequest request) {
-
-
-        return null;
-//        return yangsUserService.sendSms(tel);
+        return yangsUserService.sendSms(tel);
     }
 
 }

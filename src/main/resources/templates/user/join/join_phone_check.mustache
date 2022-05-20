@@ -150,7 +150,7 @@
 
     function countdown() {
         var minute = 4;
-        var sec = 60;
+        var sec = 59;
         setInterval(function () {
             if(sec==0&&min==0&&auth==false){
                 alert('인증이 만료되었습니다');
@@ -159,9 +159,9 @@
             document.getElementById("timer").innerHTML =
                     minute + " : " + sec;
             sec--;
-            if (sec == 0) {
+            if (sec < 0) {
                 minute--;
-                sec = 60;
+                sec = 59;
                 if (minute == 0) {
                     minute = 5;
                 }
