@@ -109,6 +109,14 @@ public class UserRestController {
         return new UserApiResponse(store_location != null ? UserApiStatus.SUCCESS : UserApiStatus.FAIL, store_location);
     }
 
+    //사용자 위도, 경도 받는 api
+    @GetMapping("{lat}/{lng}")
+    public String user_lat_lng(@PathVariable Double lat, @PathVariable Double lng){
+
+        userService.put_lat_lng(lat, lng);
+        return "ok";
+    }
+
     //카카오 로그인
 //    @PostMapping("/login")
 //    public UserApiResponse login(@RequestBody Map<String, Object> param) {

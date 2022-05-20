@@ -11,7 +11,7 @@
 </head>
 <body>
 {{>layout/myPage/my_page_header}}
-    <div><a href="/user/myPage"><-</a></div>
+        <h3 style="text-align: center">주문내역</h3>
     <hr>
 </body>
 <script>
@@ -64,7 +64,6 @@
     const reviewCreate = (store_idx, trade_history_idx) => {
         console.log(trade_history_idx);
         window.location.href = `/user/review/form/${store_idx}/${trade_history_idx}`;
-
     }
 
 </script>

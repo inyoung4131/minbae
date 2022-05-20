@@ -13,13 +13,13 @@
 <body>
 {{>layout/myPage/my_page_header}}
     <div>
-        <span><a href="/user/main"><-</a></span>
-        <span style="margin-left: 17.8rem"><a href="#" class="link-dark">my민배</a></span>
+        <span><a href="/user/main" style="text-decoration-line: none"><-</a></span>
+        <span style="margin-left: 17.8rem" class="font">my민배</span>
     </div>
     <hr>
     <div>
-        <div id="userNickname" style="margin-left: 17.8rem">
-        </div>
+        <h5 id="userNickname" style="margin-left: 17.8rem">
+        </h5>
         <hr>
         <div class="container">
             <div class="row">
@@ -34,7 +34,7 @@
 
     </div>
     <hr>
-    <div>자주 묻는 질문</div>
+    <h3>자주 묻는 질문</h3>
     <div class="accordion accordion-flush" id="accordionFlushExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-headingOne">
@@ -77,9 +77,9 @@
         let user_idx = login.memberData.userIdx;
 
         document.getElementById('userNickname').innerHTML = `귀한 분, ${userNickname} 님`;
-        document.getElementById('order_history').innerHTML = `<a href="/user/order/history/${user_idx}">주문 내역</a>`;
-        document.getElementById('order_detail').innerHTML = `<a href="/user/order/detail">주문 현황</a>`;
-        document.getElementById('review_management').innerHTML = `<a href="/user/review/management/${user_idx}">리뷰 관리</a>`;
+        document.getElementById('order_history').innerHTML = `<a href="/user/order/history/${user_idx}" style="text-decoration-line: none">주문 내역</a>`;
+        document.getElementById('order_detail').innerHTML = `<a href="/user/order/detail" style="text-decoration-line: none">주문 현황</a>`;
+        document.getElementById('review_management').innerHTML = `<a href="/user/review/management/${user_idx}" style="text-decoration-line: none">리뷰 관리</a>`;
     }
 </script>
 </html>

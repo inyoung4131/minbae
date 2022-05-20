@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-
+    <!--카카오 소셜 로그인-->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <style>
         #customHeaderColor {
             background-color: #2AC1BC !important;
@@ -212,8 +213,15 @@
 <script>
     const fooLogout = () => {
         window.sessionStorage.clear();
-        location.href="/owner/store/main";
-    }
+        function kakaoLogout() {
+            Kakao.init('인증키');
+            //로컬전용 location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://localhost:9090/owner/store/main';
+            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://3.34.197.171:9090/owner/store/main';
+
+        };
+        kakaoLogout();
+        alert('로그아웃 성공');
+    };
 
     const fooLogin = () => {
         location.href="/loginForm/owner";

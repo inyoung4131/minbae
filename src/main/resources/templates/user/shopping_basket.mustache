@@ -21,13 +21,13 @@
 </head>
 <body>
 {{>layout/main/main_header}}
-    <a href="javascript:a_back();" class="link-secondary"><-</a>
+    <a href="javascript:a_back();" class="link-secondary" style="text-decoration-line: none" ><-</a>
     <script>
 
         //      조회
         let datas = JSON.parse(sessionStorage.getItem('item'));
-        let shoppingList_store_name = `<div id='store_name'>${datas[0][2]}</div><hr>`;
-        let div_shopping_store_name = document.createElement('div');
+        let shoppingList_store_name = `<h4 id='store_name' style="text-align: center">${datas[0][2]}</h4><hr>`;
+        let div_shopping_store_name = document.createElement('span');
         div_shopping_store_name.innerHTML = shoppingList_store_name;
         document.body.appendChild(div_shopping_store_name);
 
@@ -156,7 +156,7 @@
         }
 
         //더 담으러 가기
-        let more = `<a href="/user/store/detail/${datas[0][9]}/${datas[0][0]}/order" class="link-success">더 담으러 가기</a><hr>`;
+        let more = `<a href="/user/store/detail/${datas[0][9]}/${datas[0][0]}/order" class="link-success" style="text-decoration-line: none">더 담으러 가기</a><hr>`;
         let div_more = document.createElement('div');
         div_more.innerHTML = more;
         document.body.appendChild(div_more);

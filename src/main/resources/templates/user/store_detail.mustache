@@ -19,65 +19,146 @@
 <body>
 {{>layout/main/main_header}}
     {{#type}}
-        <div><a href="/user/store/{{categoryKo}}/{{selectStore.store_category}}/{{type}}"><-</a></div>
+        <a href="/user/store/{{categoryKo}}/{{selectStore.store_category}}/{{type}}" style="text-decoration-line: none"><-</a>
     {{/type}}
     {{^type}}
-        <div><a href="/user/category/click/{{categoryKo}}/{{selectStore.store_category}}"><-</a></div>
+        <a href="/user/category/click/{{categoryKo}}/{{selectStore.store_category}}" style="text-decoration-line: none"><-</a>
     {{/type}}
+    <h3 style="text-align: center">{{selectStore.store_name}}</h3>
+<!--    <span style="margin-left: 19rem; font-size: 28px" class="font">{{selectStore.store_name}}</span>-->
     <hr>
     <div id="top">
-        <ul>
-            <li>{{selectStore.store_name}}</li>
-            <li>
-                {{#selectStore.starAvg}}
-                    {{selectStore.starAvg}}
-                {{/selectStore.starAvg}}
-                {{^selectStore.starAvg}}
-                    0
-                {{/selectStore.starAvg}}
-            </li>
-            <li>최근 리뷰 {{selectStoreReview.commentCnt}} | 최근사장님댓글 {{selectStoreReview.replyCnt}}</li>
-        </ul>
+        <div class="mb-3 row" style="float: none;">
+            <label for="staticEmail" class="col-sm-2 col-form-label">최소주문금액</label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" value="{{selectStore.store_detail_minimum_price}}원">
+            </div>
+        </div>
+        {{#selectStore.starAvg}}
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">별점</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="{{selectStore.starAvg}}점">
+                </div>
+            </div>
+        {{/selectStore.starAvg}}
+        {{^selectStore.starAvg}}
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">별점</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="0점">
+                </div>
+            </div>
+        {{/selectStore.starAvg}}
+
+        <div class="mb-3 row" style="float: none;">
+            <label for="staticEmail" class="col-sm-2 col-form-label">리뷰 {{selectStoreReview.commentCnt}}개</label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" value="사장님댓글 {{selectStoreReview.replyCnt}}개">
+            </div>
+        </div>
+<!--        <ul>-->
+<!--            <li>{{selectStore.store_name}}</li>-->
+<!--            <li>-->
+<!--                {{#selectStore.starAvg}}-->
+<!--                    {{selectStore.starAvg}}-->
+<!--                {{/selectStore.starAvg}}-->
+<!--                {{^selectStore.starAvg}}-->
+<!--                    0-->
+<!--                {{/selectStore.starAvg}}-->
+<!--            </li>-->
+<!--            <li>최근 리뷰 {{selectStoreReview.commentCnt}} | 최근사장님댓글 {{selectStoreReview.replyCnt}}</li>-->
+<!--        </ul>-->
     </div>
     <hr>
     <div id="middle">
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#" id="visitTap">포장/방문주문</a>
+                <a class="nav-link active" aria-current="page" id="visitTap">포장/방문주문</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" id="deliverTap">배달 주문</a>
+                <a class="nav-link" id="deliverTap">배달 주문</a>
             </li>
         </ul>
         <hr>
-        <ul id="deliveryOrder" style="display: none">
-            <li>최소 주문 금액 : {{selectStore.store_detail_minimum_price}}</li>
-            <li>결제 방법 : 바로 결제, 만나서 결제</li>
-            <li>배달팁 : {{selectStore.store_detail_deliver_price}}</li>
-        </ul>
-        <ul id="visitOrder" style="display: block">
-            <li>최소주문금액 : 없음</li>
-            <li>이용 방법 : 매장, 포장</li>
-            <li>결제 방법 : 바로 결제</li>
-            <li>
-                <div>
-                    위치 안내 : {{selectStore.store_basic_addr}} {{selectStore.store_detail_addr}}
+        <div id="deliveryOrder" style="display: none">
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">최소주문금액</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="{{selectStore.store_detail_minimum_price}}원">
                 </div>
-                <div id="map" style="width:50%;height:150px;"></div>
-            </li>
-        </ul>
+            </div>
+
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">결제 방법</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="바로 결제, 만나서 결제">
+                </div>
+            </div>
+
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">배달팁</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="{{selectStore.store_detail_deliver_price}}원">
+                </div>
+            </div>
+        </div>
+<!--        <ul id="deliveryOrder" style="display: none">-->
+<!--            <li>최소 주문 금액 : {{selectStore.store_detail_minimum_price}}</li>-->
+<!--            <li>결제 방법 : 바로 결제, 만나서 결제</li>-->
+<!--            <li>배달팁 : {{selectStore.store_detail_deliver_price}}</li>-->
+<!--        </ul>-->
+        <div id="visitOrder" style="display: block">
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">최소주문금액</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="없음">
+                </div>
+            </div>
+
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">이용 방법</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="매장, 포장">
+                </div>
+            </div>
+
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">결제 방법</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="바로 결제">
+                </div>
+            </div>
+
+            <div class="mb-3 row" style="float: none;">
+                <label for="staticEmail" class="col-sm-2 col-form-label">위치 안내</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" value="{{selectStore.store_basic_addr}} {{selectStore.store_detail_addr}}">
+                </div>
+            </div>
+            <div id="map" style="width:100%;height:350px;"></div>
+<!--            <li>최소주문금액 : 없음</li>-->
+<!--            <li>이용 방법 : 매장, 포장</li>-->
+<!--            <li>결제 방법 : 바로 결제</li>-->
+<!--            <li>-->
+<!--                <div>-->
+<!--                    위치 안내 : {{selectStore.store_basic_addr}} {{selectStore.store_detail_addr}}-->
+<!--                </div>-->
+<!--                <div id="map" style="width:50%;height:150px;"></div>-->
+<!--            </li>-->
+        </div>
     </div>
     <hr>
     <div id="under">
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#" id="menuTap">메뉴</a>
+                <a class="nav-link active" aria-current="page" id="menuTap">메뉴</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" id="infoTap">정보</a>
+                <a class="nav-link" id="infoTap">정보</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" id="reviewTap">리뷰</a>
+                <a class="nav-link" id="reviewTap">리뷰</a>
             </li>
         </ul>
         <hr>
@@ -89,7 +170,7 @@
             <div id="menuList">
                 <h4 style="color: mediumpurple">대표 메뉴</h4>
                 {{#kingMenu}}
-                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}" class="link-secondary">
+                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}" class="link-secondary" style="text-decoration-line: none">
                         <div class="card mb-3" style="max-width: 750px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
@@ -110,7 +191,7 @@
 
                 <h4 style="color: cadetblue">메뉴 소개</h4>
                 {{#menuList}}
-                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}" class="link-secondary">
+                    <a href="/user/store/menu/detail/{{menu_idx}}/{{categoryKo}}" class="link-secondary" style="text-decoration-line: none">
                         <div class="card mb-3" style="max-width: 750px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
