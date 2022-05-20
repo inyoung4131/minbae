@@ -23,8 +23,8 @@ public class OwnerController {
     private final AdminController adminController;
 
     // 로그인 폼 이동 - before
-    @GetMapping("/loginForm/after/owner")
-    public String loginOwnerForm(){return "owner/login_form";}
+//    @GetMapping("/loginForm/after/owner")
+//    public String loginOwnerForm(){return "owner/login_form";}
     // 로그인 폼 이동 - after
     @GetMapping("/loginForm/owner")
     public String newloginOwnerFOrm(){return "owner/login_form_new";}

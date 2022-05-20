@@ -30,7 +30,6 @@ public class TradeHistoryService {
     }
 
     public void changeOrderState(StoreToUserMessage message) {
-        System.out.println("TradeHistoryService에 들어온 message(수락/거절)>>"+message.getMessage());
         Integer resultNum = 0;
         if(message.getMessage().equals("수락")){
             resultNum = tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 1);
@@ -49,7 +48,7 @@ public class TradeHistoryService {
         String today = now.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         String oneMonthBefore = now.minusDays(15).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         List<Map<String, Object>> resultList = tradeHistoryMapper.selectOrderPrice(storeIdx, today, oneMonthBefore);
-        System.out.println("리스트에 담긴 값>>"+resultList.get(0));
+        //System.out.println("리스트에 담긴 값>>"+resultList.get(0));
         return resultList;
     }
 

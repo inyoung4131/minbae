@@ -29,7 +29,7 @@
             r.*, u.user_nickname
         from review r
                  left join user u on u.user_idx = r.user_idx
-        where r.review_write_date between #{startDate} and #{endDate}
+        where r.review_write_date between #{startDate} and date_add(#{endDate}, INTERVAL '23:59:59' HOUR_SECOND)
             and r.store_idx = #{storeIdxVal}
         order by review_idx desc;
     </select>
@@ -40,7 +40,7 @@
         from review r
             left join user u on u.user_idx = r.user_idx
         where
-            r.review_write_date between #{startDate} and #{endDate}
+            r.review_write_date between #{startDate} and date_add(#{endDate}, INTERVAL '23:59:59' HOUR_SECOND)
             and r.store_idx = #{storeIdxVal}
             and r.review_reply is null
         order by review_idx desc;
@@ -101,6 +101,27 @@
         set review_reply = #{review_reply}
         where review_idx = #{review_idx}
     </update>
+
+    <select id="countAllReviewByStoreIdxAndStateAndDate" resultType="integer">
+        select
+            count(review_idx)
+        from
+            review
+        where
+            store_idx = #{storeIdx}
+          and review_write_date between #{startDate} and date_add(#{endDate}, INTERVAL '23:59:59' HOUR_SECOND);
+    </select>
+
+    <select id="countNotReplyReviewByStoreIdxAndStateAndDate" resultType="integer">
+        select
+            count(review_idx)
+        from
+            review
+        where
+            store_idx = #{storeIdx}
+          and review_reply is null
+          and review_write_date between #{startDate} and date_add(#{endDate}, INTERVAL '23:59:59' HOUR_SECOND);
+    </select>
 
 
 </mapper>
