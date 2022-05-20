@@ -38,6 +38,8 @@ public class DeliverController {
     //기사 찾아서 메세지 보내기
     @MessageMapping("/chat/assign")
     public void deliverAssign(@Payload StoreToDeliverMessage dto) {
+        System.out.println(dto.getTradeHistoryIdx());
+        System.out.println(dto.getStoreIdx());
         deliverService.assginDeliver(dto);
     }
 
