@@ -73,7 +73,7 @@
 <!--<div><label>총 수량</label>:<label id="quantity_print"></label></div>-->
 <hr>
 <div>
-    <h5>결제 수단</h5>
+    <h4 style="color: cadetblue">결제 수단</h4>
     <select class="form-select" aria-label="Default select example" onchange="payment()" id="payment">
         <option value="card" selected>카드/신용카드</option>
         <option value="cash">만나서 현금 결제</option>
@@ -81,14 +81,14 @@
 </div>
 <hr>
 <div>
-    <h5>결제 금액</h5>
+    <h4 style="color: cadetblue">결제 금액</h4>
     <div class="mb-3 row" style="float: none;">
         <label for="staticEmail" class="col-sm-2 col-form-label">주문 금액</label>
         <div class="col-sm-10">
             <input type="text" readonly class="form-control-plaintext" id="totalPrice">
         </div>
     </div>
-    <div class="mb-3 row" style="float: none;">
+    <div class="mb-3 row" style="float: none;" id="deliver_price">
         <label for="staticEmail" class="col-sm-2 col-form-label">배달팁</label>
         <div class="col-sm-10">
             <input type="text" readonly class="form-control-plaintext" id="deliverPrice">
