@@ -18,7 +18,8 @@ public class YangsUserController {
         return "user/addr/main_page_addr_change_view_page_edit";
     }
     @GetMapping("/user/main/addr/map")
-    public String mainPageAddrMapPage(){
+    public String mainPageAddrMapPage(String addr,Model model){
+        if(addr!=null)model.addAttribute("basicAddr",addr);
         return "user/addr/main_page_addr_change_view_page_map";
     }
     @GetMapping("/user/main/addr/search")

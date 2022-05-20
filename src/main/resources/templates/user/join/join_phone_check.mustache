@@ -72,7 +72,7 @@
     <div>
         <div class="text_div">인증번호</div>
         <div><input type="text" class="text_input" id="auth_text"></div>
-        <div id="auth_result_text"></div>
+        <div id="auth_result_text" maxlength="5"><span id="timer"></span></div>
     </div>
 </div>
 
@@ -80,25 +80,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
+    var auth=false;
+    var time=new Date();
 
     let authNum;
-    $('#auth_text').on('keyup', function () {
+    $('#auth_text').on('keyup', function (event) {
         if (document.getElementById('auth_text').value == authNum) {
             document.getElementById('auth_result_text').innerText="인증이 완료되었습니다";
             document.getElementById('auth_result_text').style.color='blue';
+            auth=true;
         }else{
             document.getElementById('auth_result_text').innerText="인증번호가 일치하지 않습니다.";
             document.getElementById('auth_result_text').style.color='red';
+            auth=false;
         }
-
     });
 
     $('#next_div').on('click', function () {
+        if(auth==true){
         location.href = "/join/user/email?tel=" + $('#text_input_tel').val().replaceAll('-', '')
+        }else{
+            alert('인증이 완료되지 않았습니다');
+        }
     });
 
     $('#auth_div').hide();
-    $('#text_input_tel').on('keydown', function () {
+    document.getElementById('text_input_tel').addEventListener('keydown',function (event){
+        if(event.keyCode==8){
+            document.getElementById('text_input_tel').value="";
+        }
         if (document.getElementById('text_input_tel').value.length == 3 || document.getElementById('text_input_tel').value.length == 8) {
             document.getElementById('text_input_tel').value += "-";
         }
@@ -106,7 +116,7 @@
         if (document.getElementById('text_input_tel').value.length == 12) {
             changeStatus();
         }
-    });
+    })
 
     function changeStatus() {
         if (document.getElementById('text_input_tel').value.startsWith("010")) {
@@ -118,16 +128,46 @@
         $('#auth_button').hide();
         $('#auth_div').show();
         phoneNumberCheck();
+        countdown();
     });
 
     function phoneNumberCheck() {
-        fetch("/join/user/sms?tel="+document.getElementById('text_input_tel').value.replaceAll("-",""),)
-                .then(response => response.json())
-                .then(data => {
-                    authNum=data;
-                })
+
+        if(((new Date())/1000-(time)/1000)<300) {
+            fetch("/join/user/sms?tel=" + document.getElementById('text_input_tel').value.replaceAll("-", ""),)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data != null) {
+                            authNum = data;
+                        } else {
+
+                        }
+                    })
+        }else{
+            alert('5분 뒤 인증 가능합니다.');
+        }
     }
 
+    function countdown() {
+        var minute = 4;
+        var sec = 60;
+        setInterval(function () {
+            if(sec==0&&min==0&&auth==false){
+                alert('인증이 만료되었습니다');
+                window.location.reload();
+            }
+            document.getElementById("timer").innerHTML =
+                    minute + " : " + sec;
+            sec--;
+            if (sec == 0) {
+                minute--;
+                sec = 60;
+                if (minute == 0) {
+                    minute = 5;
+                }
+            }
+        }, 1000);
+    };
 </script>
 </body>
 </html>

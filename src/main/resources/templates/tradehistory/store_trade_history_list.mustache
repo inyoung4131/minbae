@@ -13,7 +13,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" type="text/javascript"></script>
-
+    <!--카카오 소셜 로그인-->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <style>
         #customHeaderColor {
             background-color: #2AC1BC !important;
@@ -148,8 +149,14 @@
     /** logout */
     const fooLogout = () => {
         window.sessionStorage.clear();
-        alert('sessionStoreage clear success');
-        location.href="/owner/store/main";
+        function kakaoLogout() {
+            Kakao.init('인증키');
+            //로컬전용 location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://localhost:9090/owner/store/main';
+            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://3.34.197.171:9090/owner/store/main';
+
+        };
+        kakaoLogout();
+        alert('로그아웃 성공');
     };
 
     /** logint */
