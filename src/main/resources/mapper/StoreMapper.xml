@@ -17,7 +17,7 @@
         from store s left join flag f on s.store_idx = f.store_idx left join store_detail sd on sd.store_idx = s.store_idx
         where s.store_category LIKE "${category}"
         group by s.store_idx
-        having (dist&lt;10000)
+        having (dist&lt;2500)
         order by cou desc,dist
         limit ${page},${page2}
     </select>
