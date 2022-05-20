@@ -126,6 +126,11 @@
     </style>
 
     <script>
+
+        window.onload = () => {
+            window.sessionStorage.clear();
+        };
+
         const list = document.querySelector('.slide__list');
         const items = document.querySelectorAll('.slide__item');
         const buttons = document.querySelector('.buttons');

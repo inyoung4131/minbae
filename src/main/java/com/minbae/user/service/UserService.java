@@ -36,10 +36,17 @@ public class UserService {
 
     private final UserMapper userMapper;
     private final JwtTokenProvider jwtTokenProvider;
+    private double user_lat;
+    private double user_lng;
+
+    //사용자 위치 위도 경도
+    public void put_lat_lng(Double lat, Double lng) {
+        user_lat = lat;
+        user_lng = lng;
+    }
 
     /**주문 많은 순 리스트*/
     public List<Map<String, Object>> getStoreByCategoryOrderAndStar(String category, String type) {
-
 
         //주문순이나 별점순 리스트를 담을 놈
         List<Map<String, Object>> orderAndStarCntList = new ArrayList<>();
@@ -77,8 +84,47 @@ public class UserService {
         List<Map<String, Object>> finalOrderAndStarCntList = Stream.concat(orderAndStarCntList.stream(), storeByNotInIdxs.stream())
                 .collect(Collectors.toList());
 
-        return finalOrderAndStarCntList;
+        //사용자와 가게의 거리 추출
+        List<Map<String, Object>> km_result = new ArrayList<>();    //사용자 위치에서 1.5km 이내의 가게 리스트 담을 변수
+        for(int i = 0; i < finalOrderAndStarCntList.size(); i++){
+
+            Map<String, Object> data = finalOrderAndStarCntList.get(i);
+
+            //가게 위도, 경도 (15000m가 15km)
+            Double lat = Double.parseDouble(data.get("store_lat").toString());
+            Double lng = Double.parseDouble(data.get("store_lng").toString());
+
+            //사용자와 가게의 거리 추출(미터로 반환됨)
+            double user_store_between = distance(lat, lng, user_lat, user_lng);
+
+            //반환된 거리가 15km 이내인 것만
+            if(user_store_between <= 15000){
+                km_result.add(data);
+            }
+        }
+        System.out.println("km_result -> " + km_result);
+        return km_result;
     }
+
+    private static double distance(double lat1, double lon1, double lat2, double lon2){
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))* Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1))*Math.cos(deg2rad(lat2))*Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60*1.1515*1609.344;
+
+        return dist; //단위 meter
+    }
+
+    //10진수를 radian(라디안)으로 변환
+    private static double deg2rad(double deg){
+        return (deg * Math.PI/180.0);
+    }
+    //radian(라디안)을 10진수로 변환
+    private static double rad2deg(double rad){
+        return (rad * 180 / Math.PI);
+    }
+    /*----------------------------------------------------------------------------*/
 
     //특정 가게 상세 정보
     public Map<String, Object> findStoreById(Long store_idx) {
@@ -108,7 +154,7 @@ public class UserService {
     }
 
     //리뷰 작성
-    public int reviewCreate(UserReviewDTO dto, List<MultipartFile> upload) throws IOException {
+    public int reviewCreate(UserReviewDTO dto, List<MultipartFile> upload) {
 
         List<String> fileName = new ArrayList<>();
         for (MultipartFile mf : upload) {
@@ -116,10 +162,8 @@ public class UserService {
             fileName.add(formatedNow + mf.getOriginalFilename());
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
 
-            System.out.println("formatedNow -> " + formatedNow);
 
             String safeFile = "/home/ec2-user/minbae/C:/이젠/upload/" + formatedNow + originFileName;
-            System.out.println("safeFile ->" + safeFile);
             try {
                 mf.transferTo(new File(safeFile));
             } catch (IllegalStateException e) {
@@ -217,7 +261,6 @@ public class UserService {
 
     public Map<String, Integer> payment(Map<String, Object> map) throws JsonProcessingException {
 
-        System.out.println(map);
 
         if(map.get("order_payment").toString().equals("card")) {    //카드일 때
             /**결제 정보 조회*/
@@ -261,7 +304,6 @@ public class UserService {
 
             //결제정보 조회 요청
             ResponseEntity<String> payment_info = restTemplate.exchange("https://api.iamport.kr/payments/" + imp_uid, HttpMethod.GET, info_httpEntity, String.class);
-            System.out.println("payment_info >> " + payment_info);
 
             ObjectMapper payment_info_mapper = new ObjectMapper();
             //json 문자열로 받아와진 payment_info_mapper을 jsonNode로 생성
