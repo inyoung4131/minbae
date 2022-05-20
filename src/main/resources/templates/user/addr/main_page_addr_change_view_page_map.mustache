@@ -26,11 +26,15 @@
             height: 50px;
         }
 
-        button {
-
+        #submit_button {
+            background-color: rgba(42, 193, 188);
+            font-size: 18px;
+            color: white;
+            width: 385px;
+            border:none;
+            height: 40px;
         }
     </style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
 <div id="head_div"><span id="back"> <img src="https://i.esdrop.com/d/f/3IfGDhTdT6/EWLLTqZXpj.png" width="30px"> </span>
@@ -40,11 +44,9 @@
     <div id="map" style="width:385px;height:385px;"></div>
 </div>
 <div id="selectedDiv"></div>
-<div class="container">
-    <div class="row">
-        <div class="col"><input type="button" id="submit_button" value="이 위치로 주소 설정" class="btn btn-info"></div>
+    <div class="">
+        <div class=""><input type="button" id="submit_button" value="이 위치로 주소 설정"></div>
     </div>
-</div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6068832a63380d546f355acf74c40240&libraries=services"></script>
