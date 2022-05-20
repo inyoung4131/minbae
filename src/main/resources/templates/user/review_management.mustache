@@ -38,7 +38,12 @@
 <body>
 {{>layout/myPage/my_page_header}}
     <div><a href="javascript:history.back()"></a></div>
+{{#reviewCnt.reviewCnt}}
     <h3 style="text-align: center;">내가 쓴 총 리뷰 {{reviewCnt.reviewCnt}}개</h3>
+{{/reviewCnt.reviewCnt}}
+{{^reviewCnt.reviewCnt}}
+    <h3 style="text-align: center;">리뷰가 없어요....</h3>
+{{/reviewCnt.reviewCnt}}
     <hr>
 
     {{#reviewList}}
@@ -100,6 +105,9 @@
 <!--        {{/review_reply}}-->
     </div>
     <hr>
+    {{/reviewList}}
+    {{^reviewList}}
+        <h3 style="text-align: center;">리뷰를 작성해 주세요!</h3>
     {{/reviewList}}
 
 {{>layout/myPage/my_page_footer}}

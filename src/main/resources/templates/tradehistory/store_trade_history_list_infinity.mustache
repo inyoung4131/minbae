@@ -191,6 +191,12 @@
             location.reload();
         }, 1000);
     }
+    const fooStompToUserSuccessPickup = (event) => {
+        stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '픽업', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
+        setTimeout(function() {
+            location.reload();
+        }, 1000);
+    };
     /** connect STOMP */
     const connect = () => {
         var socket = new SockJS('/chat');
@@ -365,7 +371,10 @@
                     if(data.orderDeliverPrice == 0){
                         let takeOutBtn = document.createElement('button');
                         takeOutBtn.setAttribute('class', 'btn btn-success');
-                        takeOutBtn.innerHTML = '방문포장';
+                        takeOutBtn.setAttribute('value', data.userIdx);
+                        takeOutBtn.setAttribute('value-tradehistoryidx', data.tradeHistoryIdx);
+                        takeOutBtn.onclick = fooStompToUserSuccessPickup;
+                        takeOutBtn.innerHTML = '방문포장완료하기';
                         optionBtnTd.append(takeOutBtn);
                     }else{
                         let sendDeliverBtn = document.createElement('button');
@@ -385,7 +394,7 @@
             case 3 : // 배달 완료
                 let completeBtn = document.createElement('button');
                 completeBtn.setAttribute('class', 'btn btn-secondary');
-                completeBtn.innerHTML = '배달/픽업 완료';
+                completeBtn.innerHTML = '배달 완료';
                 optionBtnTd.append(completeBtn);
                 break;
             case 4 : // 주문 취소
@@ -393,6 +402,12 @@
                 orderCanceledBtn.setAttribute('class', 'btn btn-secondary');
                 orderCanceledBtn.innerHTML = '주문취소';
                 optionBtnTd.append(orderCanceledBtn);
+                break;
+            case 5 :
+                let completePickBtn = document.createElement('button');
+                completePickBtn.setAttribute('class', 'btn btn-secondary');
+                completePickBtn.innerHTML = '픽업 완료';
+                optionBtnTd.append(completePickBtn);
         }
 
         // input hidden - userIdx

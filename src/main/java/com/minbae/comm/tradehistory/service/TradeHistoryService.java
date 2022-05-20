@@ -33,8 +33,10 @@ public class TradeHistoryService {
         Integer resultNum = 0;
         if(message.getMessage().equals("수락")){
             resultNum = tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 1);
-        }else{
+        }else if(message.getMessage().equals("거절")){
             resultNum = tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 4);
+        }else if(message.getMessage().equals("픽업")){
+            resultNum = tradeHistoryMapper.updateOrderState(message.getTradehistoryidx(), 5);
         }
 
         if(resultNum < 1){
