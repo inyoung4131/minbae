@@ -98,11 +98,10 @@ public class UserService {
             double user_store_between = distance(lat, lng, user_lat, user_lng);
 
             //반환된 거리가 15km 이내인 것만
-            if(user_store_between <= 15000){
+            if(user_store_between <= 2500){
                 km_result.add(data);
             }
         }
-        System.out.println("km_result -> " + km_result);
         return km_result;
     }
 
