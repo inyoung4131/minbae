@@ -154,9 +154,10 @@
                 if (window.sessionStorage.getItem("memberData") != null) {
                     var data={
                         userIdx: JSON.parse(window.sessionStorage.getItem("memberData"))["memberData"].userIdx,
-                        userBasicAddr: $('#road').val(),
+                        userBasicAddr: $('#road').val()!=null?$('#basic').val():$('#road').val(),
                         userDetailAddr: $('#detail_addr').val()
                     };
+
                     $.ajax({
                         type: 'PUT',
                         url: '/user/main/addr/change',
@@ -166,6 +167,7 @@
                     }).done(function () {
                         var mem = JSON.parse(window.sessionStorage.getItem("memberData"));
                         mem["memberData"].userBasicAddr=$('#road').val();
+                        alert(mem["memberDate"].userBasicAddr);
                         mem["memberData"].userDetailAddr=$('#detail_addr').val();
                         window.sessionStorage.setItem("memberData",JSON.stringify(mem));
                         location.href = "/user/main/addr/main";

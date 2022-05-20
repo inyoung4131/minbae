@@ -139,10 +139,13 @@ public class DeliverService {
         ARD.setUserIdx(user.getUserIdx());
         ARD.setUserBasicAddr(user.getUserBasicAddr());
         List<Deliver> list = deliverRepository.findAll();
+        System.out.println("2"+list.get(0).getDeliverIdx());
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getDeliverWorkState() == 0) {
                 double distanceMeter = distance(store.getStoreLat(), store.getStoreLng(), list.get(i).getDeliverLat(), list.get(i).getDeliverLng(), "meter");
-                if (distanceMeter < 15000000) {
+                System.out.println("1"+list.get(0).getDeliverIdx());
+                if (distanceMeter < 2500) {
+                    System.out.println("3"+list.get(0).getDeliverIdx());
                     dellist.add(list.get(i).getDeliverIdx());
                     simpMessagingTemplate.convertAndSend("/topic/deliver/" + list.get(i).getDeliverIdx(), ARD);
                 }
