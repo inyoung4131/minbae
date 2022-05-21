@@ -116,7 +116,7 @@
                     <th scope="col">배달주소</th> <!--사용자테이블-->
                     <th scope="col">배정기사</th> <!--식별번호 말고 기사정보 가져오려면 또 조인해야함-->
                     <th scope="col">고객전화번호</th> <!--사용자테이블-->
-                    <th scope="col">배송상태</th>
+                    <th scope="col" style="display: none;">배송상태</th>                                     <!--추가-->
                     <th scope="col">설정</th>
                 </tr>
                 </thead>
@@ -330,7 +330,7 @@
         let deliverIdxTd = document.createElement('td');
         deliverIdxTd.className = 'article-list__item__image';
         if(data.deliverIdx){
-            deliverIdxTd.innerText = data.deliverIdx;
+            deliverIdxTd.innerText = data.deliverIdx+'번 기사';
         }else{
             deliverIdxTd.innerText = '미배정';
         }
@@ -343,6 +343,7 @@
         let orderStateTd = document.createElement('td');
         orderStateTd.className = 'article-list__item__image';
         orderStateTd.innerText = data.orderState;
+        orderStateTd.style.display = 'none';                                    //////////추가
         // optionBtn - td 태그
         let optionBtnTd = document.createElement('td');
         optionBtnTd.className = 'article-list__item__image';

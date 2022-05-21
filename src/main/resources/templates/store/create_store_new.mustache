@@ -115,7 +115,10 @@
                 }).then(response => {
                     const msg = (response.ok) ? "생성 성공" : "생성 실패!!";
                     alert(msg);
-                    location.href=`/owner/selectStore/${store.ownerIdx.ownerIdx}`;
+
+                    return response.json();
+                }).then(data => {
+                    location.href=`/owner/storeInfo/${data.storeIdx}`;
                 });
             });
         </script>
@@ -147,7 +150,7 @@
                             document.getElementById('lat').value = data2.documents[0].y;
                             document.getElementById('lng').value = data2.documents[0].x;
                         }).fail(function (error) {
-                            alert(JSON.stringify(error));
+                            //alert(JSON.stringify(error));
                         });
 
                         var guideTextBox = document.getElementById("guide");
@@ -174,7 +177,7 @@
                                     document.getElementById('lng').value = data2.documents[0].x;
                                     document.getElementById("sample4_jibunAddress").value = expJibunAddr;
                                 }).fail(function (error) {
-                                    alert(JSON.stringify(error));
+                                    //alert(JSON.stringify(error));
                                 });
                             }
                         } else {

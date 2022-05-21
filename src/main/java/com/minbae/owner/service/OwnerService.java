@@ -57,19 +57,19 @@ public class OwnerService {
     public Map<String, Object> kakaoLogin(Map<String, Object> param) {
 
         String kakaoEmail = (String) param.get("email");
+        if(kakaoEmail == null || kakaoEmail.equals("")){
+            param.remove("email");
+            param.put("email", param.get("pwd")+"@kakao.noemail");
+        }
 
         // 카카오 회원 체크
         Map<String, Object> kakaoUser = ownerMapper.findByKakaoEmailAndKakoPwd(param.get("email"), param.get("pwd"));
 
         // 없으면 insert
         if(kakaoUser == null) {
-            if(kakaoEmail == null || kakaoEmail.equals("")){
-                ownerMapper.insertKakaoOwner(param.get("pwd")+"@kakao.noemail", param.get("nickName"), param.get("pwd"));
-                kakaoUser.remove("email");
-                kakaoUser.put("email", param.get("pwd")+"@kakao.noemail");
-            }else{
-                ownerMapper.insertKakaoOwner(param.get("email"), param.get("nickName"), param.get("pwd"));
-            }
+            ownerMapper.insertKakaoOwner(param.get("email"), param.get("nickName"), param.get("pwd"));
+            Map<String, Object> kakaoNewUser = ownerMapper.findByKakaoEmailAndKakoPwd(param.get("email"), param.get("pwd"));
+            return kakaoNewUser;
         }
 
 

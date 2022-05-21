@@ -32,7 +32,7 @@
             <!--addr start-->
             <div class="col-2">
                 <input type="button" class="btn btn-outline-primary mb-2" onclick="sample4_execDaumPostcode()" value="주소 찾기">
-                <input type="text" class="form-control" id="sample4_postcode" value="우편번호">
+                <input type="text" class="form-control" id="sample4_postcode" value="우편번호" readonly>
             </div>
             <div class="col-12">
                 <label for="inputStoreBasicAddr" class="form-label">가게 도로명 주소</label>
@@ -197,7 +197,6 @@
 <script>
     const updateStoreBtn = document.querySelector('#update-btn');
     updateStoreBtn.addEventListener('click', function (){
-        window.alert('수정버튼눌림?');
         // store 객체 생성
         const store = {
             storeIdx: document.querySelector("#storeIdx").value,
@@ -216,7 +215,7 @@
 
         // fetch
         const url = "/api/storeInfo/update/"+store.storeIdx;
-        alert(store.storeIdx);
+        //alert(store.storeIdx);
         fetch(url, {
             method: "PATCH",
             body: JSON.stringify(store),
@@ -269,7 +268,7 @@
             alert("상세정보 수정 성공");
             location.reload();
         }).fail(function (error) {
-            alert(JSON.stringify(error));
+            //alert(JSON.stringify(error));
             alert("상세정보 수정 실패");
             return;
         });
@@ -349,7 +348,9 @@
     const deleteBtn = document.querySelector('#storeDelete');
 
         deleteBtn.addEventListener("click", () => {
-            alert('정말 삭제 하시겠습니까?');
+            if(confirm('정말 삭제 하시겠습니까?') == false ){
+                return;
+            }
             // 삭제 API 호출 및 처리
             let storeIdx = document.querySelector("#storeIdx").value;
             const url = "/api/store/delete/"+storeIdx;

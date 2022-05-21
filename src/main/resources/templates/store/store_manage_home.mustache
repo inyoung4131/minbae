@@ -104,12 +104,12 @@
             <div class="mb-5">
                 <h2 class="h2">관리중인 가게명 : {{storeName}}</h2>
             </div>
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div class="d-flex  flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
 
                 </div>
-                <div class="d-flex justify-content-end align-items-center">
-                    <select class="form-select form-select-sm" aria-label="Default select example" id="selectOptionDate" style="width: 10rem;">
+                <div class="d-flex justify-content-start align-items-center mb-3 pb-3 border-bottom">
+                    <select class="form-select form-select-sm ms-5" aria-label="Default select example" id="selectOptionDate" style="width: 10rem;">
                         <option value="7">7일 기준</option>
                         <option value="14" selected>14일 기준</option>
                         <option value="30">30일 기준</option>
@@ -117,8 +117,8 @@
                     <span class="text ms-3">※ 일별 매출액(조회기간을 선택해주세요)</span>
                 </div>
             </div>
-            <div id="parentDiv">
-                <div style="width: 900px; height: 900px;" id="canvasDiv">
+            <div id="parentDiv" class="mt-3">
+                <div style="width: 900px; height: auto;" id="canvasDiv">
                     <!--차트가 그려질 부분-->
                     <canvas id="myChart"></canvas>
                 </div>
