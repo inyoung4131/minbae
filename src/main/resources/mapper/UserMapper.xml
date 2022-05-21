@@ -148,13 +148,12 @@
 
     <select id="orderHistory" resultType="hashMap">
         select
-            t.order_date, sd.store_detail_info_img, s.store_name, sum(thd.count) totalCount, t.order_price, t.trade_history_idx, s.store_idx
+            t.order_date, sd.store_detail_info_img, s.store_name, t.order_price, t.trade_history_idx, s.store_idx
         from trade_history t
-                 join trade_history_detail thd on t.trade_history_idx = thd.trade_history_idx
                  join store_detail sd on t.store_idx = sd.store_idx
                  join store s on s.store_idx = sd.store_idx
         where user_idx = #{user_idx}
-        group by t.trade_history_idx;
+        order by order_date desc
     </select>
 
     <select id="reviewState" resultType="hashMap">
@@ -230,11 +229,13 @@
 
     <select id="get_order_store" resultType="hashMap">
         select
-            store_name, th.order_date, th.order_state
+            store_name, th.order_date, th.order_state, s.store_idx, th.trade_history_idx, review_comment, sd.store_detail_info_img, th.order_price
         from trade_history th
-                 join store s on th.store_idx = s.store_idx
+                 left join store s on th.store_idx = s.store_idx
+                 left join review r on th.trade_history_idx = r.trade_history_idx
+                 left join store_detail sd on s.store_idx = sd.store_idx
         where th.user_idx = #{user_idx}
-        order by th.order_date desc;
+        order by th.order_date desc
     </select>
 
     <select id="get_store_lication" resultType="hashMap">
@@ -244,23 +245,32 @@
         where store_idx = #{store_idx};
     </select>
 
-<!--    <select id="kakaoLogin" resultType="hashmap">-->
-<!--        SELECT-->
-<!--            user_idx userIdx, user_nickname userNickname, user_email-->
-<!--        FROM-->
-<!--            user-->
-<!--        WHERE-->
-<!--            user_email = #{id}-->
-<!--            AND-->
-<!--            user_social = #{type}-->
-<!--    </select>-->
+    <select id="kakaoLogin" resultType="hashmap">
+        SELECT
+            user_idx, user_nickname, user_email, user_pwd
+        FROM
+            user
+        WHERE
+            user_email = #{id}
+            AND
+            user_social = #{type}
+    </select>
 
-<!--    <insert id="insertKakaoUser">-->
-<!--        INSERT INTO-->
-<!--            user (user_email, user_social, user_nickName)-->
-<!--        VALUES (-->
-<!--                #{id}, #{type}, #{nickName}-->
+    <insert id="insertKakaoUser">
+        INSERT INTO
+            user (user_email, user_social, user_nickName, user_pwd)
+        VALUES (
+                #{id}, #{type}, #{nickName}, #{pwd}
 
-<!--               )-->
-<!--    </insert>-->
+               )
+    </insert>
+
+    <update id="tel_update">
+        UPDATE
+            user
+        SET
+            user_tel = #{user_tel}
+        WHERE
+            user_idx = #{user_idx}
+    </update>
 </mapper>

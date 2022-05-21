@@ -17,10 +17,9 @@
         }
 
     </style>
-<!--    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>-->
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body class="text-center container">
-<!--<a id="kakao-login-btn"></a>-->
 <main class="form-signin mt-5 row justify-content-center">
     <div class="col-6">
         <form>
@@ -36,15 +35,10 @@
                 <input type="password" class="form-control" id="pwd" placeholder="Password" required>
                 <label for="floatingPassword">비밀번호</label>
             </div>
-
-            <div class="checkbox mb-3 text-start">
-                <label>
-                    <input type="checkbox" value="remember-me"> 아이디 기억하기
-                </label>
-            </div>
             <button class="btn btn-primary" type="button" id="testlogin">로그인</button>
             <button class="btn btn-primary" type="button" id="join" onclick="javascript:location.href='/join/user'">회원가입</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2022 minbae final project</p>
+            <a id="kakao-login-btn"></a>
         </form>
     </div>
 
@@ -94,54 +88,74 @@
     };
     main.init();
 </script>
-<!--<script>-->
-<!--    Kakao.init('fd415bfe990421083c1a4135da20924a');-->
-<!--    console.log(Kakao.isInitialized());-->
+<script>
+    Kakao.init('fd415bfe990421083c1a4135da20924a');
+    console.log(Kakao.isInitialized());
 
-<!--    Kakao.Auth.createLoginButton({-->
-<!--        container: '#kakao-login-btn',-->
-<!--        success: function(authObj) {-->
-<!--            Kakao.API.request({-->
-<!--                url: '/v2/user/me',-->
-<!--                success: function(result) {-->
-<!--                    const kakaoId = result?.id;-->
-<!--                    const kakaoNickName = result?.properties?.nickname;-->
+    Kakao.Auth.createLoginButton({
+        container: '#kakao-login-btn',
+        success: function(authObj) {
+            Kakao.API.request({
+                url: '/v2/user/me',
+                success: function(result) {
+                    const kakaoId = result?.id;
+                    const kakaoNickName = result?.properties?.nickname;
 
-<!--                    const data = {-->
-<!--                        'id' : kakaoId,-->
-<!--                        'nickName' : kakaoNickName,-->
-<!--                        'type' : 'kakao',-->
-<!--                    }-->
+                    const data = {
+                        'id' : kakaoId,
+                        'nickName' : kakaoNickName,
+                        'type' : 'kakao',
+                        'pwd' : new Date()
+                    }
 
-<!--                    fetch('http://localhost:9090/user/login', {-->
-<!--                        method: "POST",-->
-<!--                        body: JSON.stringify(data),-->
-<!--                        headers: {-->
-<!--                            "Content-Type" : "application/json"-->
-<!--                        }-->
-<!--                    }).then(response => response.json())-->
-<!--                            .then(data => {-->
-<!--                                // let userIdx = data.data.memberData.user_idx;-->
-<!--                                // let userNickname = data.data.memberData.user_nickname;-->
-<!--                                let memberData = {-->
-<!--                                    'memberData' : data.data.memberData-->
-<!--                                }-->
-<!--                                window.sessionStorage.setItem("token", data.data.accessToken);-->
-<!--                                window.sessionStorage.setItem("memberData", JSON.stringify(memberData));-->
-<!--                                location.href = '/';-->
-<!--                            });-->
-<!--                },-->
-<!--                fail: function(error) {-->
-<!--                    alert(-->
-<!--                            'login success, but failed to request user information: ' +-->
-<!--                            JSON.stringify(error)-->
-<!--                    )-->
-<!--                },-->
-<!--            })-->
-<!--        },-->
-<!--        fail: function(err) {-->
-<!--            alert('failed to login: ' + JSON.stringify(err))-->
-<!--        },-->
-<!--    })-->
-<!--</script>-->
+                    fetch('/user/login', {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: {
+                            "Content-Type" : "application/json"
+                        }
+                    }).then(response => response.json())
+                            .then(data => {
+
+                                let userEmail = data.data.user_email;
+                                let userPwd = data.data.user_pwd;
+
+                                var a_data = {
+                                    email: userEmail,
+                                    pwd: userPwd
+                                };
+
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '/login/user',
+                                    data: a_data
+                                }).done(function (loginval) {
+                                    // console.log('loginval -> ' + loginval.status)
+                                    // console.log('memberData -> ' + loginval.memberData.memberData.userEmail)
+
+                                    sessionStorage.setItem("memberData", JSON.stringify(loginval.memberData));
+                                    let get_login = sessionStorage.getItem("memberData");
+                                    let login = JSON.parse(get_login);
+                                    let userTel = login.memberData.userTel;
+                                    console.log(userTel)
+                                        location.href = '/user/main';
+
+                                }).fail(function (error) {
+                                    alert(JSON.stringify(error));
+                                });
+                            });
+                },
+                fail: function(error) {
+                    alert(
+                            'login success, but failed to request user information: ' +
+                            JSON.stringify(error)
+                    )
+                },
+            })
+        },
+        fail: function(err) {
+            alert('failed to login: ' + JSON.stringify(err))
+        },
+    })
+</script>
 </html>

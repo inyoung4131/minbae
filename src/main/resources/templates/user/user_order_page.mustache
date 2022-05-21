@@ -49,13 +49,22 @@
 <!--    <div><label>상세주소</label><input type="text" id="user_addr_detail" value="{{user_info.user_detail_addr}}"></div>-->
 </div>
 
+{{#user_info.user_tel}}
 <div class="mb-3 row" style="float: none;">
     <label for="staticEmail" class="col-sm-2 col-form-label">전화번호</label>
     <div class="col-sm-10">
         <input type="text" readonly class="form-control-plaintext" id="user_tel" value="{{user_info.user_tel}}">
     </div>
 </div>
-<!--<div><label>전화번호</label>:<label id="user_tel">{{user_info.user_tel}}</label></div>-->
+{{/user_info.user_tel}}
+{{^user_info.user_tel}}
+    <div class="mb-3 row" style="float: none;">
+        <label for="staticEmail" class="col-sm-2 col-form-label">전화번호</label>
+        <div class="col-sm-10">
+            <a href="/user/kakao/tel" style="color: red">전화번호를 등록해 주세요!(클릭)</a>
+        </div>
+    </div>
+{{/user_info.user_tel}}
 <hr>
 <div class="mb-3 row" style="float: none;">
     <label for="staticEmail" class="col-sm-2 col-form-label">메뉴</label>
@@ -188,7 +197,7 @@
         menu_name_str = menu_names[0];
     }
 
-    let user_tel = document.getElementById('user_tel').value;   //연락처
+    let user_tel = document.getElementById('user_tel')?.value;   //연락처
     let user_addr = document.getElementById('user_addr').value; //주소
     let user_addr_detail = document.getElementById('user_addr_detail').value;
     let user_email = document.getElementById('user_email').value;
@@ -205,6 +214,7 @@
     let menu_quantity_join = menu_quantity.join(",");
 
     const requestPay = () => {
+
         if(user_payment == 'card'){     //카드로 결제하는 경우
             let IMP = window.IMP;
             IMP.init("imp23989875");
