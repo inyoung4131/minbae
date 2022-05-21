@@ -9,4 +9,5 @@ window.onload = function (){
     document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);
     document.getElementById('fifth-item-href').setAttribute('href', '/owner/store/'+storeIdxVal+'/reviews');
     document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/infinity/'+storeIdxVal);
+    document.getElementById('seventh-item-href').setAttribute('href', '/owner/create/flag/'+storeIdxVal);
 };

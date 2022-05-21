@@ -86,6 +86,12 @@
                             주문 관리
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="seventh-item-href">
+                            <span data-feather="layers"></span>
+                            유료광고(깃발) 관리
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -156,7 +162,7 @@
         function kakaoLogout() {
             Kakao.init('인증키');
             //로컬전용 location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://localhost:9090/owner/store/main';
-            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://3.34.197.171:9090/owner/store/main';
+            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://52.78.65.121:9090/owner/store/main';
 
         };
         kakaoLogout();
@@ -179,6 +185,7 @@
         document.getElementById('fourth-item-href').setAttribute('href', '/owner/menu/create/'+storeIdxVal);
         document.getElementById('fifth-item-href').setAttribute('href', '/owner/store/'+storeIdxVal+'/reviews');
         document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/infinity/'+storeIdxVal);
+        document.getElementById('seventh-item-href').setAttribute('href', '/owner/create/flag/'+storeIdxVal);
     };
 
     /** menu kingmenu value change : number to string */
