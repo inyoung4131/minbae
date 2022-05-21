@@ -117,42 +117,32 @@ public class UserRestController {
         return "ok";
     }
 
+    @GetMapping("/trade_history_idx")
+    public UserApiResponse tradeHistoryIdx(){
+        int trade_history_idx = userService.trade_history_idx();
+        System.out.println(trade_history_idx);
+
+        return  (trade_history_idx != 0) ?
+                new UserApiResponse(UserApiStatus.SUCCESS, trade_history_idx) :
+                new UserApiResponse(UserApiStatus.FAIL, null);
+    }
+
     //카카오 로그인
-//    @PostMapping("/login")
-//    public UserApiResponse login(@RequestBody Map<String, Object> param) {
-//        System.out.println(param);
-//        return new UserApiResponse(UserApiStatus.SUCCESS, userService.kakaoLogin(param));
-//    }
+    @PostMapping("/login")
+    public UserApiResponse login(@RequestBody Map<String, Object> param) {
+        System.out.println("userService.kakaoLogin(param) -> " + userService.kakaoLogin(param));
 
-//    @GetMapping("/trade_history_idx")
-//    public UserApiResponse tradeHistoryIdx(){
-//        int trade_history_idx = userService.trade_history_idx();
-//        System.out.println(trade_history_idx);
-//
-//        return  (trade_history_idx != 0) ?
-//                new UserApiResponse(UserApiStatus.SUCCESS, trade_history_idx) :
-//                new UserApiResponse(UserApiStatus.FAIL, null);
-//    }
+        return new UserApiResponse(UserApiStatus.SUCCESS, userService.kakaoLogin(param));
+    }
 
-//    //주문 많은 순, 별점 많은 순
-//    @GetMapping("/store/{category}/{type}")
-//    public UserApiResponse getStoreByCategory(@PathVariable("category") String category,
-//                                              @PathVariable("type") String type) {
-//
-//        List<String> categorys = new ArrayList<>(Arrays.asList("CHICKEN", "CHINESEFOOD", "DESSERT", "BUNSIK", "PIZZA", "JAPANESEFOOD"));
-//
-//        if(!categorys.contains(category)) {
-//            throw new UserCommException(UserExceptionType.NotExistCategoryException);
-//        }
-//
-//
-//        if(type.equals("star")){
-//            return null;
-//        } else if(type.equals("order")){
-//            return new UserApiResponse(UserApiStatus.SUCCESS, userService.getStoreByCategory(category));
-//        } else {
-//            throw new UserCommException(UserExceptionType.NOT_EXIST_TYPE);
-//        }
-//    }
+    //카카오 로그인 시 전화번호 저장
+    @PatchMapping("/kakao/tel/update/{user_idx}")
+    public UserApiResponse tel_update(@RequestBody Map<String, String> user_tel,
+                                      @PathVariable Long user_idx){
+
+        int tel_update_result = userService.tel_update(user_tel, user_idx);
+
+        return new UserApiResponse(tel_update_result != 0 ? UserApiStatus.SUCCESS : UserApiStatus.FAIL, tel_update_result);
+    }
 
 }

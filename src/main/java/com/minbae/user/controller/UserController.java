@@ -206,4 +206,9 @@ public class UserController {
         return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
     }
 
+    @GetMapping("/kakao/tel")
+    public String kakao_tel_write(){
+        return "user/kakao_tel_write";
+    }
+
 }

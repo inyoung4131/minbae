@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+{{>layout/myPage/my_page_header}}
+<h2 style="text-align: center">전화번호 등록</h2>
+<hr>
+    <form>
+        <div style="text-align: center; margin-top: 1rem">
+            <label for="exampleInputEmail1" class="form-label">전화번호</label>
+            <input type="tel" id="user_tel" required>
+            <span id="emailHelp" class="form-text">'-' 없이 입력해 주세요</span>
+        </div>
+        <hr>
+        <div style="text-align: center; margin-top: 1rem"><button class="btn btn-primary" onclick="update_tel();" >입력</button></div>
+    </form>
+</body>
+<script>
+    const update_tel = () => {
+        let get_login = window.sessionStorage.getItem("memberData");
+        let login = JSON.parse(get_login);
+        let user_idx = login.memberData.userIdx;
+        if(document.getElementById('user_tel').value == ''){
+
+        }else {
+            fetch(`/user/kakao/tel/update/${user_idx}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'user_tel' : document.getElementById('user_tel').value
+                })
+            }).then(response => response.json())
+                    .then(data => {
+                        if(data.status == 'SUCCESS'){
+                            location.href = document.referrer;
+
+                        }
+                    });
+        }
+    }
+
+</script>
+</html>

@@ -322,7 +322,7 @@
         fetch(`/user/store/detail/review/${store_idx}`)
         .then((response) => response.json())
         .then((datas) => {
-            datas.data.forEach( (data, idx) => {
+            datas.data.forEach( data => {
                 let api_date = data.review_write_date;
                 let timestamp = api_date;
                 let date = new Date(timestamp);

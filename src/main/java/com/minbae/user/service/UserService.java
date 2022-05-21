@@ -349,27 +349,30 @@ public class UserService {
     }
 
     //카카오 로그인
-//    public Map<String, Object> kakaoLogin(Map<String, Object> param) {
-//        // 카카오 회원 체크
-//        Map<String, Object> kakaoUser = userMapper.kakaoLogin(param);
-//        System.out.println(kakaoUser);
-//
-//        // 없으면 insert
-//        if(kakaoUser == null) {
-//            userMapper.insertKakaoUser(param);
-//            kakaoUser = userMapper.kakaoLogin(param);
-//        }
-//
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("accessToken", jwtTokenProvider.createToken(kakaoUser.get("user_email").toString(), Long.parseLong(kakaoUser.get("userIdx").toString())));
-//        result.put("memberData", kakaoUser);
-//        return result;
-//    }
+    public Map<String, Object> kakaoLogin(Map<String, Object> param) {
+        // 카카오 회원 체크
+        Map<String, Object> kakaoUser = userMapper.kakaoLogin(param);
 
-//    public int trade_history_idx() {
-//        int trade_history_idx = userMapper.get_last_trade_history_idx();
-//
-//        return trade_history_idx;
-//    }
+        // 없으면 insert
+        if(kakaoUser == null) {
+            userMapper.insertKakaoUser(param);
+            kakaoUser = userMapper.kakaoLogin(param);
+        }
 
+        return kakaoUser;
+    }
+
+    public int trade_history_idx() {
+        int trade_history_idx = userMapper.get_last_trade_history_idx();
+
+        return trade_history_idx;
+    }
+
+    public int tel_update(Map<String, String> user_tel, Long user_idx) {
+        String tel = user_tel.get("user_tel");
+
+        int tel_update_result = userMapper.tel_update(tel, user_idx);
+
+        return tel_update_result;
+    }
 }

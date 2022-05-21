@@ -23,14 +23,13 @@
         <hr>
         <div class="container">
             <div class="row">
-                <div class="col" id="order_history" style="margin-left: 5rem">
-                </div>
-                <div class="col" id="order_detail">
+                <div class="col" id="order_detail" style="margin-left: 9rem">
                 </div>
                 <div class="col" id="review_management">
                 </div>
             </div>
         </div>
+<!--        <div class="col" id="kakao_tel"></div>-->
 
     </div>
     <hr>
@@ -39,31 +38,35 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                    물어보지
+                    주문했던 가게에서 연락이 왔어요
                 </button>
             </h2>
             <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">바보</div>
+                <div class="accordion-body">
+                    음식 배달을 위해 가게로 전달된 주문 정보는 개인정보보호법에 따라 배달 완료 후 파기하는 것이 원칙입니다.
+                    배달 완료 후 전화, 문자, 메신저 등 연락이 지속된다면 고객 안심 센터로 신고해 주세요.
+                </div>
             </div>
         </div>
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    마세요.
+                    저의 주소와 연락처가 공개되어 있어요
                 </button>
             </h2>
             <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">멍청이</div>
+                <div class="accordion-body">개인정보보호법에 따라 개인정보 목적 외의 용도로 이용하거나 이를 제 3자에게 제공하여서는 안 됩니다.
+                고객님의 연락처나 주소 들 개인정보가 일부라도 리뷰에 노출되었을 시 즉시 고객 안심 센터로 신고해 주세요.</div>
             </div>
         </div>
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                    퉤퉤퉤
+                    가게와의 갈등이 있었어요
                 </button>
             </h2>
             <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">똥개</div>
+                <div class="accordion-body">위협적인 가게의 태도에 공포심을 느꼈거나 배달 과정 중 불미스러운 일이 발생했다면, 주저 말고 고객 안심 센터로 신고해 주세요.</div>
             </div>
         </div>
     </div>
@@ -75,11 +78,16 @@
         let login = JSON.parse(get_login);
         let userNickname = login.memberData.userNickname;
         let user_idx = login.memberData.userIdx;
+        // let userTel = login.memberData.userTel;
 
         document.getElementById('userNickname').innerHTML = `귀한 분, ${userNickname} 님`;
-        document.getElementById('order_history').innerHTML = `<a href="/user/order/history/${user_idx}" style="text-decoration-line: none">주문 내역</a>`;
-        document.getElementById('order_detail').innerHTML = `<a href="/user/order/detail" style="text-decoration-line: none">주문 현황</a>`;
+        // document.getElementById('order_history').innerHTML = `<a href="/user/order/history/${user_idx}" style="text-decoration-line: none">주문 내역</a>`;
+
+        //kakao 처음 로그인 시 전화번호 db에 저장
+        // if(userTel === null){
+        //     document.getElementById('kakao_tel').innerHTML = `<hr><div><a href="/user/kakao/tel" style="text-decoration-line: none; margin-left: 18rem">추가 정보 작성</a></div>`;
+        // }
+        document.getElementById('order_detail').innerHTML = `<a href="/user/order/detail" style="text-decoration-line: none">주문 현황/리뷰 작성</a>`;
         document.getElementById('review_management').innerHTML = `<a href="/user/review/management/${user_idx}" style="text-decoration-line: none">리뷰 관리</a>`;
     }
 </script>
-</html>

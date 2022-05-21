@@ -61,7 +61,7 @@ public class DeliverService {
         ARD.setTradeHistoryIdx(tradeHistory.getTradeHistoryIdx());
         ARD.setUserIdx(user.getUserIdx());
         ARD.setUserBasicAddr(user.getUserBasicAddr());
-        simpMessagingTemplate.convertAndSend("/topic/store/" + tradeHistory.getStoreIdx().getStoreIdx(), message);
+        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), message);
         simpMessagingTemplate.convertAndSend("/topic/deliver/" + tradeHistory.getDeliverIdx().getDeliverIdx(), ARD);
     }
 
@@ -119,7 +119,7 @@ public class DeliverService {
         }
         map.remove(Long.toString(tradeIdx));
         servletContext.removeAttribute(Long.toString(tradeIdx));
-        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), message);
+        simpMessagingTemplate.convertAndSend("/topic/store/" + tradeHistory.getStoreIdx().getStoreIdx(), message);
     }
 
     public void assginDeliver(StoreToDeliverMessage dto) {
