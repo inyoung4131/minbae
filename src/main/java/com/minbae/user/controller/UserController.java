@@ -29,7 +29,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/main")
-    public String index(){
+    public String user_index(){
         return "user/user_index";
     }
 

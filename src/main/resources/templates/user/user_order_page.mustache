@@ -214,7 +214,11 @@
     let menu_quantity_join = menu_quantity.join(",");
 
     const requestPay = () => {
-
+        console.log('user_tel -> ' + user_tel)
+        if(user_tel === undefined){
+            alert('전화번호를 등록해 주세요!');
+            return;
+        }
         if(user_payment == 'card'){     //카드로 결제하는 경우
             let IMP = window.IMP;
             IMP.init("imp23989875");
