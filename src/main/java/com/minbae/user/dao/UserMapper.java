@@ -60,4 +60,6 @@ public interface UserMapper {
     int insertKakaoUser(Map<String, Object> param);
 
     Map<String, Integer> get_store_lication(Integer store_idx);
+
+    int tel_update(String user_tel, Long user_idx);
 }
