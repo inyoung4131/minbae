@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <!--카카오 소셜 로그인-->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <style>
         #customHeaderColor {
             background-color: #2AC1BC !important;
@@ -138,8 +139,6 @@
     </div>
 </div>
 
-
-
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <!-- create login & logout button -->
@@ -182,6 +181,13 @@
         document.getElementById('seventh-item-href').setAttribute('href', '/owner/create/flag/'+storeIdxVal);
     };
 
+    const play_music = () => {
+        let sound = new Howl({
+            src: ['/staticMusic/baeminorder.mp3']
+        });
+        sound.play();
+    };
+
     /** STOMP message -> show Alert */
     const fooShowAlert = () => {
         document.getElementById('alarm').addEventListener('click', () => {
@@ -197,6 +203,7 @@
             const storeIdx = window.sessionStorage.getItem("storeIdx");
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/store/'+storeIdx, function (greeting) {
+                play_music();
                 alert('메시지 도착');
                 let alarm = document.getElementById('alarm');
                 alarm.style.display = 'block';

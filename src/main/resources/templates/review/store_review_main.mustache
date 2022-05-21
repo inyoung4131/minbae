@@ -163,7 +163,7 @@
                                         data-bs-target="#update-reply-modal"
                                         data-bs-reviewidx="{{review_idx}}"
                                         data-bs-reviewreply="{{review_reply}}"
-                                        data-bs-storeidx="{{store_idx}}">답변수정-모달</button>
+                                        data-bs-storeidx="{{store_idx}}">답변수정</button>
                                 <button type="button" class="btn btn-sm btn-outline-danger comment-delete-btn" id="deleteReplyBtn"
                                         bt-review-idx="{{review_idx}}"
                                         bt-store-idx="{{store_idx}}">답변삭제</button>
@@ -182,9 +182,9 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="review-image-div">
-                                        <img src="/image/{{#review_img1}}{{review_img1}}{{/review_img1}}{{^review_img1}}{{/review_img1}}">
-                                        <img src="/image/{{#review_img2}}{{review_img2}}{{/review_img2}}{{^review_img2}}{{/review_img2}}">
-                                        <img src="/image/{{#review_img3}}{{review_img3}}{{/review_img3}}{{^review_img3}}{{/review_img3}}">
+                                        {{#review_img1}}<img src="/image/{{review_img1}}">{{/review_img1}}{{^review_img1}}{{/review_img1}}
+                                        {{#review_img2}}<img src="/image/{{review_img2}}">{{/review_img2}}{{^review_img2}}{{/review_img2}}
+                                        {{#review_img3}}<img src="/image/{{review_img3}}">{{/review_img3}}{{^review_img3}}{{/review_img3}}
                                     </div>
                                     <p class="comment-text">{{review_comment}}</p>
                                 </div>
@@ -196,7 +196,7 @@
                                             data-bs-reviewidx="{{review_idx}}"
                                             data-bs-reviewcomment="{{review_comment}}"
                                             data-bs-reviewstar="{{review_star}}"
-                                            data-bs-storeidx="{{store_idx}}">사장님 답변 등록-모달</button>
+                                            data-bs-storeidx="{{store_idx}}">사장님 답변 등록</button>
                                 </div>
                             </div>
                         </div>
