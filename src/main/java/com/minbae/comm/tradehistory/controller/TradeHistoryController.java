@@ -20,12 +20,12 @@ public class TradeHistoryController {
     private final TradeHistoryService tradeHistoryService;
     private final StoreService storeService;
 
-    @GetMapping("/owner/store/tradeHistory/{storeIdx}")
-    public String goStoreTradeHistoryPage(@PathVariable String storeIdx, Model model){
-        List<StoreTradeHistoryListDto> tradeList = tradeHistoryService.getStoreTradeList(storeIdx);
-        model.addAttribute("tradeList", tradeList);
-        return  "tradehistory/store_trade_history_list";
-    }
+//    @GetMapping("/owner/store/tradeHistory/{storeIdx}")
+//    public String goStoreTradeHistoryPage(@PathVariable String storeIdx, Model model){
+//        List<StoreTradeHistoryListDto> tradeList = tradeHistoryService.getStoreTradeList(storeIdx);
+//        model.addAttribute("tradeList", tradeList);
+//        return  "tradehistory/store_trade_history_list";
+//    }
 
     @GetMapping("/owner/store/tradeHistory/infinity/{storeIdx}")
     public String goStoreTradeHistoryInfinityPage(@PathVariable String storeIdx, Model model){

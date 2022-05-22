@@ -118,6 +118,11 @@
 
                     return response.json();
                 }).then(data => {
+                    // 세션스토리지에 storeIdx 저장
+                    if(window.sessionStorage.getItem('storeIdx')){
+                        window.sessionStorage.removeItem('storeIdx');
+                    };
+                    window.sessionStorage.setItem('storeIdx', data.storeIdx);
                     location.href=`/owner/storeInfo/${data.storeIdx}`;
                 });
             });

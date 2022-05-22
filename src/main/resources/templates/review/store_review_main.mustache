@@ -146,9 +146,9 @@
                             </div>
                             <div class="card-body">
                                 <div id="review-image-div">
-                                    <img src="/image/{{#review_img1}}{{review_img1}}{{/review_img1}}{{^review_img1}}{{/review_img1}}">
-                                    <img src="/image/{{#review_img2}}{{review_img2}}{{/review_img2}}{{^review_img2}}{{/review_img2}}">
-                                    <img src="/image/{{#review_img3}}{{review_img3}}{{/review_img3}}{{^review_img3}}{{/review_img3}}">
+                                    {{#review_img1}}<img src="/image/{{review_img1}}">{{/review_img1}}{{^review_img1}}{{/review_img1}}
+                                    {{#review_img2}}<img src="/image/{{review_img2}}">{{/review_img2}}{{^review_img2}}{{/review_img2}}
+                                    {{#review_img3}}<img src="/image/{{review_img3}}">{{/review_img3}}{{^review_img3}}{{/review_img3}}
                                 </div>
                                 <p class="comment-text">{{review_comment}}</p>
                             </div>
