@@ -36,11 +36,14 @@
                 for (var i = 0; i < allTradeIdx.length; i++) {
                     var div1 = document.createElement('div');
                     div1.id = "child_div" + res[allTradeIdx[i]].tradeHistoryIdx;
+                    div1.style.marginBottom="30px";
                     var div2 = document.createElement('div');
                     var div3 = document.createElement('div');
                     div3.className = "state_img_div";
                     var img = document.createElement('img');
                     img.src = "/user/image/" + res[allTradeIdx[i]].menu["0"].menuImg;
+                    img.width="70px";
+                    img.height="70px";
                     var div4 = document.createElement('div');
                     var div5 = document.createElement('div');
                     var span1 = document.createElement('span');
@@ -56,7 +59,8 @@
                     var span5 = document.createElement('span');
                     var div8 = document.createElement('div');
                     div8.id = "map" + res[allTradeIdx[i]].tradeHistoryIdx;
-                    div8.style.width = "300px";
+                    div8.style.margin="auto";
+                    div8.style.width = "80%";
                     div8.style.height = "300px";
                     if (res[allTradeIdx[i]].orderState != 2) {
                         div8.style.display = "none";
@@ -92,7 +96,7 @@
                             alert('주문 접수가 완료 되었습니다');
                         }
                         if (message.message == "픽업완료") {
-                            // document.getElementById('map' + message.tradeHistoryIdx).style.display = "block";
+                            document.getElementById('map' + message.tradeHistoryIdx).style.display = "block";
                             document.getElementById('state_span' + message.tradeHistoryIdx).innerText = "배달중";
                             var mapContainer = document.getElementById('map' + message.tradeHistoryIdx),
                                     mapOption = {
