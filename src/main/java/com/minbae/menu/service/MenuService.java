@@ -63,7 +63,7 @@ public class MenuService {
         try {
             byte[] bytes = upload.getBytes(); // 실제파일의 바이트 정보 취득
             //File f = new File("C:\\workspace\\upload\\"+savedFileName);
-            File f = new File("C:/이젠/upload/"+savedFileName);
+            File f = new File("/home/ec2-user/minbae/C:/이젠/upload"+savedFileName);
 
             FileOutputStream fos = new FileOutputStream(f); // 자원생성
             fos.write(bytes); // 복사
@@ -78,7 +78,7 @@ public class MenuService {
     // 파일 삭제 메소드
     public void deleteFile(String menuImg){
         //File deleteTarget = new File("C:\\workspace\\upload\\"+menuImg);
-        File deleteTarget = new File("C:/이젠/upload/"+menuImg);
+        File deleteTarget = new File("/home/ec2-user/minbae/C:/이젠/upload"+menuImg);
 
         if(deleteTarget.exists()){
             deleteTarget.delete();

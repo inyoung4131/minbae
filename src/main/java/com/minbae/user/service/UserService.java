@@ -162,7 +162,7 @@ public class UserService {
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
 
 
-            String safeFile = "C:/이젠/upload/" + formatedNow + originFileName;
+            String safeFile = "/home/ec2-user/minbae/C:/이젠/upload" + formatedNow + originFileName;
             try {
                 mf.transferTo(new File(safeFile));
             } catch (IllegalStateException e) {
