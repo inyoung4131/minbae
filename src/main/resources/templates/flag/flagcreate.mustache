@@ -23,6 +23,26 @@
         #sidebarMenu{
             font-size: 1.25rem;
         }
+        #createFlag{
+            background-color: rgba(42,193,188);
+            border:0px;
+            width:350px;
+            height:60px;
+            margin-bottom: 50px;
+            font-size: 20px;
+            color:white;
+        }
+        #map_parent_div{
+            float: left;
+        }
+
+        #map_parent_div::after{
+            content: '';
+
+            display: block;
+
+            clear: both;
+        }
     </style>
     <!-- 추가 끝 -->
 </head>
@@ -99,12 +119,14 @@
 <!-- FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START -->
 <!-- FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START FLAG START -->
     <div>
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fd415bfe990421083c1a4135da20924a"></script>
-        <div id="map" style="width:350px;height:350px;"></div>
-        <input type="button" value="등록" id="createFlag">
-
+        <div id="map_parent_div">
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fd415bfe990421083c1a4135da20924a&libraries=services"></script>
+            <div id="map" style="width:350px;height:350px;"></div>
+            <input type="button" value="등록" id="createFlag">
+        </div>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script>
+            var geocoder = new kakao.maps.services.Geocoder();
             var createFlag = {
                 init: function () {
                     var _this = this;
@@ -140,7 +162,7 @@
             var mapContainer = document.getElementById('map'),
                     mapOption = {
                         center: new kakao.maps.LatLng(33.45070, 126.57066),
-                        level: 4
+                        level: 6
                     };
             var map = new kakao.maps.Map(mapContainer, mapOption);
 
@@ -161,12 +183,20 @@
 
             circle.setMap(map);
 
-            kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-                var latlng = mouseEvent.latLng;
+            kakao.maps.event.addListener(map, 'drag', function(mouseEvent) {
+                var latlng = map.getCenter();
                 circle.setPosition(latlng);
                 marker.setPosition(latlng);
+                searchDetailAddrFromCoords(latlng, function (result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        basic_addr = result[0].address.address_name;
+                        road_addr = !!result[0].road_address ? result[0].road_address.address_name : '';
+                        var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+                        detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+                        document.getElementById('flag_addr_div').innerHTML = detailAddr;
+                    }
+                });
             });
-
         </script>
     </div>
 <!-- FLAG END FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  FLAG END  -->
@@ -209,8 +239,6 @@
         document.getElementById('fifth-item-href').setAttribute('href', '/owner/store/'+storeIdxVal+'/reviews');
         document.getElementById('sixth-item-href').setAttribute('href', '/owner/store/tradeHistory/infinity/'+storeIdxVal);
         document.getElementById('seventh-item-href').setAttribute('href', '/owner/create/flag/'+storeIdxVal);
-
-
     };
     window.onload = () => {
         const parentDiv = document.getElementById('login-logout-section');

@@ -32,8 +32,8 @@
     } else {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                var lat = position.coords.latitude + "000001",
-                        lon = position.coords.longitude + "000001";
+                var lat = position.coords.latitude,
+                        lon = position.coords.longitude;
                 let user_lat_lng = {
                     user_lat: lat,
                     user_lng: lon
