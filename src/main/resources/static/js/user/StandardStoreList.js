@@ -12,7 +12,7 @@ window.onscroll = function (e) {
 }
 
 function requestStandardStoreList() {
-    if (location.href.startsWith("http://localhost:9090/user/category/click/")) {
+    if (location.href.startsWith("http://52.78.65.121:9090/user/category/click/")) {
         $.ajax({
             type: 'GET',
             url: '/user/category/standard?paging=' + page + '&user_lat=' + user_lat + '&user_lng=' + user_lng + '&category=' + (window.location.href.split('/', 7)[6]),
@@ -43,17 +43,17 @@ function requestStandardStoreList() {
                     var div4 = document.createElement("div");
                     div4.className = "card-body";
                     var h5 = document.createElement("h5");
-                    h5.className = "card-title"
+                    h5.className = "card-title";
                     h5.innerText = data[i].store_name;
                     var p1 = document.createElement("p1");
-                    p1.className = "card-text"
+                    p1.className = "card-text";
                     if (data[i].avger_star != undefined) {
                         p1.innerHTML = data[i].avger_star.toFixed(1) + "점<br/>";
                     } else {
                         p1.innerHTML = "0점" + "<br/>";
                     }
                     var p2 = document.createElement("p2");
-                    p2.className = "card-text"
+                    p2.className = "card-text";
                     var small = document.createElement("small");
                     small.className = "text-muted";
                     small.innerText = "최소 주문 " + data[i].store_detail_minimum_price;
