@@ -204,11 +204,13 @@
             const storeIdx = window.sessionStorage.getItem("storeIdx");
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/store/'+storeIdx, function (greeting) {
-                play_music();
+                if(JSON.parse(greeting.body).u_trade_history_idx==/^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/){
+                    play_music();
+                    let alarm = document.getElementById('alarm');
+                    alarm.style.display = 'block';
+                    fooShowAlert();
+                };
                 alert('메시지 도착');
-                let alarm = document.getElementById('alarm');
-                alarm.style.display = 'block';
-                fooShowAlert();
             });
         });
     };
