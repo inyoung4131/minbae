@@ -33,8 +33,8 @@ public class OAuthService {    // 0514 kakao하면서 추가
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=90795a88763d2cd0be72934b69a89f7d"); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=http://localhost:9090/oauth/kakao/owner"); // TODO 인가코드 받은 redirect_uri 입력
-            //sb.append("&redirect_uri=http://52.78.65.121:9090/oauth/kakao/owner"); // TODO 인가코드 받은 redirect_uri 입력
+            //sb.append("&redirect_uri=http://localhost:9090/oauth/kakao/owner"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&redirect_uri=http://52.78.65.121:9090/oauth/kakao/owner"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();

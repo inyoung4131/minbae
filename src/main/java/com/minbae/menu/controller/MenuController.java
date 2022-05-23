@@ -69,7 +69,7 @@ public class MenuController {
     @GetMapping(value = "/image/{imagename}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> imageSearch(@PathVariable("imagename") String imagename) throws IOException {
         //InputStream imageStream = new FileInputStream("C:\\workspace\\upload\\" + imagename);
-        InputStream imageStream = new FileInputStream("/home/ec2-user/minbae/C:/이젠/upload" + imagename);
+        InputStream imageStream = new FileInputStream("/home/ec2-user/minbae/C:/이젠/upload//" + imagename);
         byte[] imageByteArray = IOUtils.toByteArray(imageStream);
         imageStream.close();
         return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);

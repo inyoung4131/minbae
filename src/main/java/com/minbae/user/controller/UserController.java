@@ -200,7 +200,7 @@ public class UserController {
 
         System.out.println("image_name -> " + image_name);
 
-        InputStream imageStream = new FileInputStream("/home/ec2-user/minbae/C:/이젠/upload" + image_name);
+        InputStream imageStream = new FileInputStream("/home/ec2-user/minbae/C:/이젠/upload/" + image_name);
         byte[] imageByteArray = IOUtils.toByteArray(imageStream);
         imageStream.close();
         return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
