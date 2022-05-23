@@ -8,6 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 public class AssignRequestDto {
     private String message;
+    private Long deliverIdx;
+    private Double deliverLat;
+    private Double deliverLng;
     private Long storeIdx;
     private Long tradeHistoryIdx;
     private Long userIdx;

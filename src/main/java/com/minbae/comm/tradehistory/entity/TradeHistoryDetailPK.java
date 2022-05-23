@@ -2,6 +2,7 @@ package com.minbae.comm.tradehistory.entity;
 
 import com.minbae.menu.entity.Menu;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -20,6 +21,7 @@ public class TradeHistoryDetailPK implements Serializable {
     private TradeHistory tradeHistoryIdx;
 
     @ManyToOne
+    @Getter
     @JoinColumn(name="menu_idx",nullable = false)
     private Menu menuIdx;
 

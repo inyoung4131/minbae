@@ -5,6 +5,7 @@ import com.minbae.comm.stomp.store.UserToStoreMessage;
 import com.minbae.comm.tradehistory.entity.TradeHistory;
 import com.minbae.comm.tradehistory.repository.TradeHistoryRepository;
 import com.minbae.deliver.dto.AssignRequestDto;
+import com.minbae.deliver.dto.ResponseMessageDto;
 import com.minbae.deliver.entity.Deliver;
 import com.minbae.deliver.repository.DeliverRepository;
 import com.minbae.store.entity.Store;
@@ -58,10 +59,14 @@ public class DeliverService {
         ARD.setStoreLat(store.getStoreLat());
         ARD.setStoreLng(store.getStoreLng());
         ARD.setStoreName(store.getStoreName());
+        ARD.setDeliverIdx(deliver.getDeliverIdx());
+        ARD.setDeliverLat(deliver.getDeliverLat());
+        ARD.setDeliverLng(deliver.getDeliverLng());
         ARD.setTradeHistoryIdx(tradeHistory.getTradeHistoryIdx());
         ARD.setUserIdx(user.getUserIdx());
         ARD.setUserBasicAddr(user.getUserBasicAddr());
-        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), message);
+        ResponseMessageDto messageDto = new ResponseMessageDto();
+        simpMessagingTemplate.convertAndSend("/topic/user/" + user.getUserIdx(), ARD);
         simpMessagingTemplate.convertAndSend("/topic/deliver/" + tradeHistory.getDeliverIdx().getDeliverIdx(), ARD);
     }
 
@@ -77,7 +82,7 @@ public class DeliverService {
         message.setU_trade_history_idx("보냈음");
         deliverRepository.save(deliver);
         simpMessagingTemplate.convertAndSend("/topic/deliver/" + tradeHistory.getDeliverIdx().getDeliverIdx(), ARD);
-        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), message);
+        simpMessagingTemplate.convertAndSend("/topic/user/" + tradeHistory.getUserIdx().getUserIdx(), ARD);
         simpMessagingTemplate.convertAndSend("/topic/store/" + tradeHistory.getStoreIdx().getStoreIdx(), message);
     }
 

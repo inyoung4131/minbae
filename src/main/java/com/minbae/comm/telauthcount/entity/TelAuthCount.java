@@ -2,6 +2,7 @@ package com.minbae.comm.telauthcount.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,8 +16,9 @@ public class TelAuthCount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Setter
     private String tel;
+    @Setter
     LocalDateTime dateTime;
 
 }

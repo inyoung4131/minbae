@@ -204,7 +204,7 @@
         }).then(response => response.json())
                 .then(data => {
                    window.sessionStorage.setItem("token",data.data);
-                   window.sessionStorage.setItem("user-data",data.memberData);
+                   window.sessionStorage.setItem("memberData",JSON.stringify(data.memberData));
                    location.href="/user/main";
                 });
     }

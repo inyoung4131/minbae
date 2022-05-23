@@ -13,4 +13,6 @@ public interface MenuRepository extends JpaRepository<Menu,Long> {
 
     @Query(value = "SELECT * FROM menu WHERE store_idx = :storeIdx ORDER BY menu_king_menu desc, menu_sunbun ASC", nativeQuery = true)
     List<Menu> findAllByStoreIdxOrderByMenuSunbunAsc(Long storeIdx);
+
+    Menu findByMenuIdx(Long menuIdx);
 }

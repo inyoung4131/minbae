@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Entity
 public class Deliver {
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="deliver_idx")

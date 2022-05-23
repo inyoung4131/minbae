@@ -1,22 +1,24 @@
 package com.minbae.user.controller;
 
+import com.minbae.comm.telauthcount.TelAuthDto;
+import com.minbae.comm.telauthcount.entity.TelAuthCount;
+import com.minbae.comm.telauthcount.repository.TelAuthCountRepository;
 import com.minbae.sso.comm.ApiResponse;
 import com.minbae.sso.comm.ApiStatus;
 import com.minbae.sso.service.AdminService;
 import com.minbae.store.entity.Store;
 import com.minbae.user.comm.UserApiResponse;
+import com.minbae.user.dto.CurrentTradeHistoryForUserDto;
 import com.minbae.user.dto.UserAddrChangeDto;
 import com.minbae.user.dto.UserJoinDto;
 import com.minbae.user.service.YangsUserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.startup.ContextConfig;
 import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ public class YangsUserRestController {
 
     private final YangsUserService yangsUserService;
     private final AdminService adminService;
+    private final TelAuthCountRepository telAuthCountRepository;
 
     @PutMapping("/user/main/addr/change")
     public long userAddrChange(@RequestBody UserAddrChangeDto userAddrChangeDto) {
@@ -83,9 +86,24 @@ public class YangsUserRestController {
         }
     }
 
-    @GetMapping("/join/user/sms")
-    public String smsAuth(@Param("tel") String tel, HttpServletRequest request) {
-        return yangsUserService.sendSms(tel);
+    @PostMapping("/join/user/sms")
+    public ApiResponse smsAuth(@RequestBody TelAuthDto telAuthDto) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tenMinAgo = now.minusMinutes(10);
+        if(telAuthCountRepository.countByTelAndDateTimeGreaterThan(telAuthDto.getTel(),tenMinAgo)>2){
+            return new ApiResponse(ApiStatus.FAIL, null, null);
+        }else{
+            TelAuthCount telAuthCount = new TelAuthCount();
+            telAuthCount.setTel(telAuthDto.getTel());
+            telAuthCount.setDateTime(now);
+            telAuthCountRepository.save(telAuthCount);
+            yangsUserService.sendSms(telAuthDto.getTel());
+        }
+        return new ApiResponse(ApiStatus.SUCCESS, null, null);
     }
 
+    @GetMapping("/user/tradehistory/history")
+    public Map<Long, CurrentTradeHistoryForUserDto> getCurrentTradeHistoryForUser(Long userIdx) {
+        return yangsUserService.getCurrentTradeHistoryForUser(userIdx);
+    }
 }

@@ -21,7 +21,7 @@ public class DeliverController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping("/deliver/page/main")
-    public String asdfasfd() {
+    public String deliver_main_page() {
         return "deliver/deliver_main";
     }
 
@@ -31,8 +31,9 @@ public class DeliverController {
         Deliver deliver= deliverRepository.findByDeliverIdx(refreshDto.getId());
         deliver.setDeliverLng(refreshDto.getLng());
         deliver.setDeliverLat(refreshDto.getLat());
+        refreshDto.setMessage("정보보냄");
         deliverRepository.save(deliver);
-        simpMessagingTemplate.convertAndSend("/topic/deliver/"+refreshDto.getId(),"{lat:"+refreshDto.getLat()+",lng:"+refreshDto.getLng()+"}");
+        simpMessagingTemplate.convertAndSend("/topic/deliver/"+refreshDto.getId(),refreshDto);
     }
 
     //기사 찾아서 메세지 보내기

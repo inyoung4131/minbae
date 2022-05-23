@@ -1,15 +1,23 @@
 package com.minbae.user.service;
 
+import com.minbae.comm.tradehistory.entity.TradeHistory;
+import com.minbae.comm.tradehistory.entity.TradeHistoryDetail;
+import com.minbae.comm.tradehistory.repository.TradeHistoryDetailRepository;
+import com.minbae.comm.tradehistory.repository.TradeHistoryRepository;
+import com.minbae.deliver.entity.Deliver;
+import com.minbae.deliver.repository.DeliverRepository;
+import com.minbae.menu.entity.Menu;
+import com.minbae.menu.repository.MenuRepository;
 import com.minbae.review.dao.ReviewMapper;
 import com.minbae.review.dto.ReviewCountAndAvgStar;
 import com.minbae.store.dao.StoreMapper;
 import com.minbae.store.entity.Store;
 import com.minbae.store.repository.StoreRepository;
+import com.minbae.storedetail.entity.StoreDetail;
+import com.minbae.storedetail.repository.StoreDetailRepository;
 import com.minbae.user.comm.UserApiStatus;
 import com.minbae.user.dao.UserMapper;
-import com.minbae.user.dto.UserAddrChangeDto;
-import com.minbae.user.dto.UserJoinDto;
-import com.minbae.user.dto.UserResponseStoreListDto;
+import com.minbae.user.dto.*;
 import com.minbae.user.entity.User;
 import com.minbae.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +37,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -42,6 +47,11 @@ public class YangsUserService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final ReviewMapper reviewMapper;
+    private final StoreDetailRepository storeDetailRepository;
+    private final TradeHistoryRepository tradeHistoryRepository;
+    private final TradeHistoryDetailRepository tradeHistoryDetailRepository;
+    private final MenuRepository menuRepository;
+    private final DeliverRepository deliverRepository;
 
     public boolean join(UserJoinDto userJoinDto) {
         return userRepository.save(userJoinDto.toEntity()).getUserEmail() == null ? false : true;
@@ -176,6 +186,53 @@ public class YangsUserService {
             System.out.println(e);
         }
         return authNum;
+    }
+
+    public Map<Long,CurrentTradeHistoryForUserDto> getCurrentTradeHistoryForUser(Long userIdx){
+        Map<Long,CurrentTradeHistoryForUserDto> map = new HashMap<>();
+
+        List<TradeHistory> tradeHistory = tradeHistoryRepository.findByUserIdx(userIdx);
+        for(int i=0;i<tradeHistory.size();i++) {
+            Deliver deliver = new Deliver();
+            if(tradeHistory.get(i).getDeliverIdx()!=null){
+                deliver = deliverRepository.findByDeliverIdx(tradeHistory.get(i).getDeliverIdx().getDeliverIdx());
+            }else{
+                deliver.setDeliverWorkState(0);
+                deliver.setDeliverIdx(0);
+            }
+            User user = userRepository.findByUserIdx(userIdx);
+            Store store = storeRepository.findByStoreIdx(tradeHistory.get(i).getStoreIdx().getStoreIdx());
+            StoreDetail storeDetail = storeDetailRepository.findByStore(tradeHistory.get(i).getStoreIdx().getStoreIdx());
+            List<TradeHistoryDetail> tradeHistoryDetails = tradeHistoryDetailRepository.findByTradeHistoryIdx(tradeHistory.get(i).getTradeHistoryIdx());
+            Map<Integer,Menu> menuMap = new HashMap<>();
+            Map<Integer,MenuCount> menuCountMap = new HashMap<>();
+            for(int j=0;j<tradeHistoryDetails.size();j++) {
+                Menu menus = menuRepository.findByMenuIdx(tradeHistoryDetails.get(j).getOrderDetailPK().getMenuIdx().getMenuIdx());
+                menuMap.put(j,menus);
+                MenuCount menuCount = new MenuCount(tradeHistoryDetails.get(j).getOrderDetailPK().getMenuIdx().getMenuIdx()
+                        ,(Integer)tradeHistoryDetails.get(j).getCount());
+                menuCountMap.put(j,menuCount);
+            }
+            CurrentTradeHistoryForUserDto currentTradeHistoryForUserDto = new CurrentTradeHistoryForUserDto(
+                    userIdx
+                    ,user.getUserBasicAddr()
+                    ,tradeHistory.get(i).getOrderState()
+                    ,deliver.getDeliverWorkState()
+                    ,deliver.getDeliverIdx()
+                    ,store.getStoreIdx()
+                    ,store.getStoreName()
+                    ,storeDetail.getStoreDetailInfoImg()
+                    ,store.getStoreBasicAddr()
+                    ,menuMap
+                    ,menuCountMap
+                    ,tradeHistory.get(i).getTradeHistoryIdx()
+                    ,store.getStoreLat()
+                    ,store.getStoreLng()
+            );
+            map.put(tradeHistory.get(i).getTradeHistoryIdx(),currentTradeHistoryForUserDto);
+        }
+
+        return map;
     }
 
 }
