@@ -97,9 +97,8 @@ public class YangsUserRestController {
             telAuthCount.setTel(telAuthDto.getTel());
             telAuthCount.setDateTime(now);
             telAuthCountRepository.save(telAuthCount);
-            yangsUserService.sendSms(telAuthDto.getTel());
         }
-        return new ApiResponse(ApiStatus.SUCCESS, null, null);
+        return new ApiResponse(ApiStatus.SUCCESS, yangsUserService.sendSms(telAuthDto.getTel()), null);
     }
 
     @GetMapping("/user/tradehistory/history")

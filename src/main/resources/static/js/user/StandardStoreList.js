@@ -24,7 +24,7 @@ function requestStandardStoreList() {
                     var a = document.createElement("a");
                     a.href = "/user/store/detail/" + (window.location.href.split('/', 7)[6]) + "/" + data[i].store_idx + "/star";
                     a.className = "link-secondary";
-                    a.style.textDecorationLine="none";
+                    a.style.textDecorationLine='none !important';
                     var div = document.createElement("div");
                     div.className = "card mb-3";
                     div.style.maxWidth = "750px";
@@ -48,7 +48,7 @@ function requestStandardStoreList() {
                     var p1 = document.createElement("p1");
                     p1.className = "card-text"
                     if (data[i].avger_star != undefined) {
-                        p1.innerHTML = data[i].avger_star + "점<br/>";
+                        p1.innerHTML = data[i].avger_star.toFixed(1) + "점<br/>";
                     } else {
                         p1.innerHTML = "0점" + "<br/>";
                     }

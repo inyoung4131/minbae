@@ -54,19 +54,19 @@
                     span4.innerText = (res[allTradeIdx[i]].menu["0"].menuPrice * res[allTradeIdx[i]].menuCount["0"].count) + "원";
                     var div7 = document.createElement('div');
                     var span5 = document.createElement('span');
-                    // var div8 = document.createElement('div');
-                    // div8.id = "map" + res[allTradeIdx[i]].tradeHistoryIdx;
-                    // div8.style.width = "300px";
-                    // div8.style.height = "300px";
-                    // if (res[allTradeIdx[i]].orderState != 2) {
-                        // div8.style.display = "none";
-                    // } else {
+                    var div8 = document.createElement('div');
+                    div8.id = "map" + res[allTradeIdx[i]].tradeHistoryIdx;
+                    div8.style.width = "300px";
+                    div8.style.height = "300px";
+                    if (res[allTradeIdx[i]].orderState != 2) {
+                        div8.style.display = "none";
+                    } else {
 
-                    // }
+                    }
                     span5.id = "state_span" + res[allTradeIdx[i]].tradeHistoryIdx;
                     span5.innerText = getOrderState(res[allTradeIdx[i]].orderState);
                     div3.append(img);
-                    // div1.append(div8);
+                    div1.append(div8);
                     div1.append(div2);
                     div2.append(div3);
                     div2.append(div4);

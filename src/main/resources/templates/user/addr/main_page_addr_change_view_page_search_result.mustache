@@ -167,7 +167,6 @@
                     }).done(function () {
                         var mem = JSON.parse(window.sessionStorage.getItem("memberData"));
                         mem["memberData"].userBasicAddr=$('#road').val();
-                        alert(mem["memberDate"].userBasicAddr);
                         mem["memberData"].userDetailAddr=$('#detail_addr').val();
                         window.sessionStorage.setItem("memberData",JSON.stringify(mem));
                         location.href = "/user/main/addr/main";
@@ -198,7 +197,6 @@
                 window.localStorage.setItem("used_addr", mem);
                 setUserLatLng();
                 location.href = "/user/main/addr/main";
-
             });
         }
     }
