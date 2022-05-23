@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class FlagController {
 
-    @GetMapping("/owner/flagpage/{storeIdx}")
+    @GetMapping("/owner/create/flag/{storeIdx}")
     public String goFlagPage(@PathVariable String storeIdx){
         return "flag/flagcreate";
     }

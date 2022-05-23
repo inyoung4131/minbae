@@ -73,7 +73,7 @@ public class StoreDetailService {
         String originFileName = req.getOriginalFilename();
         String savedFileName = formatedNow+originFileName;
         //String saveFile = "C:\\workspace\\upload\\" + formatedNow + originFileName;
-        String saveFile = "C:/이젠/upload/" + formatedNow + originFileName;
+        String saveFile = "/home/ec2-user/minbae/C:/이젠/upload" + formatedNow + originFileName;
 
         try {
             req.transferTo(new File(saveFile));
@@ -89,7 +89,7 @@ public class StoreDetailService {
 
     public void deleteFile(String imgName){
         //File deleteTarget = new File("C:\\workspace\\upload\\"+imgName);
-        File deleteTarget = new File("C:/이젠/upload/"+imgName);
+        File deleteTarget = new File("/home/ec2-user/minbae/C:/이젠/upload"+imgName);
 
         if(deleteTarget.exists()){
             deleteTarget.delete();

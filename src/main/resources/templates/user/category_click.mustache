@@ -11,6 +11,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/user/addr/user/a.css">
     <script src="/js/user/StandardStoreList.js?v=60" defer></script>
+    <style>
+        a{
+            text-decoration-line: none !important;
+        }
+    </style>
 </head>
 <body>
 {{>layout/main/main_header}}
@@ -18,7 +23,7 @@
 <hr>
 <div id="storeListDiv"></div>
 {{#store_list}}
-<a href="/user/store/detail/{{categoryKo}}/{{store_idx}}/{{type}}" class="link-secondary" style="text-decoration-line: none">
+<a href="/user/store/detail/{{categoryKo}}/{{store_idx}}/{{type}}" class="link-secondary">
     <div class="card mb-3" style="max-width: 750px;">
         <div class="row g-0">
             <div class="col-md-4">
