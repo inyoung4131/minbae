@@ -203,13 +203,20 @@
             const storeIdx = window.sessionStorage.getItem("storeIdx");
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/store/'+storeIdx, function (greeting) {
-                if(JSON.parse(greeting.body).u_trade_history_idx==/^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/){
+                if(JSON.parse(greeting.body).u_trade_history_idx!='보냈음'){
+                    alert('메시지 도착');
                     play_music();
                     let alarm = document.getElementById('alarm');
                     alarm.style.display = 'block';
                     fooShowAlert();
+                }else{
+                    alert('메시지 도착');
+                    let alarm = document.getElementById('alarm');
+                    alarm.style.display = 'none';
+                    fooShowAlert();
                 };
-                alert('메시지 도착');
+
+
             });
         });
     };
