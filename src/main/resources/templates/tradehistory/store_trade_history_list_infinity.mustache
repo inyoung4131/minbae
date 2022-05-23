@@ -158,8 +158,9 @@
         window.sessionStorage.clear();
         function kakaoLogout() {
             Kakao.init('인증키');
-            //로컬전용 location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://localhost:9090/owner/store/main';
-            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://52.78.65.121:9090/owner/store/main';
+            //로컬전용
+            location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://localhost:9090/owner/store/main';
+            //location.href = 'https://kauth.kakao.com/oauth/logout?client_id=90795a88763d2cd0be72934b69a89f7d&logout_redirect_uri=http://52.78.65.121:9090/owner/store/main';
 
         };
         kakaoLogout();
@@ -173,8 +174,9 @@
 
     /** send AcceptStomp to user */
     const fooStompToUserAccept = (event) => {
-        alert(event.target.getAttribute('value')+"idx 유저에게 전송할 수락메시지:"+'수락');
+        //alert(event.target.getAttribute('value')+"idx 유저에게 전송할 수락메시지:"+'수락');
         stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '수락', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
+        alert('요청완료');
         setTimeout(function() {
             location.reload();
         }, 1000);
@@ -182,15 +184,16 @@
     };
     /** send DenyStomp to user */
     const fooStompToUserDeny = (event) => {
-        alert("유저에게 전송할 거절메시지:"+'거절');
+        //alert("유저에게 전송할 거절메시지:"+'거절');
         stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '거절', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
+        alert('요청완료');
         setTimeout(function() {
             location.reload();
         }, 1000);
     };
     /** send requestStomp to deliver */
     const fooStompToDeliver = (event) => {
-        alert("기사에게 전송할 요청메시지:"+'message:배정요청 tradehistoryidx'+event.target.getAttribute('value'));
+        //alert("기사에게 전송할 요청메시지:"+'message:배정요청 tradehistoryidx'+event.target.getAttribute('value'));
         stompClient.send("/app/chat/assign", {}, JSON.stringify({'message': '배정요청', 'tradeHistoryIdx':event.target.getAttribute('value'), 'storeIdx':window.sessionStorage.getItem("storeIdx")})); // tradeHistoryIdx도 전송해야함
         alert('요청완료');
         setTimeout(function() {
@@ -199,6 +202,7 @@
     }
     const fooStompToUserSuccessPickup = (event) => {
         stompClient.send("/app/user/"+event.target.getAttribute('value'), {}, JSON.stringify({'message': '픽업', 'tradehistoryidx':event.target.getAttribute('value-tradehistoryidx')}));
+        alert('요청완료');
         setTimeout(function() {
             location.reload();
         }, 1000);
@@ -212,7 +216,7 @@
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/store/'+storeIdx, function (greeting) {
                 //console.log(JSON.parse(greeting.body).u_trade_history_idx);
-                alert('메시지 도착');
+                alert('메세지 도착');
                 //userIdx = JSON.parse(greeting.body).u_trade_history_idx;
                 location.reload();
             });

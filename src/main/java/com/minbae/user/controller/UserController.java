@@ -29,7 +29,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/main")
-    public String index(){
+    public String user_index(){
         return "user/user_index";
     }
 
@@ -200,7 +200,7 @@ public class UserController {
 
         System.out.println("image_name -> " + image_name);
 
-        InputStream imageStream = new FileInputStream("/home/ec2-user/minbae/C:/이젠/upload/" + image_name);
+        InputStream imageStream = new FileInputStream("C:/이젠/upload/" + image_name);
         byte[] imageByteArray = IOUtils.toByteArray(imageStream);
         imageStream.close();
         return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);

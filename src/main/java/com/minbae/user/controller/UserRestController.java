@@ -130,7 +130,6 @@ public class UserRestController {
     //카카오 로그인
     @PostMapping("/login")
     public UserApiResponse login(@RequestBody Map<String, Object> param) {
-        System.out.println("userService.kakaoLogin(param) -> " + userService.kakaoLogin(param));
 
         return new UserApiResponse(UserApiStatus.SUCCESS, userService.kakaoLogin(param));
     }
